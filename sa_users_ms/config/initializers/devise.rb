@@ -26,6 +26,28 @@ Devise.setup do |config|
   # available as additional gems.
   require 'devise/orm/active_record'
 
+  
+
+
+  Rails.application.config.to_prepare do              # to_prepare ensures that the monkey patching happens before the first request
+    Devise::PasswordsController.class_eval do # reopen the class
+      def assert_reset_token_passed
+        if params[:reset_password_token].blank?
+          set_flash_message!(:alert, :no_token)
+          redirect_to new_session_path(resource_name)
+        end
+      end
+    end
+
+    DeviseController.class_eval do 
+      def set_flash_message(key, kind, options = {})
+      end
+      def set_flash_message!(key, kind, options = {})
+      end
+    end
+  end
+
+
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
   # just :email. You can configure it to use [:username, :subdomain], so for
@@ -243,6 +265,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
+  #config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete

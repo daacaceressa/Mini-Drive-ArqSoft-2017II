@@ -1,6 +1,8 @@
 version: '2'
 services:
   sa_users_db:
+    #volumes:
+    #- "C:/Users/Daniel/sa_users_ms:C:/Users/Daniel/sa_users_ms"
     image: mysql
     ports:
       - "2306:2306"
@@ -11,6 +13,8 @@ services:
       MYSQL_DATABASE: users
       MYSQL_HOST: sa_users_db
   sa_users_ms: 
+    #volumes:
+    #  - "C:/Users/Daniel/sa_users_ms:C:/Users/Daniel/sa_users_ms"
     build: .
     command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 2000 -b '0.0.0.0'"
     ports:
