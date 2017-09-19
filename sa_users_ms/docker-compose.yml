@@ -1,23 +1,19 @@
 version: '2'
 services:
   sa_users_db:
-    #volumes:
-    #- "C:/Users/Daniel/sa_users_ms:C:/Users/Daniel/sa_users_ms"
     image: mysql
     ports:
       - "3500:3500"
     environment:
-      MYSQL_ROOT_PASSWORD: 123
-      MYSQL_USER: arqsoft
-      MYSQL_PASSWORD: 123
-      MYSQL_DATABASE: users
-      MYSQL_HOST: sa_users_db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
   sa_users_ms: 
-    #volumes:
-    #  - "C:/Users/Daniel/sa_users_ms:C:/Users/Daniel/sa_users_ms"
     build: .
     command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
       - "3000:3000"
     depends_on:
-      - sa_users_db
+      - ${MYSQL_HOST}
