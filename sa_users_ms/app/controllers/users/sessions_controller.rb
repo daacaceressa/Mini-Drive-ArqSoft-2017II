@@ -30,7 +30,7 @@ class Users::SessionsController < Devise::SessionsController
       render status: 200
       #render :json=> {:auth_token=>user.authentication_token, :email=>user.email}, :status => :ok
     else
-      render status: 401
+      render status: 400
     end
   end
 
@@ -48,7 +48,7 @@ class Users::SessionsController < Devise::SessionsController
         user.delete_authentication_token
         user.save
         response.headers['X-AUTH-TOKEN'] = ''
-        render status: 401
+        render status: 403
       end
     else
       render status: 401
