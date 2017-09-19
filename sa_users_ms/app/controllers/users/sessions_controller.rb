@@ -12,9 +12,8 @@ class Users::SessionsController < Devise::SessionsController
     if user && user.valid_password?(params[:password])
       user.ensure_authentication_token
       user.save
-      response.headers['X-AUTH-TOKEN'] = user.authentication_token
-      render status: 201
-      # render :json=> {:auth_token=>user.authentication_token, :email=>user.email}, :status => :ok
+      #response.headers['X_AUTH_TOKEN'] = user.authentication_token
+      render :json=> {:X_AUTH_TOKEN=>user.authentication_token}, status: 201
     else
       invalid_login_attempt
     end
@@ -22,13 +21,12 @@ class Users::SessionsController < Devise::SessionsController
 
   # DELETE /users/sign_out
   def destroy
-    user = User.find_by_authentication_token(request.headers["X-AUTH-TOKEN"])
+    user = User.find_by_authentication_token(params[:X_AUTH_TOKEN])
     if user != nil
       user.delete_authentication_token
       user.save
-      response.headers['X-AUTH-TOKEN'] = ''
-      render status: 200
-      #render :json=> {:auth_token=>user.authentication_token, :email=>user.email}, :status => :ok
+      # response.headers['X-AUTH-TOKEN'] = ''
+      render :json=> {:email=>user.email}, status: 200
     else
       render status: 400
     end
@@ -37,17 +35,16 @@ class Users::SessionsController < Devise::SessionsController
   def respond_to_on_destroy
   end
 
-  # POST /users/validate_token
+  # GET /users/validate_token
   def validate_token
-    user = User.find_by_authentication_token(request.headers["X-AUTH-TOKEN"])
+    user = User.find_by_authentication_token(params[:X_AUTH_TOKEN])
     if user != nil
       if user.authentication_token_lifespan > Time.now
-        render status: 202
-        #render json: user, status: 202
+        render json: {:email=>user.email}, status: 202
       else 
         user.delete_authentication_token
         user.save
-        response.headers['X-AUTH-TOKEN'] = ''
+        #response.headers['X_AUTH_TOKEN'] = ''
         render status: 403
       end
     else
