@@ -9,6 +9,12 @@ module:testrunner
 
 GET     /                                       App.Index
 
+GET     /shares                                 ShareController.Index
+POST    /shares                                 ShareController.Create
+PUT     /shares                                 ShareController.Update
+GET     /shares/:id                             ShareController.Show
+DELETE  /shares/:id                             ShareController.Delete
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

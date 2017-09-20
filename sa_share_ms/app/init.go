@@ -1,6 +1,7 @@
 package app
 
 import (
+	"sa_share_ms/app/models/mongodb"
 	"github.com/revel/revel"
 )
 
@@ -29,13 +30,24 @@ func init() {
 		revel.ActionInvoker,           // Invoke the action.
 	}
 
-
 	// register startup functions with OnAppStart
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
 	// ( order dependent )
 	// revel.OnAppStart(ExampleStartupScript)
-	// revel.OnAppStart(InitDB)
+	revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
+}
+
+func InitDB() {
+	//mongodb.MaxPool = 20
+	println("++++++++++++++")
+	uri := revel.Config.StringDefault("database.uri", "mongodb://localhost:3504")
+	name := revel.Config.StringDefault("database.name", "sa_share_db")
+	println(uri)
+	println(name)
+	if err := mongodb.CheckAndInitServiceConnection(uri, name); err != nil {
+		revel.INFO.Println("DB Error", err)
+	}
 }
 
 // HeaderFilter adds common security headers
