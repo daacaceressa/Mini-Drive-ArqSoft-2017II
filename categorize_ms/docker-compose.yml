@@ -1,0 +1,11 @@
+version: '2'
+services:
+  sa_categorize_ms:
+    build: .
+    command: bash -c "revel run myapp"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - sa_categorize_db
+  sa_categorize_db:
+    image: mongo

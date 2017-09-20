@@ -1,0 +1,30 @@
+# Routes Config
+#
+# This file defines all application routes (Higher priority routes first)
+#
+
+module:testrunner
+# module:jobs
+
+#TODO: Delete this, only used for testing.
+GET     /                                       App.Index
+GET     /documents/                             Documents.Index
+POST    /documents/ 	                        Documents.Create
+GET     /documents/:id                          Documents.ShowCategories
+DELETE 	/documents/:id 							Documents.Delete
+
+
+# Real routes
+GET     /files/:id                          	Documents.ShowCategories
+POST	/addCategories 				  			Documents.AddCategories
+POST	/removeCategories						Documents.RemoveCategories
+GET		/category/:category_name 				Documents.GetFilesWithCategory
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/*filepath                       Static.Serve("public")
+
+# Catch all
+*       /:controller/:action                    :controller.:action
