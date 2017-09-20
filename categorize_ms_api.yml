@@ -1,0 +1,166 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Categories microservice
+  description: Go + MySQL Database
+  contact:
+      name: Alan Navarro
+      email: aljnavarromo@unal.edu.co
+  license:
+    name: Software Architecture 2017-II
+host: 192.168.99.102:3001
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /files/{id}:
+    get:
+      summary: Returns all categories for the file with the given id.
+      operationId: ShowCategories
+      parameters:
+        - name: id
+          in: path
+          description: The id of the file
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/CategoriesList'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel' 
+  /category/{category_name}:
+    get:
+      summary: Returns all the files that has the given category
+      operationId: GetFilesWithCategory
+      parameters:
+        - name: category_name
+          in: path
+          description: The name of the category
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/FilesList'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /addCategories:
+    post:
+      summary: Add the given categories to the file categories
+      operationId: AddCategories
+      parameters:
+        - name: file
+          in: body
+          required: true
+          description: File Object
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /removeCategories:
+    post:
+      summary: Remove the given categories from the file categories
+      operationId: RemoveCategories
+      parameters:
+        - name: file
+          in: body
+          required: true
+          description: File Object
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+ 
+
+definitions:
+# Files
+  File:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: string
+      categories:
+        type: array
+        items:
+          type: string
+        
+  FilesList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/File'   
+
+  CategoriesList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          type: string
+
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
