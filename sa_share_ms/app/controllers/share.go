@@ -63,9 +63,9 @@ func (c ShareController) Create() revel.Result {
 		share models.Share
 		err   error
 	)
-
-	err = json.NewDecoder(c.Request.Body).Decode(&share)
+	err = json.Unmarshal(c.Params.JSON, &share)
 	if err != nil {
+		println("Hpta inserteeee")
 		errResp := buildErrResponse(err, "403")
 		c.Response.Status = 403
 		return c.RenderJSON(errResp)

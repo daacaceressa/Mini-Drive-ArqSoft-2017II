@@ -1,7 +1,7 @@
 package app
 
 import (
-	"sa_share_ms/app/models/mongodb"
+	"sa_share_ms/app/mongodb"
 	"github.com/revel/revel"
 )
 
@@ -40,12 +40,11 @@ func init() {
 
 func InitDB() {
 	//mongodb.MaxPool = 20
-	println("++++++++++++++")
-	uri := revel.Config.StringDefault("database.uri", "mongodb://localhost:3504")
+	println("Holaaaaa")
+	uri := revel.Config.StringDefault("database.uri", "mongodb://localhost:27017")
 	name := revel.Config.StringDefault("database.name", "sa_share_db")
-	println(uri)
-	println(name)
 	if err := mongodb.CheckAndInitServiceConnection(uri, name); err != nil {
+		println("hptaaaaaaa")
 		revel.INFO.Println("DB Error", err)
 	}
 }

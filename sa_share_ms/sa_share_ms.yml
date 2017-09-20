@@ -42,7 +42,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-  /shares/{user_id}:
     post:
       summary: Creates an association between user and file
       operationId: Create
@@ -62,11 +61,10 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
   /shares/{user_id}/{file_id}:
     delete:
       summary: Delete an association between user and file
-        operationId: Delete
+      operationId: Delete
       parameters:
         - name: user_id
           in: path
@@ -89,7 +87,12 @@ paths:
             $ref: '#/definitions/ErrorModel' 
 
 definitions:
-# Users
+# Files
+  File:
+    type: object
+    properties:
+      file_id:
+        type: number
   FilesList:
     type: object
     required:
@@ -101,13 +104,7 @@ definitions:
       list:
         type: array
         items:
-          type: number
-  File:
-    type: object
-    properties:
-      file_id:
-        type: numberg        
-
+          $ref: '#/definitions/File'
 # Errors
   ErrorModel:
     type: object
@@ -120,4 +117,4 @@ definitions:
       code:
         type: number
       description:
-        type: object
+        type: object  

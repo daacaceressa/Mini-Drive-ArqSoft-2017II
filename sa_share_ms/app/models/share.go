@@ -2,7 +2,7 @@ package models
 
 import (
 	"gopkg.in/mgo.v2/bson"
-	"sa_share_ms/app/models/mongodb"
+	"sa_share_ms/app/mongodb"
 	"time"
 )
 
@@ -10,8 +10,8 @@ type Share struct {
 	ID        bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
 	UserId    int           `json:"user_id" bson:"user_id"`
 	FileId    int           `json:"file_id" bson:"file_id"`
-	CreatedAt time.Time     `json:"created_at" bson:"created_at"`
-	UpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
+	CreatedAt time.Time     `json:"created_at,omitempty" bson:"created_at,omitempty"`
+	UpdatedAt time.Time     `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
 
 // AddShare insert a new Share into database and returns
@@ -21,6 +21,12 @@ func AddShare(m Share) (share Share, err error) {
 	// defer c.Close()
 	m.ID = bson.NewObjectId()
 	m.CreatedAt = time.Now()
+	m.UpdatedAt = time.Now()
+	println("+++++++++++++++++++++++++")
+	println(m.ID)
+	println(m.UserId)
+	println(m.FileId)
+	println("+++++++++++++++++++++++++")
 	return m, mongodb.Shares.Insert(m)
 }
 
@@ -60,7 +66,7 @@ func GetShares() ([]Share, error) {
 	// c := newShareCollection()
 	//defer c.Close()
 
-	//err = mongodb.Shares.Find(bson.M{}).All(&shares)
+	err = mongodb.Shares.Find(bson.M{}).All(&shares)
 	return shares, err
 }
 
