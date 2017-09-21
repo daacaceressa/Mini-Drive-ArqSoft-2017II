@@ -16,12 +16,9 @@ func parseUintOrDefault(intStr string, _default uint64) uint64 {
 	}
 }
 
-func parseIntOrDefault(intStr string, _default int64) int64 {
-	if value, err := strconv.ParseInt(intStr, 0, 64); err != nil {
-		return _default
-	} else {
-		return value
-	}
+func parseInt(intStr string) (value int, err error) {
+	value, err = strconv.Atoi(intStr)
+	return value, err
 }
 
 func convertToObjectIdHex(id string) (result bson.ObjectId, err error) {

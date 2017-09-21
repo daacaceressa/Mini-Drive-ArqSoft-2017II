@@ -11,9 +11,8 @@ GET     /                                       App.Index
 
 GET     /shares                                 ShareController.Index
 POST    /shares                                 ShareController.Create
-PUT     /shares                                 ShareController.Update
-GET     /shares/:id                             ShareController.Show
-DELETE  /shares/:id                             ShareController.Delete
+GET     /shares/:user_id                        ShareController.Show
+DELETE  /shares/:user_id/:file_id               ShareController.Delete
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

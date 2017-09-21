@@ -17,25 +17,15 @@ type Share struct {
 // AddShare insert a new Share into database and returns
 // last inserted share on success.
 func AddShare(m Share) (share Share, err error) {
-	// c := newShareCollection()
-	// defer c.Close()
 	m.ID = bson.NewObjectId()
 	m.CreatedAt = time.Now()
 	m.UpdatedAt = time.Now()
-	println("+++++++++++++++++++++++++")
-	println(m.ID)
-	println(m.UserId)
-	println(m.FileId)
-	println("+++++++++++++++++++++++++")
 	return m, mongodb.Shares.Insert(m)
 }
 
 // UpdateShare update a Share into database and returns
 // last nil on success.
 func (m Share) UpdateShare() error {
-	// c := newShareCollection()
-	//defer c.Close()
-
 	err := mongodb.Shares.Update(bson.M{
 		"_id": m.ID,
 	}, bson.M{
@@ -48,9 +38,6 @@ func (m Share) UpdateShare() error {
 // DeleteShare Delete Share from database and returns
 // last nil on success.
 func (m Share) DeleteShare() error {
-	// c := newShareCollection()
-	//defer c.Close()
-
 	err := mongodb.Shares.Remove(bson.M{"_id": m.ID})
 	return err
 }
@@ -62,25 +49,26 @@ func GetShares() ([]Share, error) {
 		shares []Share
 		err    error
 	)
-
-	// c := newShareCollection()
-	//defer c.Close()
-
 	err = mongodb.Shares.Find(bson.M{}).All(&shares)
 	return shares, err
 }
 
 // GetShare Get a Share from database and returns
 // a Share on success
-func GetShare(id bson.ObjectId) (Share, error) {
+func GetShare(user_id int) ([]Share, error) {
 	var (
-		share Share
-		err   error
+		shares []Share
+		err    error
 	)
+	err = mongodb.Shares.Find(bson.M{"user_id": user_id}).All(&shares)
+	return shares, err
+}
 
-	// c := newShareCollection()
-	//defer c.Close()
-
-	err = mongodb.Shares.Find(bson.M{"_id": id}).One(&share)
+func GetShareByFile(user_id int, file_id int) (Share, error) {
+	var (
+		share  Share
+		err    error
+	)
+	err = mongodb.Shares.Find(bson.M{"user_id": user_id, "file_id": file_id}).One(&share)
 	return share, err
 }
