@@ -17,4 +17,3 @@ ENTRYPOINT revel run sa_categorize_ms prod 3001
 
 # Open up the port where the app is running.
 EXPOSE 3001
-EXPOSE 27017
