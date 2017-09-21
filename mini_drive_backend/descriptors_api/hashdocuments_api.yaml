@@ -1,38 +1,38 @@
-#Test with: http://editor.swagger.io/
-
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Products Microservice
-  description: Ruby + MySQL Database
+  title: Hash Documents Microservice
+  description: Ruby on Rails + MySQL Database
   contact:
-      name: Jeisson Andrés Vergara Vargas
-      email: javergarav@unal.edu.co
+      name: Julián Camilo Jiménez Moreno
+      email: jucjimenezmo@unal.edu.co
   license:
     name: Software Architecture 2017-II
-host: 192.168.99.101:3000
-basePath: /
-schemes:
-  - http
+# host: 192.168.99.101:3003
+# basePath: /
+# schemes:
+#   - http
 consumes:
   - application/json
 produces:
   - application/json
 paths:
-  /products:
+  /hashdocuments:
     post:
-      summary: Creates a new product
-      operationId: createProduct
+      summary: Creates a new register (hash-document)
+      operationId: createHashdocument
       parameters:
-        - name: product
+        - name: hashdocument
           in: body
           required: true
-          description: Product Object
+          description: Hashdocument Object
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/HashdocumentRequest'
       responses:
-        '201':
+        '200':
           description: Created
+          schema:
+            $ref: '#/definitions/Hashdocument'
         '400':
           description: Bad Request
           schema:
@@ -42,8 +42,8 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
     get:
-      summary: Returns all products
-      operationId: getAllProducts
+      summary: Returns all hashdocuments
+      operationId: getAllHashdocuments
       parameters:
         - name: firstResult
           in: query
@@ -59,7 +59,7 @@ paths:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/ProductsList'
+            $ref: '#/definitions/HashdocumentsList'
         '406':
           description: Not Acceptable (Invalid Params)
           schema:
@@ -69,10 +69,10 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
 
-  /products/{id}:
+  /hashdocuments/{id}:
     get:
-      summary: Returns a product with the given id
-      operationId: getProductById
+      summary: Returns a hashdocument (path) with the given id
+      operationId: getHashdocumentById
       parameters:
         - name: id
           in: path
@@ -83,7 +83,7 @@ paths:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/Hashdocument'
         '404':
           description: Not Found
           schema:
@@ -98,20 +98,20 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
     put:
-      summary: Updates a product with the given id
-      operationId: updateProduct
+      summary: Updates a hashdocument with the given id
+      operationId: updateHashdocument
       parameters:
         - name: id
           in: path
-          description: The id of the product to be updated
+          description: The id of the hashdocument to be updated
           required: true
           type: string
-        - name: product
+        - name: hashdocument
           in: body
           required: true
           description: Product Object
           schema:
-            $ref: '#/definitions/ProductWithoutId'
+            $ref: '#/definitions/HashdocumentRequest'
       responses:
         '204':
           description: No Content
@@ -129,7 +129,7 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
     delete:
-      summary: Deletes a product with the given id
+      summary: Deletes a hasdocument with the given id
       operationId: deleteProduct
       parameters:
         - name: id
@@ -154,56 +154,51 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
 definitions:
-# Products
-  Product:
+# Hashdocument
+  Hashdocument:
     type: object
     properties:
       id:
         type: integer
-      name:
+      path:
         type: string
-      description:
-        type: string
-      price:
-        type: number
-      stock:
-        type: string
+      createdDate:
+        type: object #date
+      updatedDate:
+        type: object #date
 
-  ProductWithoutId:
+  HashdocumentRequest:
     type: object
     properties:
-      name:
+      path:
         type: string
-      description:
-        type: string
-      price:
-        type: number
-      stock:
-        type: number
 
-  ProductsList:
+  HashdocumentsList:
     type: object
     required:
-      - total
       - list
     properties:
-      total:
-        type: number
       list:
         type: array
         items:
-          $ref: '#/definitions/Product'
+          $ref: '#/definitions/Hashdocument'
 
 # Errors
   ErrorModel:
     type: object
     required:
+      - status
       - message
-      - code
     properties:
+      status:
+        type: number
       message:
         type: string
-      code:
-        type: number
       description:
         type: object
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /unal1/hashdocuments-microservice/1.0.0
+schemes:
+ - https
+ - http
