@@ -1,0 +1,11 @@
+version: '2'
+services:
+  ms-falperezgo:
+    build: .
+    ports:
+      - "8009:8000"
+    volumes:
+      - .:/ms-falperezgo
+    env_file: .env
+    working_dir: /app
+    command: bash -c 'php artisan serve --host 0.0.0.0'
