@@ -6,19 +6,12 @@
 module:testrunner
 # module:jobs
 
-#TODO: Delete this, only used for testing.
-GET     /                                       App.Index
-GET     /documents/                             Documents.Index
-POST    /documents/ 	                        Documents.Create
-GET     /documents/:id                          Documents.ShowCategories
-DELETE 	/documents/:id 							Documents.Delete
-
-
-# Real routes
+# API routes
 GET     /files/:id                          	Documents.ShowCategories
 POST	/addCategories 				  			Documents.AddCategories
 POST	/removeCategories						Documents.RemoveCategories
 GET		/category/:category_name 				Documents.GetFilesWithCategory
+DELETE 	/files/:id 								Documents.Delete
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

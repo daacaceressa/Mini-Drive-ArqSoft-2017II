@@ -42,6 +42,28 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel' 
+    delete:
+      summary: Delete the file from the database with the given id.
+      operationId: Delete
+      parameters:
+        - name: id
+        in: path
+        description: The id of the file
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/File'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel' 
   /category/{category_name}:
     get:
       summary: Returns all the files that has the given category
@@ -57,10 +79,6 @@ paths:
           description: Ok
           schema:
             $ref: '#/definitions/FilesList'
-        '404':
-          description: Not Found
-          schema:
-            $ref: '#/definitions/ErrorModel'
         '500':
           description: unexpected error
           schema:
@@ -77,6 +95,8 @@ paths:
           schema:
             $ref: '#/definitions/File'
       responses:
+        '200':
+          description: Ok
         '201':
           description: Created
         '400':
@@ -105,11 +125,14 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/ErrorModel'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
         '500':
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
- 
 
 definitions:
 # Files
