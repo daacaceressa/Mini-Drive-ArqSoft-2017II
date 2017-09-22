@@ -1,12 +1,41 @@
 class FilesController < ApplicationController
 	
 	Ruta_directorio_archivos = "public/files/";
-	$email
+	$emailid = ""
 	before_action :validate 
 
 
 	#userid = email retonardo del validate  results [:email]
-	def upload_file
+	def downloadFile
+		options = {
+			:body => {
+				:path => $emailid
+			}.to_json,
+			:headers => {
+				'Content-Type' => 'application/json'
+			}
+		}	
+		results = HTTParty.get("http://192.168.99.102:8009/downloadFile/" + email.to_s, options)
+		render json: results
+
+	end
+
+	def listOfFiles
+		options = {
+			:body => {
+				:id => $emailid
+			}.to_json,
+			:headers => {
+				'Content-Type' => 'application/json'
+			}
+		}	
+		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + email.to_s, options)
+		render json: results
+	end
+
+	def uploadFile
+
+		render json: $emailid.to_json
 		@formato_erroneo = false;
 	   	if request.post?
 	      #Archivo subido por el usuario.
@@ -36,13 +65,17 @@ class FilesController < ApplicationController
 	      	end
 	    end
 
+	    #sendFile(nombre)
+	    #deleteFile(nombre)
+
 	end
 
-	def delete_file
+	def deleteFile(nombre)
   		#Recuperamos el nombre del archivo.
-	   	archivo_a_borrar = params[:archivo_a_borrar];
+	   	#archivo_a_borrar = params[:archivo_a_borrar];
 	   	#Guardamos la ruta del archivo a eliminar.
-	   	ruta_al_archivo = Ruta_directorio_archivos + archivo_a_borrar;
+	   	#ruta_al_archivo = Ruta_directorio_archivos + archivo_a_borrar;
+	   	ruta_al_archivo = Ruta_directorio_archivos + nombre;
 	   	#Verificamos que el archivo exista para eliminarlo.
 	   	if File.exist?(ruta_al_archivo)
 	      	#Si el archivo existe se intentará eliminarlo. Dentro de la variable resultado se guardará true si se pudo eliminar y false si no.
@@ -59,13 +92,13 @@ class FilesController < ApplicationController
 	   	end
   	end
 
-  	def send_file(nombre)
+  	def sendFile(nombre)
 
 		
 		request = RestClient::Request.new(
           :method => :post,
-          :url => "http://192.168.99.102:8009/uploadFile/" + email,
-          #:user => userid,
+          :url => "http://192.168.99.102:8009/uploadFile/" + $emailid,
+          #:user => email,
           :payload => {
             :multipart => true,
             :file => File.new("/public/files/" + nombre.to_s, 'rb')
@@ -75,12 +108,34 @@ class FilesController < ApplicationController
 
   	end
 
+  	def validate
+		@token = request.headers['AUTHTOKEN']
+		options = {
+			:body => {
+				:X_AUTH_TOKEN => @token
+			}.to_json,
+			:headers => {
+				'Content-Type' => 'application/json'
+			}
+		}	
+		results = HTTParty.get("http://192.168.99.102:3000/users/validate_token", options)
+		#render json: results.code
+		if results.code == 202
+			$emailid = results['email']
+			#render json: $emailid.to_json
+		else
+			#response.headers['AUTHTOKEN']= ""
+			render status: 401
+			#redirect_to "http://192.168.99.102:7000/sign_in"
+		end
+	end
+
 	private
 
-	def validate
+	#def validate
     #llamar al validate de user, con el return de result['email'] si es nil, hacer un render de un error.
     #guardar el email obtenido en la variable global path de logeo
-	end
+	#end
 
 end
 
