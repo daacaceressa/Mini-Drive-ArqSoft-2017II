@@ -25,11 +25,11 @@ paths:
       operationId: Index
       responses:
         '200':
-          description: Ok
+          description: OK
           schema:
             $ref: '#/definitions/ShareList'
         '500':
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/ErrorModel'
     post:
@@ -39,7 +39,7 @@ paths:
         - name: share
           in: body
           required: true
-          description: share object
+          description: Share object
           schema:
             $ref: '#/definitions/Share'
       responses:
@@ -48,7 +48,7 @@ paths:
         '400':
           description: Invalid format
         '500':
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/ErrorModel'
   /shares/{user_id}:
@@ -63,13 +63,15 @@ paths:
           type: integer
       responses:
         '200':
-          description: Ok
+          description: OK
           schema:
-            $ref: '#/definitions/FilesList'
+            $ref: '#/definitions/Share'
         '400':
           description: Invalid format
+        '404':
+          description: Not found
         '500':
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/ErrorModel'
   /shares/{user_id}/{file_id}:
@@ -89,24 +91,40 @@ paths:
           type: integer
       responses:
         '200':
-          description: Ok
+          description: OK
         '400':
           description: Invalid format
+        '404':
+          description: Not found
         '500':
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/ErrorModel' 
 
 definitions:
+# Files
+  File:
+    type: object
+    properties:
+      file_id:
+        type: integer
+
 # Share
   Share:
     type: object
     properties:
+      id:
+        type: string
       user_id:
         type: integer
-      file_id:
-        type: integer
-
+      files_id:
+        type: array
+        items: 
+          $ref: '#/definitions/File'
+      created_at:
+        type: string
+      updated_at:
+        type: string
   ShareList:
     type: object
     required:
@@ -120,26 +138,6 @@ definitions:
         items:
           $ref: '#/definitions/Share'
 
-# Files
-  File:
-    type: object
-    properties:
-      file_id:
-        type: integer
-
-  FilesList:
-    type: object
-    required:
-      - total
-      - list
-    properties:
-      total:
-        type: number
-      list:
-        type: array
-        items:
-          $ref: '#/definitions/File'
-
 # Errors
   ErrorModel:
     type: object
@@ -152,4 +150,4 @@ definitions:
       code:
         type: number
       description:
-        type: object  
+        type: object

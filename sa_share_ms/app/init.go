@@ -40,11 +40,9 @@ func init() {
 
 func InitDB() {
 	//mongodb.MaxPool = 20
-	println("Holaaaaa")
 	uri := revel.Config.StringDefault("database.uri", "mongodb://localhost:27017")
 	name := revel.Config.StringDefault("database.name", "sa_share_db")
 	if err := mongodb.CheckAndInitServiceConnection(uri, name); err != nil {
-		println("hptaaaaaaa")
 		revel.INFO.Println("DB Error", err)
 	}
 }

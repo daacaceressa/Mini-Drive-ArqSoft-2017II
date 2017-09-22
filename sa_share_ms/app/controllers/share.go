@@ -17,37 +17,45 @@ func (c ShareController) Index() revel.Result {
 		shares []models.Share
 		err    error
 	)
+
 	shares, err = models.GetShares()
 	if err != nil {
 		errResp := buildErrResponse(err, "500")
 		c.Response.Status = 500
 		return c.RenderJSON(errResp)
 	}
+
 	c.Response.Status = 200
 	return c.RenderJSON(shares)
 }
 
-func (c ShareController) Show(user_id string) revel.Result {
+func (c ShareController) Show(userId string) revel.Result {
 	var (
-		shares  []models.Share
+		share   models.Share
 		err     error
 		UserId 	int
 	)
 	
-	if user_id == "" {
+	if userId == "" {
 		errResp := buildErrResponse(errors.New("Invalid user id format"), "400")
 		c.Response.Status = 400
 		return c.RenderJSON(errResp)
 	}
 	
-	UserId, err = parseInt(user_id)
+	UserId, err = parseInt(userId)
 	if err != nil {
 		errResp := buildErrResponse(errors.New("Invalid user id format"), "400")
 		c.Response.Status = 400
 		return c.RenderJSON(errResp)
 	}
 
-	shares, err = models.GetShare(UserId)
+	share, err = models.GetShare(UserId)
+	if err.Error() == "not found" {
+		errResp := buildErrResponse(err, "404")
+		c.Response.Status = 404
+		return c.RenderJSON(errResp)
+	}
+
 	if err != nil {
 		errResp := buildErrResponse(err, "500")
 		c.Response.Status = 500
@@ -55,67 +63,82 @@ func (c ShareController) Show(user_id string) revel.Result {
 	}
 
 	c.Response.Status = 200
-	return c.RenderJSON(shares)
+	return c.RenderJSON(share)
 }
 
 func (c ShareController) Create() revel.Result {
 	var (
-		share models.Share
-		err   error
+		share 		models.Share
+		response 	models.Response
+		err   		error
 	)
-	err = json.Unmarshal(c.Params.JSON, &share)
+
+	err = json.Unmarshal(c.Params.JSON, &response)
 	if err != nil {
 		errResp := buildErrResponse(err, "400")
 		c.Response.Status = 400
 		return c.RenderJSON(errResp)
 	}
 
-	share, err = models.AddShare(share)
+	share, err = models.AddShare(response)
 	if err != nil {
 		errResp := buildErrResponse(err, "500")
 		c.Response.Status = 500
 		return c.RenderJSON(errResp)
 	}
+
 	c.Response.Status = 201
 	return c.RenderJSON(share)
 }
 
-func (c ShareController) Delete(user_id string, file_id string) revel.Result {
+func (c ShareController) Delete(userId string, fileId string) revel.Result {
 	var (
 		err     error
 		share   models.Share
 		UserId  int
 		FileId  int
 	)
-	if user_id == "" || file_id == "" {
+
+	if userId == "" || fileId == "" {
 		errResp := buildErrResponse(errors.New("Invalid ids format"), "400")
 		c.Response.Status = 400
 		return c.RenderJSON(errResp)
 	}
-	UserId, err = parseInt(user_id)
+
+	UserId, err = parseInt(userId)
 	if err != nil {
 		errResp := buildErrResponse(errors.New("Invalid user id format"), "400")
 		c.Response.Status = 400
 		return c.RenderJSON(errResp)
 	}
-	FileId, err = parseInt(file_id)
+
+	FileId, err = parseInt(fileId)
 	if err != nil {
 		errResp := buildErrResponse(errors.New("Invalid file id format"), "400")
 		c.Response.Status = 400
 		return c.RenderJSON(errResp)
 	}
-	share, err = models.GetShareByFile(UserId, FileId)
+
+	share, err = models.GetShare(UserId)
+	if err.Error() == "not found" {
+		errResp := buildErrResponse(err, "404")
+		c.Response.Status = 404
+		return c.RenderJSON(errResp)
+	}
+
 	if err != nil {
 		errResp := buildErrResponse(err, "500")
 		c.Response.Status = 500
 		return c.RenderJSON(errResp)
 	}
-	err = share.DeleteShare()
+
+	err = share.DeleteShare(FileId)
 	if err != nil {
 		errResp := buildErrResponse(err, "500")
 		c.Response.Status = 500
 		return c.RenderJSON(errResp)
 	}
-	c.Response.Status = 204
-	return c.RenderJSON("ok")
+
+	c.Response.Status = 200
+	return c.RenderJSON("Ok")
 }
