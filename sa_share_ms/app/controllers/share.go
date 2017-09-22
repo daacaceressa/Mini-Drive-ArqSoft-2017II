@@ -50,7 +50,7 @@ func (c ShareController) Show(userId string) revel.Result {
 	}
 
 	share, err = models.GetShare(UserId)
-	if err.Error() == "not found" {
+	if err != nil && err.Error() == "not found" {
 		errResp := buildErrResponse(err, "404")
 		c.Response.Status = 404
 		return c.RenderJSON(errResp)
@@ -98,7 +98,7 @@ func (c ShareController) Delete(userId string, fileId string) revel.Result {
 		UserId  int
 		FileId  int
 	)
-
+	println(userId+" "+fileId)
 	if userId == "" || fileId == "" {
 		errResp := buildErrResponse(errors.New("Invalid ids format"), "400")
 		c.Response.Status = 400
@@ -120,7 +120,7 @@ func (c ShareController) Delete(userId string, fileId string) revel.Result {
 	}
 
 	share, err = models.GetShare(UserId)
-	if err.Error() == "not found" {
+	if err != nil && err.Error() == "not found" {
 		errResp := buildErrResponse(err, "404")
 		c.Response.Status = 404
 		return c.RenderJSON(errResp)
@@ -140,5 +140,5 @@ func (c ShareController) Delete(userId string, fileId string) revel.Result {
 	}
 
 	c.Response.Status = 200
-	return c.RenderJSON("Ok")
+	return c.RenderText("Ok")
 }

@@ -11,11 +11,9 @@ RUN go get github.com/revel/cmd/revel
 
 # Install project dependencies
 RUN go get gopkg.in/mgo.v2
-RUN go get gopkg.in/mgo.v2/bson
 
 # Use the revel CLI to start up our application.
 ENTRYPOINT revel run sa_share_ms prod 3002
 
 # Open up the port where the app is running.
 EXPOSE 3002
-EXPOSE 3504

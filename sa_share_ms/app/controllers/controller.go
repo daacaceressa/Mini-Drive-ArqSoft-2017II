@@ -16,7 +16,11 @@ func parseUintOrDefault(intStr string, _default uint64) uint64 {
 	}
 }
 
-func parseInt(intStr string) (value int, err error) {
+func parseInt(intStr string) (int, error) {
+	var(
+		value int
+		err 	error
+	)
 	value, err = strconv.Atoi(intStr)
 	return value, err
 }

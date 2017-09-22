@@ -7,11 +7,10 @@ import (
 )
 
 type Share struct {
-  ID        bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
   UserId    int           `json:"user_id" bson:"user_id"`
   FilesId   []int         `json:"files_id" bson:"files_id"`
-  CreatedAt time.Time     `json:"created_at,omitempty" bson:"created_at,omitempty"`
-  UpdatedAt time.Time     `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
+  CreatedAt time.Time     `json:"created_at" bson:"created_at"`
+  UpdatedAt time.Time     `json:"updated_at" bson:"updated_at"`
 }
 
 type Response struct {
@@ -29,7 +28,6 @@ func AddShare(r Response) (Share, error) {
   )
   currentShare, err = GetShare(r.UserId)
   if err != nil {
-    currentShare.ID = bson.NewObjectId()
     currentShare.UserId = r.UserId
     currentShare.FilesId = []int{r.FileId}
     currentShare.CreatedAt = time.Now()
@@ -57,7 +55,7 @@ func (m Share) UpdateShare() error {
     err error
   )
   err = mongodb.Shares.Update(bson.M{
-    "_id": m.ID,
+    "user_id": m.UserId,
   }, bson.M{
     "$set": bson.M{
       "files_id": m.FilesId, "updated_at": time.Now()},
@@ -72,7 +70,7 @@ func (m Share) DeleteShare(fileId int) error {
     err   error
   )
   err = mongodb.Shares.Update(bson.M{
-    "_id": m.ID,
+    "user_id": m.UserId,
   }, bson.M{ 
     "$pullAll": bson.M{ "files_id": []int{fileId} },
   })
@@ -93,7 +91,7 @@ func GetShares() ([]Share, error) {
 // GetShare Get a Share from database and returns
 // a Share on success
 func GetShare(userId int) (Share, error) {
-    var (
+  var (
     share  Share
     err    error
   )

@@ -3,7 +3,6 @@ package mongodb
 import (
   "gopkg.in/mgo.v2"
   //"gopkg.in/mgo.v2/bson"
-  //"gopkg.in/fatih/set.v0"
 )
 
 var Session *mgo.Session

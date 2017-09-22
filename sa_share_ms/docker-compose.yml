@@ -2,6 +2,12 @@ version: '2'
 services:
   sa_share_db:
     image: mongo
+    command: mongod --port 3504
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: arqsoft
+      MONGO_INITDB_ROOT_PASSWORD: 123
+      MONGO_DATABASE: shares
+      MONGO_HOST: sa_share_db
     ports:
       - "3504:3504"
   sa_share_ms:
