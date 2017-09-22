@@ -8,4 +8,7 @@ Rails.application.routes.draw do
 	get "files/downloadFile"
 	get "files/listOfFiles"
 
+
+	post "files/uploadProof"
+
 end

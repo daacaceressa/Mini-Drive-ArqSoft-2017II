@@ -1,8 +1,11 @@
 class FilesController < ApplicationController
+
+	def new
+	end
 	
 	Ruta_directorio_archivos = "public/files/";
 	$emailid = ""
-	before_action :validate 
+	#before_action :validate
 
 
 	#userid = email retonardo del validate  results [:email]
@@ -31,6 +34,21 @@ class FilesController < ApplicationController
 		}	
 		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + email.to_s, options)
 		render json: results
+	end
+
+
+	def uploadProof
+		pic = params[:file]
+		time_footprint = Time.now.to_i.to_formatted_s(:number)
+#abort uploaded_pics.inspect
+#		uploaded_pics.each do |index,pic|
+			File.open(Rails.root.join('public', 'uploads', pic.original_filename), 'wb') do |file|
+				file.write(pic.read)
+				File.rename(file, 'public/uploads/' + time_footprint + pic.original_filename)
+			end
+#		end
+		files_list = Dir['public/uploads/*'].to_json
+		render json: { message: 'You have successfully uploded your images.', files_list: files_list }
 	end
 
 	def uploadFile
