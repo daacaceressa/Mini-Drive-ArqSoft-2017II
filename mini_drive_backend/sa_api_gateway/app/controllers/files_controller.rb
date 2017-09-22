@@ -21,51 +21,59 @@ class FilesController < ApplicationController
 	end
 
 	def listOfFiles
-		options = {
-			:body => {
-				:id => $emailid
-			}.to_json,
-			:headers => {
-				'Content-Type' => 'application/json'
-			}
-		}	
-		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + email.to_s, options)
+			
+		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + $emailid.to_s)
+		#return results
 		render json: results
 	end
 
+	def uploadProof
+		pic = params[:file]
+		time_footprint = Time.now.to_i.to_formatted_s(:number)
+#abort uploaded_pics.inspect
+#		uploaded_pics.each do |index,pic|
+			File.open(Rails.root.join('public', 'files', pic.original_filename), 'wb') do |file|
+				file.write(pic.read)
+				File.rename(file, 'public/files/' + time_footprint + pic.original_filename)
+			end
+#		end
+		files_list = Dir['public/files/*'].to_json
+		render json: { message: 'You have successfully uploded your images.', files_list: files_list }
+	end
+
+
+
 	def uploadFile
 
-		render json: $emailid.to_json
+		#render json: $emailid.to_json
 		@formato_erroneo = false;
 	   	if request.post?
-	      #Archivo subido por el usuario.
-	      archivo = params[:archivo];
-	      #Nombre original del archivo.
-	      nombre = archivo.original_filename;
-	      #Directorio donde se va a guardar.
-	      directorio = Ruta_directorio_archivos;
-	      #Extensión del archivo.
-	      extension = nombre.slice(nombre.rindex("."), nombre.length).downcase;
-	      #Verifica que el archivo tenga una extensión correcta.
-	      	if extension == ".pdf" or extension == ".doc" or extension == ".docx"
-		        #Ruta del archivo.
-		        path = File.join(directorio, nombre);
-		        #Crear en el archivo en el directorio. Guardamos el resultado en una variable, será true si el archivo se ha guardado correctamente.
-		        resultado = File.open(path, "wb") { |f| f.write(archivo.read) };
+
+		      #Archivo subido por el usuario.
+		    archivo = params[:file];
+		      #Nombre original del archivo.	      
+		    nombre = archivo.original_filename
+		    #render json: nombre.to_json
+		      #Extensión del archivo.
+		    extension = nombre.slice(nombre.rindex("."), nombre.length).downcase;
+		      #Verifica que el archivo tenga una extensión correcta.
+		      	#if extension == ".pdf" or extension == ".doc" or extension == ".docx"
+			        #Crear en el archivo en el directorio. Guardamos el resultado en una variable, será true si el archivo se ha guardado correctamente.
+			File.open(Rails.root.join('public', 'uploads', archivo.original_filename), "wb") do |f| 
+				f.write(archivo.read)
+			end
+
+		    files_list = Dir['public/uploads/*'].to_json
+			render json: { message: 'You have successfully uploded your images.', files_list: files_list } 
+		    	
 		        #Verifica si el archivo se subió correctamente.
-		        if resultado
-		           subir_archivo = "ok";
-		        else
-		           subir_archivo = "error";
-		        end
-		        #Redirige al controlador "archivos", a la acción "lista_archivos" y con la variable de tipo GET "subir_archivos" con el valor "ok" si se subió el archivo y "error" si no se pudo.
 		        
-	      	else
-	         	@formato_erroneo = true;
-	      	end
+		        
+		        
+	      	
 	    end
 
-	    #sendFile(nombre)
+	    sendFile(nombre)
 	    #deleteFile(nombre)
 
 	end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CategorizeControllerTest < ActionDispatch::IntegrationTest
+class HashControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

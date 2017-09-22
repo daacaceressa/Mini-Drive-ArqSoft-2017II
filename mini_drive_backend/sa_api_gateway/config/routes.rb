@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 	post "user/loginUser"
 	delete "user/logOut"
 	post "files/uploadFile"
+	post "files/uploadProof"
 	get "files/downloadFile"
 	get "files/listOfFiles"
 
