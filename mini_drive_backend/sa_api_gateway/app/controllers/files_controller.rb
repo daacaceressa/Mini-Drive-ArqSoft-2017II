@@ -7,15 +7,8 @@ class FilesController < ApplicationController
 
 	#userid = email retonardo del validate  results [:email]
 	def downloadFile
-		options = {
-			:body => {
-				:path => $emailid
-			}.to_json,
-			:headers => {
-				'Content-Type' => 'application/json'
-			}
-		}	
-		results = HTTParty.get("http://192.168.99.102:8009/downloadFile/" + email.to_s, options)
+	    @nameFile= params[:nameFile]	
+		results = HTTParty.get("http://192.168.99.102:8009/downloadFile/" + emailid.to_s + @nameFile.to_s)
 		render json: results
 
 	end
@@ -27,18 +20,20 @@ class FilesController < ApplicationController
 		render json: results
 	end
 
-	def uploadProof
-		pic = params[:file]
-		time_footprint = Time.now.to_i.to_formatted_s(:number)
-#abort uploaded_pics.inspect
-#		uploaded_pics.each do |index,pic|
-			File.open(Rails.root.join('public', 'files', pic.original_filename), 'wb') do |file|
-				file.write(pic.read)
-				File.rename(file, 'public/files/' + time_footprint + pic.original_filename)
-			end
-#		end
-		files_list = Dir['public/files/*'].to_json
-		render json: { message: 'You have successfully uploded your images.', files_list: files_list }
+def postHash (nombre)
+		path = $email.to_s + "/" + nombre.to_s
+		options = {
+			:body => {
+				:path => path
+			}.to_json,
+			:headers => {
+				'Content-Type' => 'application/json'
+			}
+
+		}
+		results = HTTParty.post("http://192.168.99.102:3003/hashdocuments", options)
+		render json: results
+
 	end
 
 
@@ -47,33 +42,28 @@ class FilesController < ApplicationController
 
 		#render json: $emailid.to_json
 		@formato_erroneo = false;
-	   	if request.post?
+	      #Archivo subido por el usuario.
+	    archivo = params[:file]
+	      #Nombre original del archivo.	      
+	    nombre = archivo.original_filename
 
-		      #Archivo subido por el usuario.
-		    archivo = params[:file];
-		      #Nombre original del archivo.	      
-		    nombre = archivo.original_filename
-		    #render json: nombre.to_json
-		      #Extensión del archivo.
-		    extension = nombre.slice(nombre.rindex("."), nombre.length).downcase;
-		      #Verifica que el archivo tenga una extensión correcta.
-		      	#if extension == ".pdf" or extension == ".doc" or extension == ".docx"
-			        #Crear en el archivo en el directorio. Guardamos el resultado en una variable, será true si el archivo se ha guardado correctamente.
-			File.open(Rails.root.join('public', 'uploads', archivo.original_filename), "wb") do |f| 
-				f.write(archivo.read)
-			end
+		#File.open(Rails.root.join('public', 'uploads', archivo.original_filename), "wb") do |f| 
+		#	f.write(archivo.read)
+		#end
+		#render json: archivo.path.to_json
+		#tmp = params[:my_file_field].tempfile
 
-		    files_list = Dir['public/uploads/*'].to_json
-			render json: { message: 'You have successfully uploded your images.', files_list: files_list } 
-		    	
-		        #Verifica si el archivo se subió correctamente.
-		        
-		        
-		        
-	      	
-	    end
+		#destiny_file = File.join('public', 'uploads', nombre)
+		#FileUtils.move archivo.path, destiny_file
 
-	    sendFile(nombre)
+		
+
+	    #files_list = Dir['public/uploads/*'].to_json
+	    #render json: archivo.to_json
+		#render json: { message: 'You have successfully uploded your images.', files_list: files_list } 
+	    
+		#postHash(nombre)
+	    sendFile(nombre, archivo)
 	    #deleteFile(nombre)
 
 	end
@@ -100,17 +90,19 @@ class FilesController < ApplicationController
 	   	end
   	end
 
-  	def sendFile(nombre)
-
-		
+  	def sendFile(name, archivo)
+  		#render json: name.to_json
+		#results = HTTParty.get("http://192.168.99.102:8009/uploads/" + name.to_s)
+		#File.save(results, "public/uploads")
+		#render json: results		
 		request = RestClient::Request.new(
-          :method => :post,
-          :url => "http://192.168.99.102:8009/uploadFile/" + $emailid,
-          #:user => email,
-          :payload => {
-            :multipart => true,
-            :file => File.new("/public/files/" + nombre.to_s, 'rb')
-          })      
+           :method => :post,
+           :url => "http://192.168.99.102:8009/uploadFile/" + $emailid,
+           #:user => email,
+           :payload => {
+             :multipart => true,
+             :file => archivo
+           })      
 		response = request.execute
 		#results = HTTParty.post("http://192.168.99.102:8009/uploadFile/"+ userid.to_s, options)
 
