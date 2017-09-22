@@ -47,10 +47,10 @@ paths:
       operationId: Delete
       parameters:
         - name: id
-        in: path
-        description: The id of the file
-        required: true
-        type: string
+          in: path
+          description: The id of the file
+          required: true
+          type: string
       responses:
         '200':
           description: Ok
