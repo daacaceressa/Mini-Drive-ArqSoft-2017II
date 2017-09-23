@@ -10,10 +10,10 @@ Rails.application.routes.draw do
 	
 	# Upload Microservice
 
-	post "files/uploadFile"
+	post "files/uploadFile", to: 'files#uploadFile'
 	post "files/uploadProof"
-	get "files/downloadFile"
-	get "files/listOfFiles"
+	get "files/downloadFile/:filename", to: 'files#downloadFile'
+	get "files/listOfFiles", to: 'files#listOfFiles'
 
 	# Categorize Microservice
 

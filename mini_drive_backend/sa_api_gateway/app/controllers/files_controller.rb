@@ -1,38 +1,30 @@
 class FilesController < ApplicationController
 	
-	Ruta_directorio_archivos = "public/files/";
-	$emailid = ""
-	$hash = ""
-	before_action :validate 
+	# THE DIFFERENCE BETWEEN @@ and $ is the scope. @@ only works inside this class. $ is global (AVOID).
 
+	@@file_directory = "/tmp/";
+	@@emailid = ""
+	# before_action :validate 
 
-	#userid = email retonardo del validate  results [:email]
-	def downloadFile
-
-	#File.open(filename, "w") do |file|
-	  #response = HTTParty.get(url, stream_body: true) do |fragment|
-	    #print "."
-	    #file.write(fragment)
-
-	    #@nameFile= params[:nameFile]
-	    @nameFile = "formato_vida.pdf"	
-	    File.open(@nameFile, "w") do |file|
-		results = HTTParty.get("http://192.168.99.102:8009/downloadFile/" + $emailid.to_s + @nameFile.to_s) do |f|
-			file.write(f)
-			end
+	def downloadFile	
+		#TODO: Ask Leo how to get the file extension.
+		#TODO: Manage File not found.
+	    nameFile = params[:filename].to_s + ".pdf"
+	    @@emailid = "1"
+	    File.open(@@file_directory + nameFile, "wb") do |f|
+	    	f.write HTTParty.get("http://192.168.99.102:8009/downloadFile/" + @@emailid.to_s + "/" + nameFile).parsed_response
 		end
-		#render results
-
+		send_file (@@file_directory + nameFile)
 	end
 
 	def listOfFiles
-
-		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + $emailid.to_s).parsed_response
+		#TODO: This method is not working.
+		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + @@emailid.to_s).parsed_response
 		render json: results
 	end
 
 	def postHash (nombre)
-		path = $email.to_s + "/" + nombre.to_s
+		path = @@email.to_s + "/" + nombre.to_s
 		options = {
 			:body => {
 				:path => path
@@ -50,8 +42,8 @@ class FilesController < ApplicationController
 
 
 	def uploadFile
-
-		#render json: $emailid.to_json
+		#TODO: Names in English please.
+		#render json: @@emailid.to_json
 		@formato_erroneo = false;
 	      #Archivo subido por el usuario.
 	    archivo = params[:file]
@@ -63,13 +55,16 @@ class FilesController < ApplicationController
 	end
 
   	def sendFile(name, archivo)
+  		#TODO: Use postHash function.
+
+
   		#render json: name.to_json
 		#results = HTTParty.get("http://192.168.99.102:8009/uploads/" + name.to_s)
 		#File.save(results, "public/uploads")
 		#render json: results		
 		request = RestClient::Request.new(
            :method => :post,
-           :url => "http://192.168.99.102:8009/uploadFile/" + $emailid,
+           :url => "http://192.168.99.102:8009/uploadFile/" + @@emailid,
            #:user => email,
            :payload => {
              :multipart => true,
@@ -78,6 +73,7 @@ class FilesController < ApplicationController
 		response = request.execute
 		#results = HTTParty.post("http://192.168.99.102:8009/uploadFile/"+ userid.to_s, options)
 
+		#TODO: Use the response to send a status to the user.
   	end
 
   	def validate
@@ -93,8 +89,8 @@ class FilesController < ApplicationController
 		results = HTTParty.get("http://192.168.99.102:3000/users/validate_token", options)
 		#render json: results.code
 		if results.code == 202
-			$emailid = results['email']
-			#render json: $emailid.to_json
+			@@emailid = results['email']
+			#render json: @@emailid.to_json
 		else
 			#response.headers['AUTHTOKEN']= ""
 			render status: 401
