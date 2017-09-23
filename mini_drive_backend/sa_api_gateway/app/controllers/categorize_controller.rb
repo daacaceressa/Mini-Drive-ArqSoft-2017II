@@ -5,16 +5,22 @@ class CategorizeController < ApplicationController
 		return results
 	end
 
-	def getCategories(category)
-		results = HTTParty.get("http://192.168.99.102:3001/category" + category.to_s)
+	def getCategories(@category)
+		results = HTTParty.get("http://192.168.99.102:3001/category" + @category.to_s)
 		return results
 	end
 
-	def addCategory(newCa)
+	
+
+
+
+
+	def addCategory
+		@Categories_arr = parama[:cat_arr]
 		options = {
 			:body => {
 				:id => id,
-				:categories => newCa
+				:categories => ["Fisica", "Quimica"] #.....
 			}.to_json,
 			:headers => {
 				'Content-Type' => 'application/json'
@@ -24,11 +30,16 @@ class CategorizeController < ApplicationController
 		render json: results
 	end
 
+
+
+
+
 	def removeCategory(rmCa)
+		@Categories_arr = parama[:cat_arr]
 		options = {
 			:body => {
 				:id => id,
-				:categories => rmCa
+				:categories => ["Fisica", "Quimica"] #.....
 			}.to_json,
 			:headers => {
 				'Content-Type' => 'application/json'

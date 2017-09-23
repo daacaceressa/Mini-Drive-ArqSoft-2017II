@@ -7,20 +7,30 @@ class FilesController < ApplicationController
 
 	#userid = email retonardo del validate  results [:email]
 	def downloadFile
-	    @nameFile= params[:nameFile]	
-		results = HTTParty.get("http://192.168.99.102:8009/downloadFile/" + emailid.to_s + @nameFile.to_s)
-		render json: results
+
+	#File.open(filename, "w") do |file|
+	  #response = HTTParty.get(url, stream_body: true) do |fragment|
+	    #print "."
+	    #file.write(fragment)
+
+	    #@nameFile= params[:nameFile]
+	    @nameFile = "formato_vida.pdf"	
+	    File.open(filename, "w") do |file|
+		results = HTTParty.get("http://192.168.99.102:8009/downloadFile/" + $emailid.to_s + @nameFile.to_s) do |f|
+			file.write(f)
+			end
+		end
+		#render results
 
 	end
 
 	def listOfFiles
-			
-		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + $emailid.to_s)
-		#return results
+
+		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + $emailid.to_s).parsed_response
 		render json: results
 	end
 
-def postHash (nombre)
+	def postHash (nombre)
 		path = $email.to_s + "/" + nombre.to_s
 		options = {
 			:body => {
@@ -46,49 +56,10 @@ def postHash (nombre)
 	    archivo = params[:file]
 	      #Nombre original del archivo.	      
 	    nombre = archivo.original_filename
-
-		#File.open(Rails.root.join('public', 'uploads', archivo.original_filename), "wb") do |f| 
-		#	f.write(archivo.read)
-		#end
-		#render json: archivo.path.to_json
-		#tmp = params[:my_file_field].tempfile
-
-		#destiny_file = File.join('public', 'uploads', nombre)
-		#FileUtils.move archivo.path, destiny_file
-
-		
-
-	    #files_list = Dir['public/uploads/*'].to_json
-	    #render json: archivo.to_json
-		#render json: { message: 'You have successfully uploded your images.', files_list: files_list } 
-	    
-		#postHash(nombre)
 	    sendFile(nombre, archivo)
-	    #deleteFile(nombre)
+	    archivo = ""
 
 	end
-
-	def deleteFile(nombre)
-  		#Recuperamos el nombre del archivo.
-	   	#archivo_a_borrar = params[:archivo_a_borrar];
-	   	#Guardamos la ruta del archivo a eliminar.
-	   	#ruta_al_archivo = Ruta_directorio_archivos + archivo_a_borrar;
-	   	ruta_al_archivo = Ruta_directorio_archivos + nombre;
-	   	#Verificamos que el archivo exista para eliminarlo.
-	   	if File.exist?(ruta_al_archivo)
-	      	#Si el archivo existe se intentará eliminarlo. Dentro de la variable resultado se guardará true si se pudo eliminar y false si no.
-	    	  resultado = File.delete(ruta_al_archivo);
-	   	else
-	      	#El archivo no existe así que no se pudo eliminar nada.
-	    	  resultado = false;
-	   	end
-	   	#Verifica si el archivo se eliminó correctamente.
-	   	if resultado
-	    	  eliminar_archivo = "ok";
-	   	else
-	    	  eliminar_archivo = "error";
-	   	end
-  	end
 
   	def sendFile(name, archivo)
   		#render json: name.to_json
@@ -131,11 +102,6 @@ def postHash (nombre)
 	end
 
 	private
-
-	#def validate
-    #llamar al validate de user, con el return de result['email'] si es nil, hacer un render de un error.
-    #guardar el email obtenido en la variable global path de logeo
-	#end
 
 end
 
