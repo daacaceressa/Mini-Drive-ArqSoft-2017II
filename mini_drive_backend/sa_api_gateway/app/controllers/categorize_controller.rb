@@ -1,11 +1,13 @@
 class CategorizeController < ApplicationController
 
 	def getCategories(id)
+		#id = "asdasdas"
 		results = HTTParty.get("http://192.168.99.102:3001/files" + id.to_s)
 		return results
 	end
 
 	def getCategories(@category)
+		#@category = "Fisica"
 		results = HTTParty.get("http://192.168.99.102:3001/category" + @category.to_s)
 		return results
 	end
