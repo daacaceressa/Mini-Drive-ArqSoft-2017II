@@ -12,9 +12,10 @@ class UserController < ApplicationController
 		}	
 		results = HTTParty.get("http://192.168.99.102:3000/users/validate_token", options)
 		if results.code == 202
-			return results['email']
+			render results['email'], status: results.code
 		else
 			response.headers['AUTHTOKEN']= ""
+			render status: 401
 		end
 	end
 
@@ -32,7 +33,8 @@ class UserController < ApplicationController
 		results = HTTParty.delete("http://192.168.99.102:3000/users/sign_out", options)
 		
 		if results.code == 200
-			response.headers['AUTHTOKEN']= ""			
+			response.headers['AUTHTOKEN']= ""	
+			render status: 200		
 		else
 			render status: 400
 		end			
@@ -55,7 +57,7 @@ class UserController < ApplicationController
 
 		}
 		results = HTTParty.post("http://192.168.99.102:3000/users", options)
-		render json: results.code
+		render json: results.body, status: results.code
 	end
 
 	def loginUser
@@ -76,5 +78,6 @@ class UserController < ApplicationController
 		if results.code == 201
 			response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']
 		end
+		render status: results.code
 	end
 end
