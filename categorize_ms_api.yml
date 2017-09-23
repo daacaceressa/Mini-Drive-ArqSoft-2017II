@@ -33,7 +33,7 @@ paths:
         '200':
           description: Ok
           schema:
-            $ref: '#/definitions/CategoriesList'
+            $ref: '#/definitions/File'
         '404':
           description: Not Found
           schema:
@@ -149,30 +149,9 @@ definitions:
           type: string
         
   FilesList:
-    type: object
-    required:
-      - total
-      - list
-    properties:
-      total:
-        type: number
-      list:
-        type: array
-        items:
-          $ref: '#/definitions/File'   
-
-  CategoriesList:
-    type: object
-    required:
-      - total
-      - list
-    properties:
-      total:
-        type: number
-      list:
-        type: array
-        items:
-          type: string
+    type: array
+    items:
+      $ref: '#/definitions/File'   
 
 # Errors
   ErrorModel:
