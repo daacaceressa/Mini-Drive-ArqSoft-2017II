@@ -4,13 +4,17 @@ class FilesController < ApplicationController
 
 	@@file_directory = "/tmp/";
 	@@emailid = ""
-	# before_action :validate 
+	before_action :validate 
 
 	def downloadFile	
 		#TODO: Ask Leo how to get the file extension.
 		#TODO: Manage File not found.
-	    nameFile = params[:filename].to_s + ".pdf"
-	    @@emailid = "1"
+	    #nameFile = params[:filename].to_s + ".pdf"
+
+	    #extension = nombre.slice(nombre.rindex("."), nombre.length).downcase;
+	   
+	    nameFile = "Incapacidad.pdf"
+	    #@@emailid = "1"
 	    File.open(@@file_directory + nameFile, "wb") do |f|
 	    	f.write HTTParty.get("http://192.168.99.102:8009/downloadFile/" + @@emailid.to_s + "/" + nameFile).parsed_response
 		end
@@ -20,7 +24,9 @@ class FilesController < ApplicationController
 	def listOfFiles
 		#TODO: This method is not working.
 		results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/" + @@emailid.to_s).parsed_response
-		render json: results
+		#results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/1").parsed_response
+		#render json: @@emailid
+		render json: result
 	end
 
 	def postHash (nombre)
@@ -55,13 +61,7 @@ class FilesController < ApplicationController
 	end
 
   	def sendFile(name, archivo)
-  		#TODO: Use postHash function.
-
-
-  		#render json: name.to_json
-		#results = HTTParty.get("http://192.168.99.102:8009/uploads/" + name.to_s)
-		#File.save(results, "public/uploads")
-		#render json: results		
+  		#TODO: Use postHash function.		
 		request = RestClient::Request.new(
            :method => :post,
            :url => "http://192.168.99.102:8009/uploadFile/" + @@emailid,
