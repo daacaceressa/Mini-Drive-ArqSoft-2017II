@@ -2,6 +2,7 @@ class FilesController < ApplicationController
 	
 	Ruta_directorio_archivos = "public/files/";
 	$emailid = ""
+	$hash = ""
 	before_action :validate 
 
 
@@ -15,7 +16,7 @@ class FilesController < ApplicationController
 
 	    #@nameFile= params[:nameFile]
 	    @nameFile = "formato_vida.pdf"	
-	    File.open(filename, "w") do |file|
+	    File.open(@nameFile, "w") do |file|
 		results = HTTParty.get("http://192.168.99.102:8009/downloadFile/" + $emailid.to_s + @nameFile.to_s) do |f|
 			file.write(f)
 			end
@@ -41,7 +42,7 @@ class FilesController < ApplicationController
 			}
 
 		}
-		results = HTTParty.post("http://192.168.99.102:3003/hashdocuments", options)
+		results = HTTParty.post("http://192.168.99.102:3003/hashdocuments", options).parsed_response
 		render json: results
 
 	end
