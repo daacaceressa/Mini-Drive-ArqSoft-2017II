@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 	# Upload Microservice
 
 	post "files/uploadFile", to: 'files#uploadFile'
-	post "files/uploadProof"
 	get "files/downloadFile/:filename", to: 'files#downloadFile'
 	get "files/listOfFiles", to: 'files#listOfFiles'
 
@@ -28,7 +27,7 @@ Rails.application.routes.draw do
 	get "share/getShares"
 	post "share/postShares"
 	get "share/sharesById"
-	delete "share/delShare"
+	delete "share/deleteShare"
 
 	# Hash Microservice
 

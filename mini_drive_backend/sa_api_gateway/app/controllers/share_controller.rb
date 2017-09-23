@@ -1,41 +1,37 @@
 class ShareController < ApplicationController
 
-	$emailid = ""
+	@@emailid = ""
 	before_action :validate
 
 	def getShares
 		results = HTTParty.get("http://192.168.99.102:3002/shares")
-		render json: results
+		render json: results.body, status: results.code
 	end
 
 	def postShares
-		@Categories_arr = parama[:cat_arr]
+		sharedFiles = params[:shared_files]
 		options = {
 			:body => {
-				:user_id => $emailid,
-				:files_id => ["1","2","3"]
-				:categories => ["Fisica", "Quimica"] #.....
+				:user_id => @@emailid,
+				:files_id => sharedFiles
 			}.to_json,
 			:headers => {
 				'Content-Type' => 'application/json'
 			}
 		}	
 		results = HTTParty.post("http://192.168.99.102:3002/shares", options)
-		render json: results
-
+		render json: results.body, status: results.code
 	end
 
 	def sharesById
-		results = HTTParty.get("http://192.168.99.102:3002/shares/" + $emailid)
-		render json: results
+		results = HTTParty.get("http://192.168.99.102:3002/shares/" + @@emailid)
+		render json: results.body, status: results.code
 	end
 
-	def delShare
-		#@filename = params[:filename]
-		@filename = "formato_vida.pdf"
-		results = HTTParty.delete("http://192.168.99.102:3002/shares/" + $emailid + "/" + @filename)
-		render json: results
-
+	def deleteShare
+		filename = params[:filename]
+		results = HTTParty.delete("http://192.168.99.102:3002/shares/" + @@emailid + "/" + filename)
+		render json: results.body, status: results.code
 	end
 
 	def validate
@@ -49,19 +45,12 @@ class ShareController < ApplicationController
 			}
 		}	
 		results = HTTParty.get("http://192.168.99.102:3000/users/validate_token", options)
-		#render json: results.code
 		if results.code == 202
-			$emailid = results['email']
-			#render json: $emailid.to_json
+			@@emailid = results['email']
 		else
 			#response.headers['AUTHTOKEN']= ""
 			render status: 401
 			#redirect_to "http://192.168.99.102:7000/sign_in"
 		end
 	end
-
-	private
-
-
-	
 end
