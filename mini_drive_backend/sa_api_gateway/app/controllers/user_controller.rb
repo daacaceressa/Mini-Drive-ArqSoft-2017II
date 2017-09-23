@@ -77,10 +77,4 @@ class UserController < ApplicationController
 			response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']
 		end
 	end
-	
-	#def checkProduct(id)
-		#results = HTTParty.get("http://192.168.99.101:3000/products/" + id.to_s)
-		#return results
-	#end
-	
 end

@@ -1,53 +1,53 @@
 class CategorizeController < ApplicationController
 
-	def getCategories(id)
-		results = HTTParty.get("http://192.168.99.102:3001/files" + id.to_s)
-		return results
+	def showCategories
+		fileId = params[:file_id]
+		resultCategories = HTTParty.get("http://192.168.99.102:3001/files/" + fileId.to_s)
+		render json: resultCategories.body, status: resultCategories.code
 	end
 
-	def getCategories(@category)
-		results = HTTParty.get("http://192.168.99.102:3001/category" + @category.to_s)
-		return results
+	def deleteAllCategories
+		fileId = params[:file_id]
+		results = HTTParty.delete("http://192.168.99.102:3001/files/" + fileId.to_s)
+		render json: results.body, status: results.code
 	end
 
-	
+	def getFilesWithCategory
+		categoryName = params[:category_name]
+		resultFiles = HTTParty.get("http://192.168.99.102:3001/category/" + categoryName.to_s)
+		print resultFiles
+		render json: resultFiles.body, status: resultFiles.code
+	end
 
-
-
-
-	def addCategory
-		@Categories_arr = parama[:cat_arr]
+	def addCategories
+		fileId = params[:file_id]
+		categories = params[:categories]
 		options = {
 			:body => {
-				:id => id,
-				:categories => ["Fisica", "Quimica"] #.....
+				:id => fileId,
+				:categories => categories
 			}.to_json,
 			:headers => {
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.post("http://192.168.99.102:3001/addCategories/", options)
-		render json: results
+		results = HTTParty.post("http://192.168.99.102:3001/addCategories", options)
+		render json: results.body, status: results.code
 	end
 
-
-
-
-
-	def removeCategory(rmCa)
-		@Categories_arr = parama[:cat_arr]
+	def removeCategories
+		fileId = params[:file_id]
+		categories = params[:categories]
 		options = {
 			:body => {
-				:id => id,
-				:categories => ["Fisica", "Quimica"] #.....
+				:id => fileId,
+				:categories => categories
 			}.to_json,
 			:headers => {
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.delete("http://192.168.99.102:3001/addCategories/", options)
-		render json: results
+		results = HTTParty.post("http://192.168.99.102:3001/removeCategories", options)
+		render json: results.body, status: results.code
 	end
-
-
 end
