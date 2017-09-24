@@ -31,6 +31,7 @@ class FilesController < ApplicationController
 
 	def postHash (nameF)
 		path = @@emailid.to_s + "/" + nameF.to_s
+		#render json: path.to_json
 		options = {
 			:body => {
 				:path => path
@@ -63,7 +64,8 @@ class FilesController < ApplicationController
   	def sendFile(nameF, archivo)
   		#TODO: Use postHash function.	
 
-  		postHash(nameF)	
+  		postHash(nameF)
+
 		request = RestClient::Request.new(
            :method => :post,
            :url => "http://192.168.99.102:8009/uploadFile/" + @@emailid,

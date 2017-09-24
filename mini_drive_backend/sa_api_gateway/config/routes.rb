@@ -34,5 +34,9 @@ Rails.application.routes.draw do
 
 	get "hash/getHash"
 	post "hash/postHash"
+	get "hash/getHashId/:hash", to: "hash#getHashId"
+	get "hash/deleteHash/:hash", to: "hash#deleteHash"
+	put "hash/putHash/:hash", to: "hash#putHash"
+	get "hash/getHashByPath/:fileName", to: "hash#getHashByPath"
 
 end
