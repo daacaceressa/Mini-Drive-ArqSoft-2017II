@@ -15,4 +15,5 @@ Route::post('uploadFile/{id}', ['as' => 'uploadFile', 'uses' => 'FileController@
 Route::get('listOfFiles/{id}', ['as' => 'listOfFiles', 'uses' => 'FileController@listOfFiles']);
 Route::post('deleteFile', ['as' => 'deleteFile', 'uses' => 'FileController@deleteFile']);
 Route::get('downloadFile/{one?}/{two?}/{three?}/{four?}/{five?}', ['as' => 'downloadFile', 'uses' => 'FileController@downloadFile']);
+Route::get('deleteFile/{one?}/{two?}/{three?}/{four?}/{five?}', ['as' => 'deleteFile', 'uses' => 'FileController@deleteFile']);
 

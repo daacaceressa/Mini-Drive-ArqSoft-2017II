@@ -97,7 +97,7 @@ class FileController extends Controller {
 
 //            $files = $item->function_files_id()->getResults();
         $files = Storage::files("files/" . $id . "/");
-        dd($files);
+//        dd($files);
         $r = array();
         foreach ($files as $key => $f) {
             $s = explode("/", $f);
@@ -107,14 +107,17 @@ class FileController extends Controller {
         return $r;
     }
 
-    public function deleteFile() {
-        $module = Input::get("module");
-        $path = Input::get("path");
+    public function deleteFile($one, $two = null, $three = null, $four = null, $five = null) {
+    
+    
+    $path = "files/" . $one . "/" . $two . "/" . $three . "/" . $four . "/" . $five;
 
+    
         if (Storage::delete($path)) {
-            return 100;
+            return json_encode(['status' => 200, 'message' => 'El archivo fue borrado exitosamente']);
+        }else{
+	    return json_encode(['status' => 500, 'message' => 'Al parecer hubo un problema en la conexión, no se pudo borrar el archivo']);
         }
-        return 300;
     }
 
     public function verifyFile($path) {
