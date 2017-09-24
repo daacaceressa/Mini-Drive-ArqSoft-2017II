@@ -10,6 +10,7 @@ class ShareController < ApplicationController
 
 	def postShares
 		sharedFiles = params[:shared_files]
+		#render json: sharedFiles.to_json
 		options = {
 			:body => {
 				:user_id => @@emailid,
@@ -29,7 +30,7 @@ class ShareController < ApplicationController
 	end
 
 	def deleteShare
-		filename = params[:filename]
+		filename = params[:fileId]
 		results = HTTParty.delete("http://192.168.99.102:3002/shares/" + @@emailid + "/" + filename)
 		render json: results.body, status: results.code
 	end

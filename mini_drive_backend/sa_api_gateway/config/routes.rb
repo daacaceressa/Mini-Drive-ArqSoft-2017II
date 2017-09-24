@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 	get "share/getShares"
 	post "share/postShares"
 	get "share/sharesById"
-	delete "share/deleteShare"
+	delete "share/deleteShare/:fileId", to: "share#deleteShare"
 
 	# Hash Microservice
 
