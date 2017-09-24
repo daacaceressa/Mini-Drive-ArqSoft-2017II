@@ -31,6 +31,12 @@ class HashController < ApplicationController
 		#render json: results.code
 	end
 
+	def getHashByPath(path)
+		results = HTTParty.get("http://192.168.99.102:3003/hashdocuments/getByPath" + path.to_s)
+		return results
+		#render json: results.code
+	end
+
 	def putHash(id) ###########Review
 		results = HTTParty.put("http://192.168.99.102:3003/hashdocuments" + id.to_s)
 		return results
