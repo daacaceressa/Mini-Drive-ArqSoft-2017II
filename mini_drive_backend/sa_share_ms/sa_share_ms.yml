@@ -1,0 +1,158 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Shares microservice
+  description: Go + MongoDB
+  contact:
+      name: Manuel Vergara
+      email: mavergarad@unal.edu.co
+  license:
+    name: Software Architecture 2017-II
+host: 192.168.99.102:3002
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /shares:
+    get:
+      summary: Returns all relations.
+      operationId: Index
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ShareList'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    post:
+      summary: Creates an association between user and file
+      operationId: Create
+      parameters:
+        - name: share
+          in: body
+          required: true
+          description: Share object
+          schema:
+            $ref: '#/definitions/ShareCreate'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Invalid format
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /shares/{user_id}:
+    get:
+      summary: Returns all documents shared to the given user.
+      operationId: Show
+      parameters:
+        - name: user_id
+          in: path
+          description: who is the user
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Share'
+        '400':
+          description: Invalid format
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /shares/{user_id}/{file_id}:
+    delete:
+      summary: Delete an association between user and file
+      operationId: Delete
+      parameters:
+        - name: user_id
+          in: path
+          description: who is the user
+          required: true
+          type: integer
+        - name: file_id
+          in: path
+          description: which file
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid format
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel' 
+
+definitions:
+# Files
+  File:
+    type: object
+    properties:
+      file_id:
+        type: string
+
+# Share
+  ShareCreate:
+    type: object
+    properties:
+      user_id:
+        type: string
+      file_id:
+        type: string
+  Share:
+    type: object
+    properties:
+      user_id:
+        type: string
+      files_id:
+        type: array
+        items: 
+          $ref: '#/definitions/File'
+      created_at:
+        type: string
+      updated_at:
+        type: string
+  ShareList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:  
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Share'
+
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
