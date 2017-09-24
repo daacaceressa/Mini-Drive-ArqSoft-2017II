@@ -28,7 +28,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: md_hashdocuments_ms_test
+#  database: md_hashdocuments_ms_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -51,6 +51,6 @@ test:
 #
 production:
   <<: *default
-  database: md_hashdocuments_ms_production
-  username: md_hashdocuments_ms
-  password: <%= ENV['MD_HASHDOCUMENTS_MS_DATABASE_PASSWORD'] %>
+#  database: md_hashdocuments_ms_production
+# username: md_hashdocuments_ms
+# password: <%= ENV['MD_HASHDOCUMENTS_MS_DATABASE_PASSWORD'] %>
