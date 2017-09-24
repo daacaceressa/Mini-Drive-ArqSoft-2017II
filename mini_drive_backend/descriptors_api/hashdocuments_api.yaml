@@ -8,10 +8,7 @@ info:
       email: jucjimenezmo@unal.edu.co
   license:
     name: Software Architecture 2017-II
-# host: 192.168.99.101:3003
-# basePath: /
-# schemes:
-#   - http
+
 consumes:
   - application/json
 produces:
@@ -153,6 +150,29 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
 
+  /hashdocuments/getByPath:
+    get:
+      summary: Returns a hashdocument with the given path
+      operationId: getHashdocumentByPath
+      parameters:
+        - name: path
+          in: query
+          description: The path of the hashdocument to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Hashdocument'
+        '400':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
 definitions:
 # Hashdocument
   Hashdocument:
@@ -196,9 +216,17 @@ definitions:
         type: string
       description:
         type: object
+
+# Added by jucjimenezmo for test
+# host: 192.168.99.101:3003
+# basePath: /
+# schemes:
+#   - http
+
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
 basePath: /unal1/hashdocuments-microservice/1.0.0
 schemes:
  - https
  - http
+ 

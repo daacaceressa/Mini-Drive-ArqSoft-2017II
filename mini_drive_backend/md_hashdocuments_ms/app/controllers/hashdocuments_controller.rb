@@ -13,6 +13,16 @@ class HashdocumentsController < ApplicationController
     render json: @hashdocument
   end
 
+  # GET /hashdocuments/getByPath
+  def show_by_path
+    @hashdocument = Hashdocument.find_by_path(params[:path])
+    if @hashdocument.nil?
+      return render json: {"status" => 400, "message" => "invalid path", "bad request" => 'not found results'}, status: 400
+    else
+      render json: @hashdocument
+    end
+  end
+
   # POST /hashdocuments
   def create
     @hashdocument = Hashdocument.new(hashdocument_params)
@@ -24,7 +34,7 @@ class HashdocumentsController < ApplicationController
         render json: @hashdocument.errors, status: :unprocessable_entity
       end
     else
-      return render json: {"status" => 410, "message" => "path invalido.", "bad request" => @hashdocument.errors[:path]}, status: :unprocessable_entity
+      return render json: {"status" => 400, "message" => "invalid path", "bad request" => @hashdocument.errors[:path]}, status: 400
     end
 
 
