@@ -5,15 +5,15 @@ services:
     ports:
       - "3506:3506"
     environment:
-      MYSQL_ROOT_PASSWORD: 123
-      MYSQL_USER: arqsoft
-      MYSQL_PASSWORD: 123
-      MYSQL_DATABASE: hashdocuments
-      MYSQL_HOST: md_hashdocuments_db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
   md_hashdocuments_ms:
     build: .
     command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 3003 -b '0.0.0.0'"
     ports:
       - "3003:3003"
     depends_on:
-      - md_hashdocuments_db
+      - ${MYSQL_HOST}
