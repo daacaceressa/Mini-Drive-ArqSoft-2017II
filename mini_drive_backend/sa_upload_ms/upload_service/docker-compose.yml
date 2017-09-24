@@ -3,7 +3,7 @@ services:
   ms-falperezgo:
     build: .
     ports:
-      - "8009:8000"
+      - "3004:3004"
     volumes:
       - .:/ms-falperezgo
     env_file: .env
