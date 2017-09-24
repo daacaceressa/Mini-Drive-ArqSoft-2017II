@@ -41,7 +41,7 @@ paths:
           required: true
           description: Share object
           schema:
-            $ref: '#/definitions/Share'
+            $ref: '#/definitions/ShareCreate'
       responses:
         '201':
           description: Created
@@ -110,6 +110,13 @@ definitions:
         type: string
 
 # Share
+  ShareCreate:
+    type: object
+    properties:
+      user_id:
+        type: string
+      file_id:
+        type: string
   Share:
     type: object
     properties:
@@ -129,7 +136,7 @@ definitions:
       - total
       - list
     properties:
-      total:
+      total:  
         type: number
       list:
         type: array
