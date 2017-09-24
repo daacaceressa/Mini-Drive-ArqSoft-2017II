@@ -1,0 +1,164 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Upload micro service
+  description: Laravel+ S3 AWS
+  contact:
+      name: Grupo C2
+      email: falperezgo@unal.edu.co
+  license:
+    name: Software Architecture 2017-II
+host: 192.168.99.101:8009
+basePath: /
+schemes:
+  - http
+consumes:
+  - raw form 
+produces:
+  - application/json
+paths:
+
+  /uploadFile/{id}:
+    post:
+      summary: Make a upload to s3 folder user
+      operationId: createBuy
+      parameters:
+        - name: id
+          in: path
+          description: The id of user folder to be returned
+          required: true
+          type: string
+        - name: fale
+          in: body
+          required: true
+          description: Sale Object
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        '200':
+          description: 'El archivo fue cargado exitosamente.'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '300':
+          description: 'El nombre de archivo ya existe en el sistema.'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '400':
+          description: 'No se ha cargado ningun archivo.'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: 'Al parecer hubo un problema en la conexión, no se pudo cargar el archivo'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  /listOfFiles/{id}:
+    get:
+      summary: Returns a set files  inside the user id folder
+      operationId: getFilesByUserIdFolder
+      parameters:
+        - name: id
+          in: path
+          description: The id of user folder to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/FilesList'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+            
+  
+  /downloadFile/{path}:
+    get:
+      summary: Returns a file with the path specified
+      operationId: downloadFile
+      parameters:
+        - name: path
+          in: path
+          description: The path of the file to be downloaded
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/FilesList'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+            
+  /deleteFile/{path}:
+    get:
+      summary: Remove a file with the path specified
+      operationId: deleteFile
+      parameters:
+        - name: path
+          in: path
+          description: The path of the file to be removed
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'El archivo fue cargado exitosamente.'
+          schema:
+            $ref: '#/definitions/FilesList'
+        '500':
+          description: 'Al parecer hubo un problema en la conexión, no se pudo borrar el archivo'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+definitions:
+# fileForm
+  File:
+    type: object
+    properties:
+      file:
+        type: object
+        
+  FilesList:
+    type: object
+    required:
+      - list
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/File'
+
+  # Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      code:
+        type: number
+      message:
+        type: string
+      description:
+        type: object
