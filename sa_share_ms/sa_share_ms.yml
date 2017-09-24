@@ -107,16 +107,14 @@ definitions:
     type: object
     properties:
       file_id:
-        type: integer
+        type: string
 
 # Share
   Share:
     type: object
     properties:
-      id:
-        type: string
       user_id:
-        type: integer
+        type: string
       files_id:
         type: array
         items: 

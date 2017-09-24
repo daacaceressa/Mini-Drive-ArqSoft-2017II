@@ -17,7 +17,7 @@ func CheckAndInitServiceConnection(uri, dbname string) error {
   session.SetMode(mgo.Monotonic, true)
 
   Session = session
-  // session.DB(dbname).C("shares").RemoveAll(bson.M{})
+  //session.DB(dbname).C("shares").RemoveAll(bson.M{})
   Shares = session.DB(dbname).C("shares")
 
   return nil
