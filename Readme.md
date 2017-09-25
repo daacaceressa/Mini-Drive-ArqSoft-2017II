@@ -6,4 +6,4 @@ This is an academic project for the Software Architecture course at the National
 - Manuel Vergara Diaz
 - Julian Jimenez Moreno
 
-This is a Google Drive look alike that implements a microservice architecture pattern, using PHP (Laravel), Ruby (Ruby on Rails), Javascript (Web development) ang Java (App development).
+This is a Google Drive look alike that implements a microservice architecture pattern, using PHP (Laravel), Ruby (Ruby on Rails), Go, Javascript (Web development) ang Java (App development).
