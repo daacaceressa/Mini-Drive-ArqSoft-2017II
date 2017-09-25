@@ -1,0 +1,675 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: API GATEWAY
+  description: Ruby on Rails
+  contact:
+    name: Sebastián Morales Garzón
+    email: semoralesga@unal.edu.co
+  license:
+    name: Software Architecture 2017-II
+host: '192.168.99.102:4000'
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /user/createUser:
+    post:
+      summary: Sends parameters to create the user.
+      operationId: createUser
+      parameters:
+        - name: User
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /user/loginUser:
+    post:
+      summary: Sends parameters to login user.
+      operationId: loginUser
+      parameters:
+        - name: User
+          in: body
+          required: true
+          description: UserLogInfo Object
+          schema:
+            $ref: '#/definitions/UserLogInfo'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/XAUTHTOKEN'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /user/validate:
+    get:
+      summary: Send the token and obtain the user email assigned to it
+      operationId: validate_token
+      parameters:
+        - name: AUTHTOKEN
+          in: header
+          type: string
+          required: true
+          description: Token obtained as a header when the user logs into the application
+      responses:
+        '202':
+          description: Accepted
+          schema:
+            $ref: '#/definitions/UserEmail'
+        '401':
+          description: Unauthorized
+  /user/logOut:
+    delete:
+      summary: Sends parameter for user log out of the application
+      operationId: logOut
+      parameters:
+        - name: AUTHTOKEN
+          in: header
+          type: string
+          required: true
+          description: Token obtained as a header when the user logs into the application
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/files/uploadFile/{user_id}':
+    post:
+      summary: Sends parameters to upload .
+      operationId: uploadFile
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of user folder to upload.
+          required: true
+          type: string
+        - name: file
+          in: body
+          required: true
+          description: File object.
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        '200':
+          description: El archivo fue cargado exitosamente.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '300':
+          description: El nombre de archivo ya existe en el sistema.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '400':
+          description: No se ha cargado ningun archivo.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: >-
+            Al parecer hubo un problema en la conexión, no se pudo cargar el
+            archivo
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/files/listOfFiles/{user_id}':
+    get:
+      summary: Send the user_id.
+      operationId: getFilesByUserIdFolder
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of user folder to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/FilesList'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/files/downloadFile/{path}':
+    get:
+      summary: Returns a file with the path specified
+      operationId: downloadFile
+      parameters:
+        - name: path
+          in: path
+          description: The path of the file to be downloaded
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/upDownFile'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/files/delFile/{path}':
+    get:
+      summary: Sends parameter for removing a file with the path specified
+      operationId: deleteFile
+      parameters:
+        - name: path
+          in: path
+          description: The path of the file to be removed
+          required: true
+          type: string
+      responses:
+        '200':
+          description: El archivo fue cargado exitosamente.
+          schema:
+            $ref: '#/definitions/upDownFile'
+        '500':
+          description: >-
+            Al parecer hubo un problema en la conexión, no se pudo borrar el
+            archivo
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /share/getShares:
+    get:
+      summary: Returns all relations.
+      operationId: Index
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ShareList'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /share/postShares:
+    post:
+      summary: Creates an association between user and file
+      operationId: Create
+      parameters:
+        - name: share
+          in: body
+          required: true
+          description: Share object
+          schema:
+            $ref: '#/definitions/ShareCreate'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Invalid format
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/share/sharesById/{user_id}':
+    get:
+      summary: Send user_id for return all file shares.
+      operationId: Show
+      parameters:
+        - name: user_id
+          in: path
+          description: who is the user
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Share'
+        '400':
+          description: Invalid format
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/share/deleteShare/{user_id}/{file_id}':
+    delete:
+      summary: Delete an association between user and file
+      operationId: Delete
+      parameters:
+        - name: user_id
+          in: path
+          description: who is the user
+          required: true
+          type: integer
+        - name: file_id
+          in: path
+          description: which file
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid format
+        '404':
+          description: Not found
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /hash/postHash:
+    post:
+      summary: Send path for create a hash.
+      operationId: postHash
+      parameters:
+        - name: path
+          in: body
+          required: true
+          description: Path Object
+          schema:
+            $ref: '#/definitions/HashdocumentRequest'
+      responses:
+        '200':
+          description: Created
+          schema:
+            $ref: '#/definitions/Hashdocument'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /hash/getHash:
+    get:
+      summary: Returns all hashdocuments
+      operationId: getHash
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/HashdocumentsList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/hash/getHashId/{id}':
+    get:
+      summary: Send id File for returns a hashdocument (path).
+      operationId: getHashId
+      parameters:
+        - name: id
+          in: path
+          description: The id of the product to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Hashdocument'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/hash/putHash/{id}':
+    put:
+      summary: Sends parameter for Updates a hashdocument.
+      operationId: updateHashdocument
+      parameters:
+        - name: id
+          in: path
+          description: The id of the hashdocument to be updated
+          required: true
+          type: string
+        - name: hashdocument
+          in: body
+          required: true
+          description: Product Object
+          schema:
+            $ref: '#/definitions/HashdocumentRequest'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/hash/deleteHash/{id}':
+    delete:
+      summary: Deletes a hasdocument with the given id
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          description: The id of the product to be deleted
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/hash/getHashByPath/{path}':
+    get:
+      summary: Returns a hashdocument with the given path
+      operationId: getHashdocumentByPath
+      parameters:
+        - name: path
+          in: path
+          description: The path of the hashdocument to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Hashdocument'
+        '400':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/showCategories/file/{id}':
+    get:
+      summary: Returns all categories for the file with the given id.
+      operationId: ShowCategories
+      parameters:
+        - name: id
+          in: path
+          description: The id of the file
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/File'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/categories/file/{id}':
+    delete:
+      summary: Delete the file from the database with the given id.
+      operationId: deleteAllCategories
+      parameters:
+        - name: id
+          in: path
+          description: The id of the file
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/File'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/showFiles/category/{category_name}':
+    get:
+      summary: Returns all the files that has the given category
+      operationId: GetFilesWithCategory
+      parameters:
+        - name: category_name
+          in: path
+          description: The name of the category
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/FilesList'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /addCategories:
+    post:
+      summary: Add the given categories to the file categories
+      operationId: AddCategories
+      parameters:
+        - name: id
+          in: body
+          required: true
+          description: File Object
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        '200':
+          description: Ok
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /removeCategories:
+    post:
+      summary: Remove the given categories from the file categories
+      operationId: RemoveCategories
+      parameters:
+        - name: id
+          in: body
+          required: true
+          description: File Object
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      email:
+        type: string
+      password:
+        type: string
+      password_confirmation:
+        type: string
+  UserLogInfo:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  UserEmail:
+    type: object
+    properties:
+      email:
+        type: string
+  XAUTHTOKEN:
+    type: object
+    properties:
+      AUTHTOKEN:
+        type: string
+  File:
+    type: object
+    properties:
+      file:
+        type: object
+  FilesList:
+    type: object
+    required:
+      - list
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/File'
+  upDownFile:
+    type: object
+    properties:
+      path:
+        type: string
+  Files:
+    type: object
+    properties:
+      file_id:
+        type: string
+  ShareCreate:
+    type: object
+    properties:
+      user_id:
+        type: string
+      file_id:
+        type: string
+  Share:
+    type: object
+    properties:
+      user_id:
+        type: string
+      files_id:
+        type: array
+        items:
+          $ref: '#/definitions/Files'
+      created_at:
+        type: string
+      updated_at:
+        type: string
+  ShareList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Share'
+  Hashdocument:
+    type: object
+    properties:
+      id:
+        type: integer
+      path:
+        type: string
+      createdDate:
+        type: object
+      updatedDate:
+        type: object
+  HashdocumentRequest:
+    type: object
+    properties:
+      path:
+        type: string
+  HashdocumentsList:
+    type: object
+    required:
+      - list
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Hashdocument'
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
