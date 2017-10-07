@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Mini-Drive</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_file_view">FileViewActivity</string>
+    <string name="email">Email</string>
+    <string name="signUp">Sign Up</string>
+    <string name="signIn">Sign In</string>
+    <string name="title_activity_share">ShareActivity</string>
+    <string name="title_activity_categories">CategoriesActivity</string>
+</resources>
