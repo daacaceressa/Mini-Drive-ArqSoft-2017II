@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Mini-Drive</string>
+    <string name="API_URL">http://35.194.35.218:3000</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="title_activity_file_view">FileViewActivity</string>
