@@ -19,7 +19,6 @@ class UserController < ApplicationController
 		end
 	end
 
-
 	def logOut
 		@token = request.headers['AUTHTOKEN']
 		options = {
@@ -31,7 +30,6 @@ class UserController < ApplicationController
 			}
 		}	
 		results = HTTParty.delete("http://192.168.99.102:3000/users/sign_out", options)
-		
 		if results.code == 200
 			response.headers['AUTHTOKEN']= ""	
 			render status: 200		
@@ -71,9 +69,7 @@ class UserController < ApplicationController
 			:headers => {
 				'Content-Type' => 'application/json'
 			}
-
 		}
-
 		results = HTTParty.post("http://192.168.99.102:3000/users/sign_in", options)
 		if results.code == 201
 			response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']

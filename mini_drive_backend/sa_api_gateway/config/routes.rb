@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
  
-	
 	# Users Microservice
 	
 	get "user/validate"
@@ -25,10 +24,9 @@ Rails.application.routes.draw do
  
 	# Share Microservice
 
-	get "share/getShares"
+	get "share/getMyShares"
 	post "share/postShares"
-	get "share/sharesById"
-	delete "share/deleteShare/:fileId", to: "share#deleteShare"
+	delete "share/deleteShare/:user_id/:file_id", to: "share#deleteShare"
 
 	# Hash Microservice
 
