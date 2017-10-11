@@ -5,7 +5,7 @@ class ShareController < ApplicationController
 	before_action :isOwner, only: [:postShares, :deleteShare]
 
 	def getShares
-		results = HTTParty.get(ApplicationController::BASE_IP + ":3002/shares")
+		results = HTTParty.get(BASE_IP + ":3002/shares")
 		render json: results.body, status: results.code
 	end
 
@@ -21,16 +21,16 @@ class ShareController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.post(ApplicationController::BASE_IP + ":3002/shares", options)
+		results = HTTParty.post(BASE_IP + ":3002/shares", options)
 		render status: results.code
 	end
 
 	def getMyShares
-		results = HTTParty.get(ApplicationController::BASE_IP + ":3002/shares/" + @@emailid)
+		results = HTTParty.get(BASE_IP + ":3002/shares/" + @@emailid)
 		if results.code == 200
 			paths = []
 			results["files_id"].each do |idHash|
-				cur_result = HTTParty.get(ApplicationController::BASE_IP + ":3003/hashdocuments/" + idHash.to_s)
+				cur_result = HTTParty.get(BASE_IP + ":3003/hashdocuments/" + idHash.to_s)
 				if cur_result.code == 200
 					paths.push( cur_result["path"] )
 				end
@@ -44,14 +44,14 @@ class ShareController < ApplicationController
 	def deleteShare
 		sharedTo = params[:user_id]
 		sharedFile = params[:file_id]
-		results = HTTParty.delete(ApplicationController::BASE_IP + ":3002/shares/" + sharedTo + "/" + sharedFile)
+		results = HTTParty.delete(BASE_IP + ":3002/shares/" + sharedTo + "/" + sharedFile)
 		render json: results.body, status: results.code
 	end
 
 	private
 		def isOwner
 			currentFile = params[:file_id]
-			results = HTTParty.get(ApplicationController::BASE_IP + ":3003/hashdocuments/getOwner/" + currentFile.to_s)
+			results = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwner/" + currentFile.to_s)
 			if results.code != 200 || @@emailid != results["owner"]
 				render status: 401
 			end
@@ -67,7 +67,7 @@ class ShareController < ApplicationController
 					'Content-Type' => 'application/json'
 				}
 			}	
-			results = HTTParty.get(ApplicationController::BASE_IP + ":3000/users/validate_token", options)
+			results = HTTParty.get(BASE_IP + ":3000/users/validate_token", options)
 			if results.code == 202
 				@@emailid = results['email']
 			else
