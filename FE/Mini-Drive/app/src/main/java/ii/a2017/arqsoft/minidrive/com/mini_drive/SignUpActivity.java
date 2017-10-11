@@ -1,6 +1,8 @@
 package ii.a2017.arqsoft.minidrive.com.mini_drive;
 
 import com.loopj.android.http.*;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,12 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -41,50 +48,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.signUpButton:
-                /*try {
-                    URL url = new URL( getString( R.string.API_URL ) + "/users" );
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestMethod( "POST" );
-                    urlConnection.setRequestProperty("email", email.toString());
-                    urlConnection.setRequestProperty("password", email.toString());
-                    urlConnection.setRequestProperty("password_confirmation", passwordConfirmation.toString());
-                    urlConnection.connect();
-                    Toast.makeText( getApplicationContext(), urlConnection.getResponseCode()+"", Toast.LENGTH_SHORT).show();
-                    if( urlConnection.getResponseCode() == 201 ){
-
-                    }
-                    else {
-
-                    }
-                    urlConnection.disconnect();
-                } catch (Exception e) {
-                    Toast.makeText( getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }*/
-                AsyncHttpClient client = new AsyncHttpClient();
-                client.get(getString( R.string.API_URL ), new AsyncHttpResponseHandler() {
-
+                RequestParams params = new RequestParams();
+                params.put("email", email.getText());
+                params.put("password", password.getText());
+                params.put("password_confirmation", passwordConfirmation.getText());
+                UserRestClient.createUser(params, new AsyncHttpResponseHandler() {
                     @Override
-                    public void onStart() {
-                        //Toast.makeText( getApplicationContext(), "Hola", Toast.LENGTH_SHORT).show();
-                        // called before request is started
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Toast.makeText( getApplicationContext(), "User created", Toast.LENGTH_SHORT).show();
+                        startActivity( new Intent( SignUpActivity.this, SignInActivity.class ) );
+                        finish();
                     }
 
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                        Toast.makeText( getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
-                        // called when response HTTP status is "200 OK"
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                        Toast.makeText( getApplicationContext(), "La puta que me pario", Toast.LENGTH_SHORT).show();
-                        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    }
-
-                    @Override
-                    public void onRetry(int retryNo) {
-                        // called when request is retried
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        if( statusCode == 400 ) {
+                            Toast.makeText(getApplicationContext(), "User already created or passwords do not match", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "There is an error in the server", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 break;
