@@ -2,6 +2,7 @@ package ii.a2017.arqsoft.minidrive.com.mini_drive;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 
@@ -12,6 +13,11 @@ public class FilesRestClient {
     public static void uploadFile(String AUTHTOKEN, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.addHeader("AUTHTOKEN", AUTHTOKEN);
         client.post(getAbsoluteUrl("/files/uploadFile"), params, responseHandler);
+    }
+
+    public static void listFiles(String AUTHTOKEN, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.addHeader("AUTHTOKEN", AUTHTOKEN);
+        client.get(getAbsoluteUrl("/files/listOfFiles"), params, responseHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

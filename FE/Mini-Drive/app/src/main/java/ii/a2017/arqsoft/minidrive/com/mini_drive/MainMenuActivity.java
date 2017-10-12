@@ -3,7 +3,9 @@ package ii.a2017.arqsoft.minidrive.com.mini_drive;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
@@ -11,10 +13,16 @@ import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -22,14 +30,18 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private Button mNewFileButton;
     private DialogProperties properties = new DialogProperties();
+    private ListView mFilesListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         setFilePickerProperties();
+        getAllFiles();
 
         mNewFileButton = (Button) findViewById(R.id.newFileButton);
+        mFilesListView = (ListView) findViewById(R.id.filesListView);
 
         mNewFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +63,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                     Toast.makeText(getApplicationContext(), "File uploaded.", Toast.LENGTH_SHORT).show();
+                                    getAllFiles();
                                 }
 
                                 @Override
@@ -66,6 +79,36 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getAllFiles() {
+        RequestParams params = new RequestParams();
+        final MiniDriveApplication app = (MiniDriveApplication) getApplication();
+        FilesRestClient.listFiles(app.getAUTHTOKEN(), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // If the response is JSONObject instead of expected JSONArray
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                // Pull out the first event on the public timeline
+                ArrayList<String> files = new ArrayList<>();
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject file = null;
+                    try {
+                        file = response.getJSONObject(i);
+                        files.add(file.getString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.item_category,files);
+                mFilesListView.setAdapter(adapter);
+
+                Toast.makeText(getApplicationContext(), "GOT them.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setFilePickerProperties() {
