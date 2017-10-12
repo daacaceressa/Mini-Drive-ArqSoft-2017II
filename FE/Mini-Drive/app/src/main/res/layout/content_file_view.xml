@@ -37,6 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add category"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="421dp" />
+        tools:layout_editor_absoluteX="129dp"
+        tools:layout_editor_absoluteY="391dp" />
 </android.support.constraint.ConstraintLayout>
