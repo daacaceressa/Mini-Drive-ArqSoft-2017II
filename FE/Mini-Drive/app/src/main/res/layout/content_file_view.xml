@@ -8,18 +8,6 @@
     tools:context="ii.a2017.arqsoft.minidrive.com.mini_drive.FileViewActivity"
     tools:showIn="@layout/activity_file_view">
 
-    <TextView
-        android:id="@+id/filenameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="File #1"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/pdfView"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="16dp" />
-
     <Button
         android:id="@+id/shareFileButton"
         android:layout_width="wrap_content"
@@ -29,7 +17,8 @@
         tools:layout_editor_absoluteY="350dp"
         android:layout_alignBaseline="@+id/editCategoryButon"
         android:layout_alignBottom="@+id/editCategoryButon"
-        android:layout_alignStart="@+id/filenameTextView" />
+        android:layout_toEndOf="@+id/pdfView"
+        android:layout_marginStart="16dp" />
 
     <Button
         android:id="@+id/editCategoryButon"

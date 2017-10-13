@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -19,8 +20,8 @@ import java.io.File;
 public class FileViewActivity extends AppCompatActivity {
 
     private String filename, filePath;
-    private TextView mFilenameTextView;
     private PDFView mPDFView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +30,7 @@ public class FileViewActivity extends AppCompatActivity {
         getFilename();
         getFilePath();
 
-        mFilenameTextView = (TextView) findViewById(R.id.filenameTextView);
-        mFilenameTextView.setText(filename);
+        this.setTitle(filename.substring(0, filename.length()-4));
 
         mPDFView = (PDFView) findViewById(R.id.pdfView);
         reinitPdfView();
