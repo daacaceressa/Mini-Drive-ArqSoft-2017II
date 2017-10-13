@@ -15,14 +15,13 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="22@bla.com" />
+        android:text="@string/email" />
 
     <EditText
         android:id="@+id/passwordSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:text="123456"
         android:inputType="textPassword" />
 
     <Button
