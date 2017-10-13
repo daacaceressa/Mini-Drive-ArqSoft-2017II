@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,29 +14,39 @@
         android:layout_height="wrap_content"
         android:text="File #1"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/pdfView"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/shareFileView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="231dp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Categories"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="314dp" />
+        android:text="@string/share"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="350dp"
+        android:layout_alignBaseline="@+id/categoryShareView"
+        android:layout_alignBottom="@+id/categoryShareView"
+        android:layout_alignStart="@+id/filenameTextView" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/categoryShareView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add category"
-        tools:layout_editor_absoluteX="129dp"
-        tools:layout_editor_absoluteY="391dp" />
-</android.support.constraint.ConstraintLayout>
+        android:text="@string/addCategory"
+        tools:layout_editor_absoluteX="241dp"
+        tools:layout_editor_absoluteY="350dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="34dp"
+        android:layout_alignBottom="@+id/pdfView"
+        android:layout_alignParentEnd="true" />
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="0dp"
+        android:layout_height="439dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp" />
+</RelativeLayout>

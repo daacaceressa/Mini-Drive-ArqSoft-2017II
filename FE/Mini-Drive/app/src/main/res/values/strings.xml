@@ -11,6 +11,8 @@
     <string name="files">Files</string>
     <string name="newFile">New file</string>
     <string name="categories">Categories</string>
+    <string name="addCategory">Add category</string>
+    <string name="share">Share</string>
     <string name="sortBy">Sort by</string>
     <string name="title_activity_share">ShareActivity</string>
     <string name="title_activity_categories">CategoriesActivity</string>

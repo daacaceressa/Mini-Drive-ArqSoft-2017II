@@ -1,6 +1,7 @@
 package ii.a2017.arqsoft.minidrive.com.mini_drive;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -24,7 +26,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -112,20 +118,82 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
 
                 mFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
-                        // TODO Auto-generated method stub
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String selected = (String) mFilesListView.getItemAtPosition(position);
-//                        Toast.makeText(MainMenuActivity.this, selected, Toast.LENGTH_SHORT).show();
+                        File folder = Environment.getExternalStorageDirectory();
+                        String fileName = folder.getPath() + "/mnt/sdcard/Downloads/" + selected;
 
-                        Intent showFileIntent = new Intent( MainMenuActivity.this, FileViewActivity.class );
-                        showFileIntent.putExtra("filename", selected);
-                        startActivity(showFileIntent);
-                        finish();
+                        File myFile = new File(fileName);
+                        if(myFile.exists())
+                            myFile.delete();
+                        downloadFile( selected );
                     }
                 });
             }
         });
+    }
+
+    private void downloadFile(final String selected ) {
+        FilesRestClient.downloadFile(((MiniDriveApplication) this.getApplication()).getAUTHTOKEN(), selected, new RequestParams(), new FileAsyncHttpResponseHandler(this) {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                if (statusCode == 404) {
+                    Toast.makeText(getApplicationContext(), "File does not exist", Toast.LENGTH_SHORT).show();
+                } else if( statusCode == 406 ){
+                    Toast.makeText(getApplicationContext(), "There is an error with the file name", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "There is an error in the server", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File file) {
+                File folder = Environment.getExternalStorageDirectory();
+                folder = new File( folder.getPath() + "/mnt/sdcard/Downloads/" + selected );
+                try {
+                    OutputStream out = new FileOutputStream(folder);
+                    out.write( fileToBytes(file) );
+                    out.close();
+                    Intent showFileIntent = new Intent( MainMenuActivity.this, FileViewActivity.class );
+                    showFileIntent.putExtra("filename", selected);
+                    showFileIntent.putExtra("filepath", folder.getAbsolutePath());
+                    startActivity(showFileIntent);
+                    finish();
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "File Not Found Exception", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    byte[] fileToBytes(File f) throws IOException {
+        int size = (int) f.length();
+        byte bytes[] = new byte[size];
+        byte tmpBuff[] = new byte[size];
+        FileInputStream fis= new FileInputStream(f);;
+        try {
+
+            int read = fis.read(bytes, 0, size);
+            if (read < size) {
+                int remain = size - read;
+                while (remain > 0) {
+                    read = fis.read(tmpBuff, 0, remain);
+                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
+                    remain -= read;
+                }
+            }
+        }  catch (IOException e){
+            throw e;
+        } finally {
+            fis.close();
+        }
+
+        return bytes;
     }
 
     private void setFilePickerProperties() {
