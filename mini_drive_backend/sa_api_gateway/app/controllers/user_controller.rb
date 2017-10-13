@@ -10,7 +10,7 @@ class UserController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.get("http://192.168.99.102:3000/users/validate_token", options)
+		results = HTTParty.get(BASE_IP + ":3000/users/validate_token", options)
 		if results.code == 202
 			render results['email'], status: results.code
 		else
@@ -18,7 +18,6 @@ class UserController < ApplicationController
 			render status: 401
 		end
 	end
-
 
 	def logOut
 		@token = request.headers['AUTHTOKEN']
@@ -30,8 +29,7 @@ class UserController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.delete("http://192.168.99.102:3000/users/sign_out", options)
-		
+		results = HTTParty.delete(BASE_IP + ":3000/users/sign_out", options)
 		if results.code == 200
 			response.headers['AUTHTOKEN']= ""	
 			render status: 200		
@@ -56,7 +54,7 @@ class UserController < ApplicationController
 			}
 
 		}
-		results = HTTParty.post("http://192.168.99.102:3000/users", options)
+		results = HTTParty.post(BASE_IP + ":3000/users", options)
 		render json: results.body, status: results.code
 	end
 
@@ -71,10 +69,8 @@ class UserController < ApplicationController
 			:headers => {
 				'Content-Type' => 'application/json'
 			}
-
 		}
-
-		results = HTTParty.post("http://192.168.99.102:3000/users/sign_in", options)
+		results = HTTParty.post(BASE_IP + ":3000/users/sign_in", options)
 		if results.code == 201
 			response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']
 		end

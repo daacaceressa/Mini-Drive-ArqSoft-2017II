@@ -65,7 +65,29 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-
+  /hashdocuments/getOwner/{id}:
+    get:
+      summary: Returns the owner for the given id
+      operationId: getOwner
+      parameters:
+        - name: id
+          in: path
+          description: The id of the file to query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/DocumentOwner'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
   /hashdocuments/{id}:
     get:
       summary: Returns a hashdocument (path) with the given id
@@ -153,7 +175,7 @@ paths:
   /hashdocuments/getByPath:
     get:
       summary: Returns a hashdocument with the given path
-      operationId: getHashdocumentByPath
+      operationId: getByPath
       parameters:
         - name: path
           in: query
@@ -174,6 +196,11 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
 definitions:
+  DocumentOwner:
+    type: object
+    properties:
+      owner:
+        type: string
 # Hashdocument
   Hashdocument:
     type: object
