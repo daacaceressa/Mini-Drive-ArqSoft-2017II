@@ -8,7 +8,7 @@ class CategorizeController < ApplicationController
 
 	def showCategories
 		fileId = params[:file_id]
-		resultCategories = HTTParty.get("http://192.168.99.102:3001/files/" + fileId.to_s)
+		resultCategories = HTTParty.get(BASE_IP + ":3001/files/" + fileId.to_s)
 		render json: resultCategories.body, status: resultCategories.code
 	end
 
@@ -37,13 +37,13 @@ class CategorizeController < ApplicationController
 
 	def deleteAllCategories
 		fileId = params[:file_id]
-		results = HTTParty.delete("http://192.168.99.102:3001/files/" + fileId.to_s)
+		results = HTTParty.delete(BASE_IP + ":3001/files/" + fileId.to_s)
 		render json: results.body, status: results.code
 	end
 
 	def getFilesWithCategory
 		categoryName = params[:category_name]
-		resultFiles = HTTParty.get("http://192.168.99.102:3001/category/" + categoryName.to_s)
+		resultFiles = HTTParty.get(BASE_IP + ":3001/category/" + categoryName.to_s)
 		render json: resultFiles.body, status: resultFiles.code
 	end
 
@@ -59,7 +59,7 @@ class CategorizeController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.post("http://192.168.99.102:3001/addCategories", options)
+		results = HTTParty.post(BASE_IP + ":3001/addCategories", options)
 		render json: results.body, status: results.code
 	end
 
@@ -75,8 +75,8 @@ class CategorizeController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.post("http://192.168.99.102:3001/removeCategories", options)
+		results = HTTParty.post(BASE_IP + ":3001/removeCategories", options)
 		render json: results.body, status: results.code
 	end
-
+	
 end

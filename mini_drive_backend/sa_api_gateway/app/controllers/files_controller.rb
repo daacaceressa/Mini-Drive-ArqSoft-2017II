@@ -16,15 +16,15 @@ class FilesController < ApplicationController
 		#nameFile = "Incapacidad.pdf"
 		#@@emailid = "1"
 		File.open(@@file_directory + nameFile, "wb") do |f|
-			f.write HTTParty.get("http://192.168.99.102:3004/downloadFile/" + @@emailid.to_s + "/" + nameFile).parsed_response
+			f.write HTTParty.get(BASE_IP + ":3004/downloadFile/" + @@emailid.to_s + "/" + nameFile).parsed_response
 		end
 		send_file (@@file_directory + nameFile)
 	end
 
 	def listOfFiles
 		#TODO: This method is not working.
-		results = HTTParty.get("http://192.168.99.102:3004/listOfFiles/" + @@emailid.to_s).parsed_response
-		#results = HTTParty.get("http://192.168.99.102:8009/listOfFiles/1").parsed_response
+		results = HTTParty.get(BASE_IP + ":3004/listOfFiles/" + @@emailid.to_s).parsed_response
+		#results = HTTParty.get(BASE_IP + ":8009/listOfFiles/1").parsed_response
 		#render json: @@emailid
 		render json: results
 	end
@@ -40,7 +40,7 @@ class FilesController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}
-		results = HTTParty.post("http://192.168.99.102:3003/hashdocuments", options).parsed_response
+		results = HTTParty.post(BASE_IP + ":3003/hashdocuments", options).parsed_response
 		render json: results
 	end
 
@@ -61,20 +61,20 @@ class FilesController < ApplicationController
 		postHash(nameF)
 		request = RestClient::Request.new(
 			:method => :post,
-			:url => "http://192.168.99.102:3004/uploadFile/" + @@emailid,
+			:url => BASE_IP + ":3004/uploadFile/" + @@emailid,
 			#:user => email,
 			:payload => {
 				:multipart => true,
 				:file => archivo
 			})      
 		response = request.execute
-		#results = HTTParty.post("http://192.168.99.102:8009/uploadFile/"+ userid.to_s, options)
+		#results = HTTParty.post(BASE_IP + ":8009/uploadFile/"+ userid.to_s, options)
 		#TODO: Use the response to send a status to the user.
 	end
 
 	def delFile
 		nameFile = params[:filename].to_s + ".pdf"
-		results = HTTParty.get("http://192.168.99.102:3004/deleteFile/" + @@emailid.to_s + "/" + nameFile)
+		results = HTTParty.get(BASE_IP + ":3004/deleteFile/" + @@emailid.to_s + "/" + nameFile)
 		render json: (@@emailid.to_s + "/" + nameFile).to_json
 		#render json: results.code
 	end

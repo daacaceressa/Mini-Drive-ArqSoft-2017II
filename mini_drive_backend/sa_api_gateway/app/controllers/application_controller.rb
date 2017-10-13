@@ -4,11 +4,12 @@ class ApplicationController < ActionController::API
 
   helper_method :isOwner, :authenticate
 
+  BASE_IP = "http://192.168.99.102";
   @@emailid = ""
 
   def isOwner
     currentFile = params[:file_id]
-    results = HTTParty.get("http://192.168.99.102:3003/hashdocuments/getOwner/" + currentFile.to_s)
+    results = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwner/" + currentFile.to_s)
     if results.code != 200 || @@emailid != results["owner"]
       render status: 401
     end
@@ -24,7 +25,7 @@ class ApplicationController < ActionController::API
         'Content-Type' => 'application/json'
       }
     } 
-    results = HTTParty.get("http://192.168.99.102:3000/users/validate_token", options)
+    results = HTTParty.get(BASE_IP + ":3000/users/validate_token", options)
     if results.code == 202
       @@emailid = results['email']
     else

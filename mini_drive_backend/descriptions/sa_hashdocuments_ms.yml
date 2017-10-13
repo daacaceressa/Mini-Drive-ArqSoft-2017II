@@ -228,7 +228,7 @@ definitions:
       list:
         type: array
         items:
-          type: integer
+          type: integer 
 # Hashdocument
   Hashdocument:
     type: object
