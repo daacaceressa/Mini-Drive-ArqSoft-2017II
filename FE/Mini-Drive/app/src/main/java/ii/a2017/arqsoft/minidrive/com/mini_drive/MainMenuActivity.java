@@ -1,5 +1,6 @@
 package ii.a2017.arqsoft.minidrive.com.mini_drive;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,9 +27,9 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MainMenuActivity extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button mNewFileButton;
+    private Button mNewFileButton, signOutButton;
     private DialogProperties properties = new DialogProperties();
     private ListView mFilesListView;
 
@@ -42,6 +43,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
         mNewFileButton = (Button) findViewById(R.id.newFileButton);
         mFilesListView = (ListView) findViewById(R.id.filesListView);
+        signOutButton = (Button) findViewById(R.id.signOutMain);
+        signOutButton.setOnClickListener(this);
 
         mNewFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +81,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
 
     }
 
@@ -118,5 +122,31 @@ public class MainMenuActivity extends AppCompatActivity {
         properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.signOutMain:
+                UserRestClient.logOut(((MiniDriveApplication) this.getApplication()).getAUTHTOKEN(), new RequestParams(), new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainMenuActivity.this, SignInActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        if (statusCode == 400) {
+                            Toast.makeText(getApplicationContext(), "There was a problem", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), statusCode+"", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                break;
+        }
     }
 }

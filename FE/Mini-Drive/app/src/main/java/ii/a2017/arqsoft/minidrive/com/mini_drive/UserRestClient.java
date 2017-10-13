@@ -16,6 +16,11 @@ class UserRestClient extends AppCompatActivity {
         client.post(getAbsoluteUrl("/user/loginUser"), params, responseHandler);
     }
 
+    public static void logOut(String AUTHTOKEN, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.addHeader("AUTHTOKEN", AUTHTOKEN);
+        client.delete(getAbsoluteUrl("/user/logOut"), params, responseHandler);
+    }
+
     //Example for adding headers, not really used in application
     public static void validate(String AUTHTOKEN, RequestParams params, AsyncHttpResponseHandler responseHandler ) {
         client.addHeader("AUTHTOKEN", AUTHTOKEN);

@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Files"
+        android:text="@string/files"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp" />
 
@@ -18,7 +18,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categories"
+        android:text="@string/categories"
         tools:layout_editor_absoluteX="16dp"
         android:layout_marginTop="42dp"
         app:layout_constraintTop_toBottomOf="@+id/filesListView" />
@@ -27,39 +27,51 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sort by"
+        android:text="@string/sortBy"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/filesListView"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintHorizontal_bias="0.828" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/signOutMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign out"
+        android:text="@string/signOut"
         app:layout_constraintLeft_toRightOf="@+id/filesListView"
-        android:layout_marginLeft="52dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-
-    <ListView
-        android:id="@+id/filesListView"
-        android:layout_width="239dp"
-        android:layout_height="284dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="21dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.68" />
 
     <Button
         android:id="@+id/newFileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New File"
+        android:text="@string/newFile"
         app:layout_constraintLeft_toRightOf="@+id/filesListView"
-        android:layout_marginLeft="52dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/signOutMain"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.68"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="327dp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ListView
+        android:id="@+id/filesListView"
+        android:layout_width="221dp"
+        android:layout_height="278dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </android.support.constraint.ConstraintLayout>
