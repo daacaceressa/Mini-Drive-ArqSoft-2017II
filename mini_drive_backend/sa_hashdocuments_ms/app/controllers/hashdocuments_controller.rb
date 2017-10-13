@@ -36,6 +36,15 @@ class HashdocumentsController < ApplicationController
     end
   end
 
+  def getOwnFiles
+    files = Hashdocument.where("path LIKE ?", "#{params[:id]}%")
+    ownFiles = []
+    files.each do |register|
+      ownFiles.push( register["id"] )
+    end
+    render json: {total: ownFiles.length, filesId: ownFiles}, status: 200
+  end
+
   def getOwner
     if @hashdocument.nil?
       render status: 404

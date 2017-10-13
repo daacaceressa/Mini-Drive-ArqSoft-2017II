@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 	get '/showFiles/category/:category_name', to: 'categorize#getFilesWithCategory'
 	post '/addCategories/:file_id', to: 'categorize#addCategories'
 	post '/removeCategories/:file_id', to: 'categorize#removeCategories'
+	get 'categories/getOwnCategories', to: 'categorize#getOwnCategories'
  
 	# Share Microservice
 

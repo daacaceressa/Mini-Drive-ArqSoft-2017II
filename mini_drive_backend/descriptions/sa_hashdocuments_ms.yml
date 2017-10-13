@@ -65,6 +65,25 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
+  /hashdocuments/getOwnFiles/{id}:
+    get:
+      summary: Returns the files associated to the given id
+      operationId: getOwnFiles
+      parameters:
+        - name: id
+          in: path
+          description: The user id to query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/FileList'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
   /hashdocuments/getOwner/{id}:
     get:
       summary: Returns the owner for the given id
@@ -201,6 +220,15 @@ definitions:
     properties:
       owner:
         type: string
+  FileList:
+    type: object
+    properties:
+      total: 
+        type: integer
+      list:
+        type: array
+        items:
+          type: integer
 # Hashdocument
   Hashdocument:
     type: object

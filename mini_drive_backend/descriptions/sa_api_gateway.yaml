@@ -436,6 +436,25 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
+  /categories/getOwnCategories/{id}:
+    get:
+      summary: Get all categories for a given user
+      operationId: getOwnCategories
+      parameters:
+        - name: id
+          in: path
+          description: The user id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/CategoriesList'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
   /categories/file/{id}:
     delete:
       summary: Delete the file from the database with the given id.
@@ -636,6 +655,15 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Hashdocument'
+  CategoriesList:
+    type: object
+    properties:
+      total: 
+        type: integer
+      categories:
+        type: array
+        items:
+          type: string
   ErrorModel:
     type: object
     required:
