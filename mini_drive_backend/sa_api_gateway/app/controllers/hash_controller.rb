@@ -39,7 +39,7 @@ class HashController < ApplicationController
 		fileName = params[:fileName].to_s + ".pdf"
 		path = @@emailid + "/" + fileName
 		#render json: path.to_json
-		results = HTTParty.get(BASE_IP + ":3003/hashdocuments/getByPath?path=" + path).parsed_response
+		results = HTTParty.get(BASE_IP + ":3003/hashdocuments/getByPath/?path=" + path).parsed_response
 		#return results
 		render json: results
 	end
@@ -67,36 +67,6 @@ class HashController < ApplicationController
 		#return results
 		render status: 200
 	end
-<<<<<<< HEAD
 	
-=======
-
-	private
-		def isOwner
-			currentFile = params[:file_id]
-			results = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwner/" + currentFile.to_s)
-			if results.code != 200 || @@emailid != results["owner"]
-				render status: 401
-			end
-		end
-
-		def validate
-			@token = request.headers['AUTHTOKEN']
-			options = {
-				:body => {
-					:X_AUTH_TOKEN => @token
-				}.to_json,
-				:headers => {
-					'Content-Type' => 'application/json'
-				}
-			}	
-			results = HTTParty.get(BASE_IP + ":3000/users/validate_token", options)
-			if results.code == 202
-				@@emailid = results['email']
-			else
-				render status: 401
-			end
-		end
->>>>>>> 52652b801da54dac088efe2e4d71a0f08f8e814f
 end
 

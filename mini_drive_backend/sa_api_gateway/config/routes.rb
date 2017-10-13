@@ -20,7 +20,9 @@ Rails.application.routes.draw do
 	delete '/categories/file/:file_id', to:'categorize#deleteAllCategories'
 	get '/showFiles/category/:category_name', to: 'categorize#getFilesWithCategory'
 	post '/addCategories/:file_id', to: 'categorize#addCategories'
+	post '/addCategory/:file_id', to: 'categorize#addCategory'
 	post '/removeCategories/:file_id', to: 'categorize#removeCategories'
+	post '/removeCategory/:file_id', to: 'categorize#removeCategory'
 	get 'categories/getOwnCategories', to: 'categorize#getOwnCategories'
  
 	# Share Microservice

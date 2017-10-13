@@ -4,7 +4,7 @@ class CategorizeController < ApplicationController
 
 	@@emailid = ""
 	before_action :authenticate
-	before_action :isOwner, only: [:deleteAllCategories, :addCategories, :removeCategories]
+	#before_action :isOwner, only: [:deleteAllCategories, :addCategories, :removeCategories]
 
 	def showCategories
 		fileId = params[:file_id]
@@ -13,18 +13,18 @@ class CategorizeController < ApplicationController
 	end
 
 	def getOwnCategories
-		sharedFiles = HTTParty.get("http://192.168.99.102:3002/shares/" + @@emailid)
-		ownedFiles = HTTParty.get("http://192.168.99.102:3003/hashdocuments/getOwnFiles/" + @@emailid)
+		sharedFiles = HTTParty.get(BASE_IP + ":3002/shares/" + @@emailid)
+		ownedFiles = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwnFiles/" + @@emailid)
 		categories = []
 		sharedFiles["files_id"].each do |fileId|
-			currentCategories = HTTParty.get("http://192.168.99.102:3001/files/" + fileId.to_s)
+			currentCategories = HTTParty.get(BASE_IP+":3001/files/" + fileId.to_s)
 			unless currentCategories["categories"].nil?
 				categories += currentCategories["categories"]
 			end
 		end
 		if ownedFiles["total"] > 0
 			ownedFiles["filesId"].each do |fileId|
-				currentCategories = HTTParty.get("http://192.168.99.102:3001/files/" + fileId.to_s)
+				currentCategories = HTTParty.get(BASE_IP + ":3001/files/" + fileId.to_s)
 				unless currentCategories["categories"].nil?
 					categories += currentCategories["categories"]
 				end
@@ -63,9 +63,41 @@ class CategorizeController < ApplicationController
 		render json: results.body, status: results.code
 	end
 
+	def addCategory
+		fileId = params[:file_id]
+		categories = [ params[:category] ]
+		options = {
+			:body => {
+				:id => fileId,
+				:categories => categories
+			}.to_json,
+			:headers => {
+				'Content-Type' => 'application/json'
+			}
+		}	
+		results = HTTParty.post(BASE_IP + ":3001/addCategories", options)
+		render json: results.body, status: results.code
+	end
+
 	def removeCategories
 		fileId = params[:file_id]
 		categories = params[:categories]
+		options = {
+			:body => {
+				:id => fileId,
+				:categories => categories
+			}.to_json,
+			:headers => {
+				'Content-Type' => 'application/json'
+			}
+		}	
+		results = HTTParty.post(BASE_IP + ":3001/removeCategories", options)
+		render json: results.body, status: results.code
+	end
+
+	def removeCategory
+		fileId = params[:file_id]
+		categories = [ params[:category] ]
 		options = {
 			:body => {
 				:id => fileId,

@@ -16,7 +16,7 @@ class HashdocumentsController < ApplicationController
   def getByPath
     @hashdocument = Hashdocument.find_by_path(params[:path])
     if @hashdocument.nil?
-      render status: 400
+      render json: {"status" => 400, "message" => "invalid path", "bad request" => 'not found results'}, status: 400
     else
       render json: @hashdocument
     end

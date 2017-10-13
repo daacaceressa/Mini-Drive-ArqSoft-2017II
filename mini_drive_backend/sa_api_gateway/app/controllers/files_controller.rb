@@ -11,14 +11,14 @@ class FilesController < ApplicationController
 		#TODO: Ask Leo how to get the file extension.
 		#TODO: Manage File not found.
 		#TODO: Check if the file has been shared with me or I'm owner
-		nameFile = params[:filename].to_s + ".pdf"
+		path = params[:path]
 		#extension = nombre.slice(nombre.rindex("."), nombre.length).downcase;
 		#nameFile = "Incapacidad.pdf"
 		#@@emailid = "1"
 		File.open(@@file_directory + nameFile, "wb") do |f|
-			f.write HTTParty.get(BASE_IP + ":3004/downloadFile/" + @@emailid.to_s + "/" + nameFile).parsed_response
+			f.write HTTParty.get(BASE_IP + ":3004/downloadFile/" + path.to_s).parsed_response
 		end
-		send_file (@@file_directory + nameFile)
+		send_file (@@file_directory + path)
 	end
 
 	def listOfFiles
