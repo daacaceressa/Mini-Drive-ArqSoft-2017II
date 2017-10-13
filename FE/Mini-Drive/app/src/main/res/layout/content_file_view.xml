@@ -21,18 +21,18 @@
         android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/shareFileView"
+        android:id="@+id/shareFileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/share"
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="350dp"
-        android:layout_alignBaseline="@+id/categoryShareView"
-        android:layout_alignBottom="@+id/categoryShareView"
+        android:layout_alignBaseline="@+id/editCategoryButon"
+        android:layout_alignBottom="@+id/editCategoryButon"
         android:layout_alignStart="@+id/filenameTextView" />
 
     <Button
-        android:id="@+id/categoryShareView"
+        android:id="@+id/editCategoryButon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/addCategory"

@@ -30,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
@@ -149,51 +150,26 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File file) {
-                File folder = Environment.getExternalStorageDirectory();
-                folder = new File( folder.getPath() + "/mnt/sdcard/Downloads/" + selected );
+                File folder = new File(getExternalCacheDir(), "Files");
+                if (!folder.exists()) {
+                    System.out.println("Yes");
+                    folder.mkdirs();
+                }
+
+                File downloadedFile = new File(folder, file.getName());
+                System.out.println(file.getName());
                 try {
-                    OutputStream out = new FileOutputStream(folder);
-                    out.write( fileToBytes(file) );
-                    out.close();
+                    copyFile(file, downloadedFile);
                     Intent showFileIntent = new Intent( MainMenuActivity.this, FileViewActivity.class );
                     showFileIntent.putExtra("filename", selected);
-                    showFileIntent.putExtra("filepath", folder.getAbsolutePath());
+                    showFileIntent.putExtra("filePath", downloadedFile.getAbsolutePath());
                     startActivity(showFileIntent);
-                    finish();
-                } catch (FileNotFoundException e) {
-                    Toast.makeText(getApplicationContext(), "File Not Found Exception", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "IOException", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error downloading the file.", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
         });
-    }
-
-    byte[] fileToBytes(File f) throws IOException {
-        int size = (int) f.length();
-        byte bytes[] = new byte[size];
-        byte tmpBuff[] = new byte[size];
-        FileInputStream fis= new FileInputStream(f);;
-        try {
-
-            int read = fis.read(bytes, 0, size);
-            if (read < size) {
-                int remain = size - read;
-                while (remain > 0) {
-                    read = fis.read(tmpBuff, 0, remain);
-                    System.arraycopy(tmpBuff, 0, bytes, size - remain, read);
-                    remain -= read;
-                }
-            }
-        }  catch (IOException e){
-            throw e;
-        } finally {
-            fis.close();
-        }
-
-        return bytes;
     }
 
     private void setFilePickerProperties() {
@@ -230,4 +206,24 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
+
+    public static void copyFile(File src, File dst) throws IOException {
+        InputStream in = new FileInputStream(src);
+        try {
+            OutputStream out = new FileOutputStream(dst);
+            try {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                out.close();
+            }
+        } finally {
+            in.close();
+        }
+    }
+
 }
