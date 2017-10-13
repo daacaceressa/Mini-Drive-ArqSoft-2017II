@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
@@ -81,8 +83,6 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
                 dialog.show();
             }
         });
-
-
     }
 
     private void getAllFiles() {
@@ -110,7 +110,20 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
                 ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.item_category,files);
                 mFilesListView.setAdapter(adapter);
 
-                Toast.makeText(getApplicationContext(), "GOT them.", Toast.LENGTH_SHORT).show();
+                mFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        // TODO Auto-generated method stub
+                        String selected = (String) mFilesListView.getItemAtPosition(position);
+//                        Toast.makeText(MainMenuActivity.this, selected, Toast.LENGTH_SHORT).show();
+
+                        Intent showFileIntent = new Intent( MainMenuActivity.this, FileViewActivity.class );
+                        showFileIntent.putExtra("filename", selected);
+                        startActivity(showFileIntent);
+                        finish();
+                    }
+                });
             }
         });
     }
