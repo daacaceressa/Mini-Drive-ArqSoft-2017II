@@ -507,6 +507,41 @@ paths:
           required: true
           description: File Object
           type: string
+        - name: categories
+          in: body
+          required: true
+          description: String Object
+          schema:
+            $ref: '#/definitions/MultiCategories'
+      responses:
+        '200':
+          description: Ok
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /addCategory/{id}:
+    post:
+      summary: Add the given category to the file categories
+      operationId: AddCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: File Object
+          type: string
+        - name: category
+          in: body
+          required: true
+          description: String Object
+          schema:
+            $ref: '#/definitions/SingleCategory'
       responses:
         '200':
           description: Ok
@@ -530,6 +565,12 @@ paths:
           required: true
           description: File Object
           type: string
+        - name: categories
+          in: body
+          required: true
+          description: String Object
+          schema:
+            $ref: '#/definitions/MultiCategories'
       responses:
         '200':
           description: Ok
@@ -539,6 +580,35 @@ paths:
             $ref: '#/definitions/ErrorModel'
         '404':
           description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /removeCategory/{id}:
+    post:
+      summary: Add the given category to the file categories
+      operationId: RemoveCategory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: File Object
+          type: string
+        - name: category
+          in: body
+          required: true
+          description: String Object
+          schema:
+            $ref: '#/definitions/SingleCategory'
+      responses:
+        '200':
+          description: Ok
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
           schema:
             $ref: '#/definitions/ErrorModel'
         '500':
@@ -660,6 +730,18 @@ definitions:
     properties:
       total: 
         type: integer
+      categories:
+        type: array
+        items:
+          type: string
+  SingleCategory:
+    type: object
+    properties:
+      category:
+        type: string
+  MultiCategories:
+    type: object
+    properties:
       categories:
         type: array
         items:
