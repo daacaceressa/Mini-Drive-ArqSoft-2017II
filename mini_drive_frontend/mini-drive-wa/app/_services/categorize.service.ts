@@ -32,5 +32,15 @@ export class CategorizeService {
     }
 
 
+    getFilesByCategory(category: String){
+        console.log("inicio getFilesByCategory ")
 
+        let auth_token = localStorage.getItem('authtoken');
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authtoken' , auth_token);
+        const options = new RequestOptions({ headers: headers });
+
+        console.log("inicio llamado al servicio getFilesByCategory");
+        return this.http.get('http://192.168.99.102:4000/showFiles/category/' + category, options).map((response: Response) => response.json());
+    }
 }

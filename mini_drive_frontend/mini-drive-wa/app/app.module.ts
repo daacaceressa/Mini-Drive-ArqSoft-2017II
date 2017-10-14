@@ -21,6 +21,8 @@ import { FileService } from "./_services/file.service";
 import { HashService } from "./_services/hash.service";
 import { CategorizeService } from "./_services/categorize.service";
 import { AddCategoriesComponent } from './add-categories/add-categories.component';
+import { ViewCategoriesComponent } from './view-categories/view-categories.component';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -34,7 +36,8 @@ import { AddCategoriesComponent } from './add-categories/add-categories.componen
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        AddCategoriesComponent
+        AddCategoriesComponent,
+        ViewCategoriesComponent
     ],
     providers: [
         AuthGuard,

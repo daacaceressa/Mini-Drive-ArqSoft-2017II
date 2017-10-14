@@ -5,7 +5,7 @@ import { UserService } from '../_services/index';
 import { FileService } from "../_services/index";
 import { HashService } from "../_services/index";
 import { MyFileOfList } from '../_models/index';
-import {CategorizeService} from "../_services/categorize.service";
+import { CategorizeService } from "../_services/categorize.service";
 
 
 @Component({

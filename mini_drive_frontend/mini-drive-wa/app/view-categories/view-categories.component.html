@@ -1,0 +1,17 @@
+<p>
+  view-categories works!
+</p>
+
+<input [(ngModel)]="category" type="text">
+
+<button type="submit" (click)="getFilesOfCategory(category)">Clic Aquí</button>
+
+<h1>Hi Amigos!</h1>
+<p>You're logged in with Angular 2!!</p>
+<h3>My Files :</h3>
+
+<tr *ngFor=" let file of files">
+  <td>{{file.id}}</td>
+  <td>{{file.name}}</td>
+  <td>{{file.path}}</td>
+</tr>
