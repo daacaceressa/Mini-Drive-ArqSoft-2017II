@@ -1,0 +1,14 @@
+  <table class="table table-hover">
+      <tr *ngFor="let d of data | async">
+      <td>
+        <h3>Id: {{d.id}}</h3>
+      </td>
+      <td>
+        <a href="{{d.path}}">
+        <h3>name: {{d.name}}</h3>
+        </a>
+      </td>
+    </tr>
+  </table>
+
+

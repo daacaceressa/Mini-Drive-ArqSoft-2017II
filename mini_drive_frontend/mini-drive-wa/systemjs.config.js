@@ -25,7 +25,8 @@
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
             // other libraries
-            'rxjs': 'npm:rxjs'
+            'rxjs': 'npm:rxjs',
+            'ngx-dropzone-wrapper': 'npm:ngx-dropzone-wrapper/bundles/ngx-dropzone-wrapper.umd.js',
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -34,6 +35,7 @@
                 defaultExtension: 'js'
             },
             rxjs: {
+                main: './Rx.js',
                 defaultExtension: 'js'
             }
         }
