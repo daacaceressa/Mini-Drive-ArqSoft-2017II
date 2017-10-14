@@ -10,6 +10,7 @@
         <td>{{file.id}}</td>
         <td>{{file.name}}</td>
         <td>{{file.path}}</td>
+        <td><button type="button" (click)="clickButton()">Click Me!</button></td>
     </tr>
     <!--
     <ul>
@@ -19,5 +20,8 @@
         </li>
     </ul>
     -->
+
+
     <p><a [routerLink]="['/login']">Logout</a></p>
 </div>
+

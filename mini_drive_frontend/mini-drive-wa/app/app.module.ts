@@ -18,7 +18,8 @@ import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import {FileService} from "./_services/file.service";
-
+import {HashService} from "./_services/hash.service";
+import {CategorizeService} from "./_services/categorize.service";
 @NgModule({
     imports: [
         BrowserModule,
@@ -39,6 +40,8 @@ import {FileService} from "./_services/file.service";
         AuthenticationService,
         UserService,
         FileService,
+        HashService,
+        CategorizeService,
 
         // providers used to create fake backend
         fakeBackendProvider,

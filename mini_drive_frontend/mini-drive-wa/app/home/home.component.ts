@@ -3,7 +3,9 @@
 import { User } from '../_models/index';
 import { UserService } from '../_services/index';
 import { FileService } from "../_services/index";
+import { HashService } from "../_services/index";
 import { MyFileOfList } from '../_models/index';
+import {CategorizeService} from "../_services/categorize.service";
 
 
 @Component({
@@ -15,10 +17,15 @@ export class HomeComponent implements OnInit {
     currentUser: User;
     users: User[] = [];
     public errorMessage: string;
-    files : MyFileOfList[] = [];
+    files: MyFileOfList[] = [];
+
+    private MyHash = new Object();
 
 
-    constructor(private userService: UserService, private fileService: FileService) {
+
+
+    constructor(private userService: UserService, private fileService: FileService,
+                private hashService: HashService, private categorize: CategorizeService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
@@ -59,14 +66,26 @@ export class HomeComponent implements OnInit {
 
         // metodo encargado de acortar el path del archivo y ajustar la lista files en este componente
         for (let file of this.files) {
-            var re = 'files/';
-            var str = file.path;
-            console.log('origin' + str)
-            var newstr = str.replace(re, '');
-            console.log(newstr)
-            file.path = newstr;
-        }
-        console.log(this.files);
+            //var re = 'files/';
+            let str = file.path;
+            console.log('origin!!!!' + str)
+            //var newstr = str.replace(re, '');
+            let splitted = str.split("/");
+            console.log("Separados" + splitted[2])
+            //file.id = splitted[2]
 
+            this.hashService.getHashByPath(splitted[2]).subscribe(
+
+                data => {
+                    this.MyHash = data;
+                    console.log(this.MyHash["id"]);
+                    file.id=this.MyHash["id"];
+                    //return this.files;
+                },
+                error =>  this.errorMessage = <any>error
+            )   //console.log("este es el hash: " + hash["id"])
+        }
+        //console.log(this.files);
     }
+
 }
