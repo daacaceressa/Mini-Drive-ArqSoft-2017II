@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     private Button mNewFileButton, signOutButton;
     private DialogProperties properties = new DialogProperties();
     private ListView mFilesListView;
+    private LinearLayout mShowCategoriesLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,10 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         mNewFileButton = (Button) findViewById(R.id.newFileButton);
         mFilesListView = (ListView) findViewById(R.id.filesListView);
         signOutButton = (Button) findViewById(R.id.signOutMain);
+        mShowCategoriesLinearLayout = (LinearLayout) findViewById(R.id.showCategoriesLinearLayout);
+
         signOutButton.setOnClickListener(this);
+        initCategoriesMenu();
 
         mNewFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +97,32 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    private void initCategoriesMenu() {
+        RequestParams params = new RequestParams();
+        final MiniDriveApplication app = (MiniDriveApplication) getApplication();
+        CategoriesRestClient.getAllUserCategories(app.getAUTHTOKEN(), params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                ArrayList<String> categories = new ArrayList<>();
+                System.out.println(response);
+                try {
+                    JSONArray tmp = response.getJSONArray("categories");
+                    for (int i = 0; i < tmp.length(); i++) {
+                        addCategoryButton(tmp.getString(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    private void addCategoryButton (String category) {
+        Button button = new Button(this);
+        button.setText(category);
+        // TODO: Add filter by category functionality using a listener here.
+        mShowCategoriesLinearLayout.addView(button);
+    }
     private void getAllFiles() {
         RequestParams params = new RequestParams();
         final MiniDriveApplication app = (MiniDriveApplication) getApplication();

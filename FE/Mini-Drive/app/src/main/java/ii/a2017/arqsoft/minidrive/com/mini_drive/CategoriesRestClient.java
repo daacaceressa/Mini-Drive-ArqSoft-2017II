@@ -32,6 +32,11 @@ public class CategoriesRestClient {
         client.post(getAbsoluteUrl("/removeCategory/" + fileId), params, responseHandler);
     }
 
+    public static void getAllUserCategories(String AUTHTOKEN, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.addHeader("AUTHTOKEN", AUTHTOKEN);
+        client.get(getAbsoluteUrl("/categories/getOwnCategories"), params, responseHandler);
+    }
+
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }
