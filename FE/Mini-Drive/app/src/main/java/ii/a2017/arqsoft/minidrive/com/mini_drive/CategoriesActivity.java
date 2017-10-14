@@ -38,7 +38,7 @@ import cz.msebera.android.httpclient.Header;
 public class CategoriesActivity extends AppCompatActivity {
 
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
-    private String filename;
+    private String filename, fileHashId;
 
     private ListView mCategoriesListView;
     private EditText mNewCategoryEditText;
@@ -50,6 +50,7 @@ public class CategoriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_categories);
 
         getFilename();
+        getFileHashId();
 //        this.setTitle(filename.substring(0, filename.length()-4));
 
         getAllCategories(filename);
@@ -57,8 +58,6 @@ public class CategoriesActivity extends AppCompatActivity {
         mCategoriesListView = (ListView) findViewById(R.id.categoriesListView);
         mNewCategoryEditText = (EditText) findViewById(R.id.newCategoryEditText);
         mAddCategoryButton = (Button) findViewById(R.id.addCategoryButton);
-
-
 
         // Enable Send button when there's text to send
         mNewCategoryEditText.addTextChangedListener(new TextWatcher() {
@@ -89,7 +88,7 @@ public class CategoriesActivity extends AppCompatActivity {
                 RequestParams params = new RequestParams();
                 params.put("category", mNewCategoryEditText.getText());
                 final MiniDriveApplication app = (MiniDriveApplication) getApplication();
-                CategoriesRestClient.addCategory(app.getAUTHTOKEN(), filename, params, new AsyncHttpResponseHandler() {
+                CategoriesRestClient.addCategory(app.getAUTHTOKEN(), fileHashId, params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         Toast.makeText(getApplicationContext(), "Category added.", Toast.LENGTH_SHORT).show();
@@ -119,7 +118,7 @@ public class CategoriesActivity extends AppCompatActivity {
                             RequestParams params = new RequestParams();
                             params.put("category", selected);
                             final MiniDriveApplication app = (MiniDriveApplication) getApplication();
-                            CategoriesRestClient.removeCategory(app.getAUTHTOKEN(), filename, params, new AsyncHttpResponseHandler() {
+                            CategoriesRestClient.removeCategory(app.getAUTHTOKEN(), fileHashId, params, new AsyncHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                     Toast.makeText(getApplicationContext(), "Category deleted", Toast.LENGTH_SHORT).show();
@@ -143,7 +142,7 @@ public class CategoriesActivity extends AppCompatActivity {
     private void getAllCategories(String filename) {
         RequestParams params = new RequestParams();
         final MiniDriveApplication app = (MiniDriveApplication) getApplication();
-        CategoriesRestClient.getCategoriesFromFile(app.getAUTHTOKEN(), filename, params, new JsonHttpResponseHandler() {
+        CategoriesRestClient.getCategoriesFromFile(app.getAUTHTOKEN(), fileHashId, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the categories
@@ -175,6 +174,11 @@ public class CategoriesActivity extends AppCompatActivity {
     private void getFilename() {
         Intent myIntent = getIntent();
         filename = myIntent.getStringExtra("filename");
+    }
+
+    private void getFileHashId() {
+        Intent myIntent = getIntent();
+        fileHashId = myIntent.getStringExtra("fileHashId");
     }
 
 }
