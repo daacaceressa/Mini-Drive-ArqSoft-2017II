@@ -10,7 +10,8 @@ import {CategorizeService} from "../_services/categorize.service";
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'home.component.html'
+    templateUrl: 'home.component.html',
+    styleUrls: ['home.component.css']
 })
 
 export class HomeComponent implements OnInit {
@@ -20,6 +21,10 @@ export class HomeComponent implements OnInit {
     files: MyFileOfList[] = [];
 
     private MyHash = new Object();
+
+    // pop-up add categories
+    public selectedFile: MyFileOfList;
+    public showAddCategories: boolean = false;
 
 
 
@@ -86,6 +91,18 @@ export class HomeComponent implements OnInit {
             )   //console.log("este es el hash: " + hash["id"])
         }
         //console.log(this.files);
+    }
+
+
+    // metodos pop-up update tournament
+
+    openAddCategories(file: MyFileOfList) {
+        this.selectedFile = file;
+        this.changeStatePopUp(true);
+    }
+
+    changeStatePopUp(value: boolean) {
+        this.showAddCategories = value;
     }
 
 }

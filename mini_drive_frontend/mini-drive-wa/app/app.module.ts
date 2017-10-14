@@ -17,9 +17,10 @@ import { AlertService, AuthenticationService, UserService } from './_services/in
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
-import {FileService} from "./_services/file.service";
-import {HashService} from "./_services/hash.service";
-import {CategorizeService} from "./_services/categorize.service";
+import { FileService } from "./_services/file.service";
+import { HashService } from "./_services/hash.service";
+import { CategorizeService } from "./_services/categorize.service";
+import { AddCategoriesComponent } from './add-categories/add-categories.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -32,7 +33,8 @@ import {CategorizeService} from "./_services/categorize.service";
         AlertComponent,
         HomeComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        AddCategoriesComponent
     ],
     providers: [
         AuthGuard,

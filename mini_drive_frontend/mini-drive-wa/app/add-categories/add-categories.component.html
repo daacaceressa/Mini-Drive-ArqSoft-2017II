@@ -1,0 +1,46 @@
+<div class="detail-categories">
+  <form>
+    <button type="button" class="close" (click)="closePopUp()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br>
+    <div class="form-group">
+      <p><strong><span>ID : {{file?.id}}</span></strong><strong><span>ID : {{file?.name}}</span></strong></p>
+    </div>
+    <!-- <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd">
+    </div> -->
+
+    <!---
+    <div class="form-group">
+      <label>Categories:</label>
+    </div>
+    <div class="checkbox">
+      <div class="checkbox">
+        <label><input type="checkbox" value="">Categorie 1</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" value="">Categorie 2</label>
+      </div>
+      <div class="checkbox disabled">
+        <label><input type="checkbox" value="">Categorie 3</label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+    -->
+
+    <form #f="ngForm" novalidate>
+      <div class="checkbox checkbox-primary" *ngFor="let categoryname of my_categories;let i=index;">
+        <label for="categoryname">
+          <input type="checkbox" name="categoryname[{{i}}]"  [value]="categoryname"
+                 (change)="categories.push($event.target.getAttribute('value').toString())"/>
+          {{categoryname}}
+        </label>
+      </div>
+      <button type="submit" (click)="save(f.valid)" class="btn btn-default">Submit</button>
+      <button type="button" (click)="closePopUp()" class="btn btn-default">Cancel</button>
+    </form>
+
+  </form>
+</div>

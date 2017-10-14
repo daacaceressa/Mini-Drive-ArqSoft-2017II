@@ -10,7 +10,7 @@
         <td>{{file.id}}</td>
         <td>{{file.name}}</td>
         <td>{{file.path}}</td>
-        <td><button type="button" (click)="clickButton()">Click Me!</button></td>
+        <td><button (click)="openAddCategories(file)" class="btn btn-sm btn-outline-primary  "> Add Categories</button></td>
     </tr>
     <!--
     <ul>
@@ -25,3 +25,5 @@
     <p><a [routerLink]="['/login']">Logout</a></p>
 </div>
 
+<!-- pop-up update tournament -->
+<app-add-categories *ngIf="showAddCategories" [file]="selectedFile" (closeModal)="changeStatePopUp(false)"></app-add-categories>
