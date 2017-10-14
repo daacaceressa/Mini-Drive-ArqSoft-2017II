@@ -20,7 +20,7 @@ export class AuthenticationService {
                 console.log(token);
                 if (token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('authtoken', JSON.stringify('hola'));
+                    localStorage.setItem('authtoken', token);
                 }
 
                 return token;
