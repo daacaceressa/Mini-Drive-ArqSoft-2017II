@@ -103,7 +103,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                // Pull out the first event on the public timeline
+                // Pull out the files from the response
                 ArrayList<String> files = new ArrayList<>();
                 for (int i = 0; i < response.length(); i++) {
                     JSONObject file = null;
@@ -121,12 +121,6 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String selected = (String) mFilesListView.getItemAtPosition(position);
-                        File folder = Environment.getExternalStorageDirectory();
-                        String fileName = folder.getPath() + "/mnt/sdcard/Downloads/" + selected;
-
-                        File myFile = new File(fileName);
-                        if(myFile.exists())
-                            myFile.delete();
                         downloadFile( selected );
                     }
                 });

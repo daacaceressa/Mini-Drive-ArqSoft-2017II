@@ -22,14 +22,14 @@ public class CategoriesRestClient {
         client.get(getAbsoluteUrl("/showFiles/category/" + categoryName), params, responseHandler);
     }
 
-    public static void addCategories(String AUTHTOKEN, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+    public static void addCategory(String AUTHTOKEN, String fileId, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.addHeader("AUTHTOKEN", AUTHTOKEN);
-        client.post(getAbsoluteUrl("/addCategories"), params, responseHandler);
+        client.post(getAbsoluteUrl("/addCategory/" + fileId), params, responseHandler);
     }
 
-    public static void removeCategories(String AUTHTOKEN, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+    public static void removeCategory(String AUTHTOKEN, String fileId, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.addHeader("AUTHTOKEN", AUTHTOKEN);
-        client.post(getAbsoluteUrl("/removeCategories"), params, responseHandler);
+        client.post(getAbsoluteUrl("/removeCategory/" + fileId), params, responseHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

@@ -16,4 +16,7 @@
     <string name="sortBy">Sort by</string>
     <string name="title_activity_share">ShareActivity</string>
     <string name="title_activity_categories">CategoriesActivity</string>
+    <string name="delete_category">Are you sure to delete this category?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

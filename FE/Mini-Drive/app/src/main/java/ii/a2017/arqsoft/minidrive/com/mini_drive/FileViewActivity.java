@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -21,6 +23,24 @@ public class FileViewActivity extends AppCompatActivity {
 
     private String filename, filePath;
     private PDFView mPDFView;
+    private Button mShareFileButton, mEditCategoryButton;
+
+    private View.OnClickListener mShareFileButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent showFileIntent = new Intent( FileViewActivity.this, ShareActivity.class );
+            showFileIntent.putExtra("filename", filename);
+            startActivity(showFileIntent);
+        }
+    };
+    private View.OnClickListener mEditCategoryButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent showFileIntent = new Intent( FileViewActivity.this, CategoriesActivity.class );
+            showFileIntent.putExtra("filename", filename);
+            startActivity(showFileIntent);
+        }
+    };;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +53,16 @@ public class FileViewActivity extends AppCompatActivity {
         this.setTitle(filename.substring(0, filename.length()-4));
 
         mPDFView = (PDFView) findViewById(R.id.pdfView);
+        mShareFileButton = (Button) findViewById(R.id.shareFileButton);
+        mEditCategoryButton = (Button) findViewById(R.id.editCategoryButton);
+
+        // Always reset PDF before showing it up.
         reinitPdfView();
         mPDFView.fromFile( new File(filePath) ).defaultPage(0).enableSwipe(true).load();
+
+
+        mShareFileButton.setOnClickListener(mShareFileButtonListener);
+        mEditCategoryButton.setOnClickListener(mEditCategoryButtonListener);
     }
 
     private void getFilename() {

@@ -19,8 +19,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
-    EditText email, password;
-    Button signIn, registerButton;
+    private EditText email, password;
+    private Button signIn, registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
