@@ -16,17 +16,23 @@ class CategorizeController < ApplicationController
 		sharedFiles = HTTParty.get(BASE_IP + ":3002/shares/" + @@emailid)
 		ownedFiles = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwnFiles/" + @@emailid)
 		categories = []
-		sharedFiles["files_id"].each do |fileId|
-			currentCategories = HTTParty.get(BASE_IP+":3001/files/" + fileId.to_s)
-			unless currentCategories["categories"].nil?
-				categories += currentCategories["categories"]
+		if sharedFiles.include? "files_id"
+			sharedFiles["files_id"].each do |fileId|
+				currentCategories = HTTParty.get(BASE_IP+":3001/files/" + fileId.to_s)
+				if currentCategories.include? "categories"
+					unless currentCategories["categories"].nil?
+						categories += currentCategories["categories"]
+					end
+				end
 			end
 		end
-		if ownedFiles["total"] > 0
+		if ownedFiles.include? "filesId"
 			ownedFiles["filesId"].each do |fileId|
 				currentCategories = HTTParty.get(BASE_IP + ":3001/files/" + fileId.to_s)
-				unless currentCategories["categories"].nil?
-					categories += currentCategories["categories"]
+				if currentCategories.include? "categories"
+					unless currentCategories["categories"].nil?
+						categories += currentCategories["categories"]
+					end
 				end
 			end
 		end
@@ -43,8 +49,41 @@ class CategorizeController < ApplicationController
 
 	def getFilesWithCategory
 		categoryName = params[:category_name]
-		resultFiles = HTTParty.get(BASE_IP + ":3001/category/" + categoryName.to_s)
-		render json: resultFiles.body, status: resultFiles.code
+		allFiles = HTTParty.get(BASE_IP + ":3001/category/" + categoryName.to_s)
+		ownedFiles = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwnFiles/" + @@emailid)
+		sharedFiles = HTTParty.get(BASE_IP + ":3002/shares/" + @@emailid)
+
+		# puts "all", allFiles, "owned", ownedFiles, "share", sharedFiles
+
+		if allFiles.code == 200
+			results = []
+			myFiles = []
+			if ownedFiles.include? "filesId"
+				ownedFiles["filesId"].each do |fileId|
+					myFiles.push(fileId.to_s)
+				end
+			end
+
+			if sharedFiles.include? "filesId"
+				sharedFiles["filesId"].each do |fileId|
+					myFiles.push(fileId.to_s)
+				end
+			end
+
+			allFiles.each do |file|
+				if file.include? "id"
+					if myFiles.include? file["id"]
+						results.push(file)
+					end
+				end
+			end
+			# Remove duplicates.
+			results = (results.to_set).to_a
+			render json: results, status: allFiles.code
+		else
+			render plain: allFiles.body, status:allFiles.code
+		end
+			
 	end
 
 	def addCategories

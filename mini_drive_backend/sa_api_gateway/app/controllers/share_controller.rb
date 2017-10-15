@@ -26,11 +26,11 @@ class ShareController < ApplicationController
 
 	def getMyShares
 		results = HTTParty.get(BASE_IP + ":3002/shares/" + @@emailid)
-		if results.code == 200
-			print results
+		if results.code == 200 and results.include? "files_id"
 			paths = []
-				cur_result = HTTParty.get(BASE_IP + ":3003/hashdocuments/" + idHash.to_s)
-				if cur_result.code == 200
+			results["files_id"].each do |fileId|
+				cur_result = HTTParty.get(BASE_IP + ":3003/hashdocuments/" + fileId.to_s)
+				if cur_result.include? "path"
 					paths.push( cur_result["path"] )
 				end
 			end
