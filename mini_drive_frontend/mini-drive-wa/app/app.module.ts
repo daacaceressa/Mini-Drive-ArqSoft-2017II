@@ -23,14 +23,21 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { FileComponent } from './upload/files/files.component';
 import { ListService } from './_services/index';
+import { DownloadService } from './_services/index';
+
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { PreviewComponent } from './upload/preview/preview.component';
+
+//import { MaterialModule, MdDialogModule } from '@angular/material';
+
 
 
 
 const DROPZONE_CONFIG: DropzoneConfigInterface = {
     // Change this to your upload POST address:
-     url: 'http://35.188.6.128:4000/files/uploadFile',
+    url: 'http://35.188.6.128:4000/files/uploadFile',
     //url: 'http://35.188.6.128:3004/uploadFile/1',
-    headers: {'AUTHTOKEN':localStorage.getItem('authtoken')},
+    headers: { 'AUTHTOKEN': localStorage.getItem('authtoken') },
     acceptedFiles: 'application/pdf',
     createImageThumbnails: true
 };
@@ -43,6 +50,8 @@ const DROPZONE_CONFIG: DropzoneConfigInterface = {
         HttpModule,
         routing,
         DropzoneModule.forRoot(DROPZONE_CONFIG),
+       // MaterialModule.forRoot(),
+       // MdDialogModule.forRoot(),
     ],
     declarations: [
         AppComponent,
@@ -53,6 +62,8 @@ const DROPZONE_CONFIG: DropzoneConfigInterface = {
         UploadComponent,
         // DropzoneComponent,
         FileComponent,
+        PreviewComponent,
+        PdfViewerComponent
     ],
     providers: [
         AuthGuard,
@@ -66,6 +77,7 @@ const DROPZONE_CONFIG: DropzoneConfigInterface = {
         fakeBackendProvider,
         MockBackend,
         BaseRequestOptions,
+        DownloadService,
     ],
     bootstrap: [AppComponent]
 })

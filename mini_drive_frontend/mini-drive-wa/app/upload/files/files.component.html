@@ -4,9 +4,13 @@
         <h3>Id: {{d.id}}</h3>
       </td>
       <td>
-        <a href="{{d.path}}">
+        <a href="{{'files/downloadFile/'+d.path}}">
         <h3>name: {{d.name}}</h3>
         </a>
+        
+        <div (click)="downloadFile(d.name)">Preview</div>
+
+        <pdf-app path="{{d.name}}">Loading</pdf-app>
       </td>
     </tr>
   </table>
