@@ -53,7 +53,7 @@ class CategorizeController < ApplicationController
 		ownedFiles = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwnFiles/" + @@emailid)
 		sharedFiles = HTTParty.get(BASE_IP + ":3002/shares/" + @@emailid)
 
-		# puts "all", allFiles, "owned", ownedFiles, "share", sharedFiles
+		 puts "all", allFiles, "owned", ownedFiles, "share", sharedFiles
 
 		if allFiles.code == 200
 			results = []
@@ -73,6 +73,11 @@ class CategorizeController < ApplicationController
 			allFiles.each do |file|
 				if file.include? "id"
 					if myFiles.include? file["id"]
+						file["name"] = ""
+						tmpFile =  HTTParty.get(BASE_IP + ":3003/hashdocuments/" + file["id"].to_s)
+						if tmpFile.include?"path"
+							file["name"] = tmpFile["path"].split('/')[1]
+						end
 						results.push(file)
 					end
 				end
