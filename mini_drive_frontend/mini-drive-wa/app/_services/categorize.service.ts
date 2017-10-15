@@ -31,6 +31,31 @@ export class CategorizeService {
         return this.http.post('http://192.168.99.102:4000/addCategories/' + fileId, my_body, options).map((response: Response) => response.json());
     }
 
+    removeCategories(fileId: Number, categories: Array<String>){
+        console.log("inicio removeCategories ")
+        console.log("fileId : " + fileId);
+        console.log("categories : " + categories);
+        let body: any =
+            {
+                "id":fileId,
+                "categories": categories
+            };
+        console.log(body);
+
+        let my_body: JSON;
+        my_body = <JSON> body;
+        console.log("my_body");
+        console.log(my_body);
+
+        let auth_token = localStorage.getItem('authtoken');
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authtoken' , auth_token);
+        const options = new RequestOptions({ headers: headers });
+
+        console.log("inicio llamado al servicio removeCategories!!!");
+        return this.http.post('http://192.168.99.102:4000/removeCategories/' + fileId, my_body, options).map((response: Response) => response.json());
+    }
+
 
     getFilesByCategory(category: String){
         console.log("inicio getFilesByCategory ")
@@ -43,4 +68,18 @@ export class CategorizeService {
         console.log("inicio llamado al servicio getFilesByCategory");
         return this.http.get('http://192.168.99.102:4000/showFiles/category/' + category, options).map((response: Response) => response.json());
     }
+
+    getCategoriesOfFile(fileId: number){
+        console.log("inicio getCategories OfFiles ")
+
+        let auth_token = localStorage.getItem('authtoken');
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authtoken' , auth_token);
+        const options = new RequestOptions({ headers: headers });
+
+        console.log("inicio llamado al servicio getFilesByCategory");
+        return this.http.get('http://192.168.99.102:4000//showCategories/file/' + fileId, options).map((response: Response) => response.json());
+    }
+
+
 }

@@ -29,6 +29,18 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
     -->
+     <!--
+    <input [(ngModel)]="category" type="text">
+
+    <button type="submit" (click)="my_categories.push(category)">Clic Aquí</button>
+    -->
+
+      <!-- Agrega las categorias al PopUp!!-->
+      <input #newCategory
+             (keyup.enter)="addCategory(newCategory.value)">
+      <button (click)="addCategory(newCategory.value)">Add</button>
+
+
 
     <form #f="ngForm" novalidate>
       <div class="checkbox checkbox-primary" *ngFor="let categoryname of my_categories;let i=index;">
