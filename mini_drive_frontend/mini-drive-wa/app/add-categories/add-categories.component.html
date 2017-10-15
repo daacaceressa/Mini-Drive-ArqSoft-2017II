@@ -7,42 +7,23 @@
     <div class="form-group">
       <p><strong><span>ID : {{file?.id}}</span></strong><strong><span>ID : {{file?.name}}</span></strong></p>
     </div>
-    <!-- <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd">
-    </div> -->
-
-    <!---
-    <div class="form-group">
-      <label>Categories:</label>
-    </div>
-    <div class="checkbox">
-      <div class="checkbox">
-        <label><input type="checkbox" value="">Categorie 1</label>
-      </div>
-      <div class="checkbox">
-        <label><input type="checkbox" value="">Categorie 2</label>
-      </div>
-      <div class="checkbox disabled">
-        <label><input type="checkbox" value="">Categorie 3</label>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-    -->
-     <!--
-    <input [(ngModel)]="category" type="text">
-
-    <button type="submit" (click)="my_categories.push(category)">Clic Aquí</button>
-    -->
 
       <!-- Agrega las categorias al PopUp!!-->
+      <form #f="ngForm">
       <input #newCategory
              (keyup.enter)="addCategory(newCategory.value)">
-      <button (click)="addCategory(newCategory.value)">Add</button>
+          <button type="button" (click)="addCategory(newCategory.value)">Add</button>
+          <button type="button" (click)="removeCategory(newCategory.value)">Remove</button>
+          <button type="button" (click)="deleteAllCategory()">Delete All</button>
+          <h4>Categories: </h4>
+          <p *ngIf="categories.length==0">No hay Categorias</p>
+          <ul *ngFor="let categoryname of categories">
+              <li>{{categoryname}}</li>
+          </ul>
 
+      </form>
 
-
-    <form #f="ngForm" novalidate>
+    <!--<form #f="ngForm" novalidate>
       <div class="checkbox checkbox-primary" *ngFor="let categoryname of my_categories;let i=index;">
         <label for="categoryname">
           <input type="checkbox" name="categoryname[{{i}}]"  [value]="categoryname"
@@ -52,7 +33,7 @@
       </div>
       <button type="submit" (click)="save(f.valid)" class="btn btn-default">Submit</button>
       <button type="button" (click)="closePopUp()" class="btn btn-default">Cancel</button>
-    </form>
+    </form>-->
 
   </form>
 </div>

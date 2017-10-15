@@ -81,5 +81,18 @@ export class CategorizeService {
         return this.http.get('http://192.168.99.102:4000//showCategories/file/' + fileId, options).map((response: Response) => response.json());
     }
 
+    deleteAllCategories(fileId: Number){
+        console.log("inicio deleteAllCategories ")
+        console.log("fileId : " + fileId);
+
+        let auth_token = localStorage.getItem('authtoken');
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authtoken' , auth_token);
+        const options = new RequestOptions({ headers: headers });
+
+        console.log("inicio llamado al servicio delteAllCategories!!!");
+        return this.http.delete('http://192.168.99.102:4000/categories/file/' + fileId, options).map((response: Response) => response.json());
+    }
+
 
 }
