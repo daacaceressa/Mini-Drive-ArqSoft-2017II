@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
     // pop-up add categories
     public selectedFile: MyFileOfList;
     public showAddCategories: boolean = false;
+    public showAddShare: boolean = false;
 
 
 
@@ -103,6 +104,16 @@ export class HomeComponent implements OnInit {
 
     changeStatePopUp(value: boolean) {
         this.showAddCategories = value;
+    }
+
+    //Metodos para abrir y cerrar el popUP
+    openAddShare(file: MyFileOfList) {
+        this.selectedFile = file;
+        this.changeStatePopUpShare(true);
+    }
+
+    changeStatePopUpShare(value: boolean) {
+        this.showAddShare = value;
     }
 
 }

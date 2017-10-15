@@ -5,12 +5,14 @@ import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { AuthGuard } from './_guards/index';
 import { ViewCategoriesComponent } from './view-categories/view-categories.component';
+import {ViewMySharesComponent} from "./_components/share/view-my-shares/view-my-shares.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'view-categories', component: ViewCategoriesComponent },
+    { path: 'view-my-shares', component: ViewMySharesComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

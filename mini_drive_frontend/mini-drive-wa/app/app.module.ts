@@ -22,6 +22,9 @@ import { HashService } from "./_services/hash.service";
 import { CategorizeService } from "./_services/categorize.service";
 import { AddCategoriesComponent } from './add-categories/add-categories.component';
 import { ViewCategoriesComponent } from './view-categories/view-categories.component';
+import {ShareService} from "./_services/share.service";
+import { AddShareComponent } from './_components/share/add-share/add-share.component';
+import { ViewMySharesComponent } from './_components/share/view-my-shares/view-my-shares.component';
 
 @NgModule({
     imports: [
@@ -37,7 +40,9 @@ import { ViewCategoriesComponent } from './view-categories/view-categories.compo
         LoginComponent,
         RegisterComponent,
         AddCategoriesComponent,
-        ViewCategoriesComponent
+        ViewCategoriesComponent,
+        AddShareComponent,
+        ViewMySharesComponent
     ],
     providers: [
         AuthGuard,
@@ -47,6 +52,8 @@ import { ViewCategoriesComponent } from './view-categories/view-categories.compo
         FileService,
         HashService,
         CategorizeService,
+        ShareService,
+
 
         // providers used to create fake backend
         fakeBackendProvider,

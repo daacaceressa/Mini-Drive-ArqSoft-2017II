@@ -1,0 +1,15 @@
+
+
+
+<h1>Hi Amigos!</h1>
+<p>You're logged in with Angular 2!!</p>
+<h3>My Shared With Me!! :</h3>
+
+<p *ngIf="message.length>0">{{message}}</p>
+
+<tr *ngFor=" let sh of tmpShares">
+  <td>{{sh?.nameFile}}</td>
+  <td>{{sh?.ownerFile}}</td>
+</tr>
+
+<p><a [routerLink]="['']">Return</a></p>

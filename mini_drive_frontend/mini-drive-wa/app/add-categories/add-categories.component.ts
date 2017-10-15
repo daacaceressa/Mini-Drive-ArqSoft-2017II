@@ -15,8 +15,6 @@ export class AddCategoriesComponent implements OnInit {
     @Output() closeModal: EventEmitter<boolean> = new EventEmitter() ;
 
     public categories: String[] = [];
-    public tmp_categories: String[];
-    private listCatFile = new Object();
     public errorMessage: string;
     private myObjCategory: MyCategory;
 

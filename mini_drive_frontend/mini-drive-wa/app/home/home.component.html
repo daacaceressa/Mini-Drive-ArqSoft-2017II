@@ -11,6 +11,7 @@
         <td>{{file.name}}</td>
         <td>{{file.path}}</td>
         <td><button (click)="openAddCategories(file)" class="btn btn-sm btn-outline-primary  ">Categories</button></td>
+        <td><button (click)="openAddShare(file)" class="btn btn-sm btn-outline-primary  ">Share</button></td>
     </tr>
     <!--
     <ul>
@@ -24,8 +25,11 @@
 
     <p><a [routerLink]="['/login']">Logout</a></p>
 
-    <p><a [routerLink]="['/view-categories']">View Categories</a></p>
+    <p><a [routerLink]="['/view-categories']">Search By Category</a></p>
+
+    <p><a [routerLink]="['/view-my-shares']">Shared with me!!</a></p>
 </div>
 
 <!-- pop-up update tournament -->
 <app-add-categories *ngIf="showAddCategories" [file]="selectedFile" (closeModal)="changeStatePopUp(false)"></app-add-categories>
+<popUp-add-share *ngIf="showAddShare" [file]="selectedFile" (closeModal)="changeStatePopUpShare(false)"></popUp-add-share>
