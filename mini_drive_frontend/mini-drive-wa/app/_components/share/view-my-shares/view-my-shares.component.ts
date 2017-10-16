@@ -22,6 +22,7 @@ export class ViewMySharesComponent implements OnInit {
     public showPreview: boolean = false;
 
     public selectedFile: MyFileOfList;
+    public currentOwner: String = '';
 
   constructor(private shareService: ShareService) { }
 
@@ -71,6 +72,7 @@ export class ViewMySharesComponent implements OnInit {
     onSelect(mySelectedFile: SharedFile) {
 
         this.selectedFile = {'id' : mySelectedFile.id,'name':mySelectedFile.name, 'path':mySelectedFile.path };
+        this.currentOwner = mySelectedFile.owner;
         //transformacion objeto share a objeto file
 
         this.changeStatePreview(true);

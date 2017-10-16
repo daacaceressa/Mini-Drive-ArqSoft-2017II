@@ -1,24 +1,20 @@
-﻿import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListService } from '../../_services/index';
 import { Inject } from '@angular/core';
 import { FileComponent } from '../files/files.component';
 import { MyFileOfList } from '../../_models/index';
 import { DownloadService } from "../../_services/download.service";
-//import { trigger, state, style, animate, transition } from '@angular/animations';
-
-
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
 @Component({
   moduleId: module.id,
   selector: 'pdf-app',
   templateUrl: './preview.component.html',
     styleUrls: ['./preview.component.scss'],
-    providers: [
-
-    FileComponent
-  ]
+    providers: [ FileComponent ]
 })
+
 export class PreviewComponent implements OnChanges {
 
     @Input() closable = true;
@@ -28,32 +24,9 @@ export class PreviewComponent implements OnChanges {
 
     // for shared files
     @Input() isSharedFile: boolean = false;
+    @Input() owner : String = '';
 
     errorMessage : String = "";
-
-    // let headers = new Headers();
-    //   this.createAuthorizationHeader(headers);
-    //   let url = 'http://35.188.6.128:4000/files/downloadFile/';
-
-    //   return this.http.get(url + path,{
-    //     headers: headers
-    //   }).subscribe(
-    //     (response) => {
-    //       var mediaType = 'application/pdf';
-    //       var blob = new Blob([response], { type: mediaType });
-    //       var filename = 'test.pdf';
-    //       //saveAs(blob, filename);
-    //     });
-
-    // or pass options as object
-    //pdfSrc: any = {
-    //  url: 'http://35.188.6.128:4000/files/downloadFile/'+ this.path,
-    //  withCredentials: true,
-    //  httpHeaders: { // cross domain
-    //    'Access-Control-Allow-Credentials': true,
-    //    'AUTHTOKEN': localStorage.getItem('authtoken')
-    //  }
-    // };
 
     pdfSrc: string = '';
     error: any;
@@ -94,42 +67,49 @@ export class PreviewComponent implements OnChanges {
     }
 
 
-    test(){
-    console.log("test");
-    let user_id : string = localStorage.getItem('currentUser');
+    test() {
+        // console.log("test");
+        let user_id: string = localStorage.getItem('currentUser');
 
-    this.downloadService.downloadSharedFile(user_id,this.path.name).subscribe(
-        data => {
-            console.log(data);
-            let blob = new Blob([data], { type: 'application/pdf' });
-            this.pdfSrc = URL.createObjectURL(blob);
-            console.log(this.pdfSrc);
+        // Load pdf
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://35.188.6.128:4000/files/downloadSharedFile/', true);
+        xhr.setRequestHeader("AUTHTOKEN", localStorage.getItem('authtoken'));
+        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+        //var params="filename='response.pdf'&user_id=jucjimenezmo@unal.edu.co";
+        //alert("filename='" + this.path.name + "'&user_id=" + user_id);
 
-            if (typeof (FileReader) !== 'undefined') {
-                let reader = new FileReader();
-                reader.onload = (e: any) => {
-                    this.pdfSrc = e.target.result;
-                };
-                reader.readAsArrayBuffer(blob);
+        //var params='filename=\'' + this.path.name + '\'&user_id=' + this.owner;
+
+        var params="filename="+ this.path.name + "&user_id=" + this.owner;
+        console.log('-'+ params + '-')
+
+
+        xhr.responseType = 'blob';
+        xhr.onload = (e: any) => {
+            console.log(xhr);
+            if (xhr.status === 200) {
+                let blob = new Blob([xhr.response], {type: 'application/pdf'});
+                this.pdfSrc = URL.createObjectURL(blob);
+                console.log(this.pdfSrc);
+
+                if (typeof (FileReader) !== 'undefined') {
+                    let reader = new FileReader();
+                    reader.onload = (e: any) => {
+                        this.pdfSrc = e.target.result;
+                    };
+                    reader.readAsArrayBuffer(blob);
+                }
+
             }
-
-        },
-        error => this.errorMessage = <any>error
-    );
-
-
-
-
-
-
+        };
+        xhr.send(params);
 
     }
-
     /**
      * Render PDF preview on selecting file
      */
     onFileSelected() {
-        //let $img: any = document.querySelector('#file');
 
         // Load pdf
         let xhr = new XMLHttpRequest();
