@@ -11,3 +11,24 @@
     opacity:.80;
     filter: alpha(opacity=80);
 }
+
+.my-table {
+    border-collapse: collapse;
+    width: 60%;
+}
+
+.my-table th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+.my-table tr:nth-child(even){background-color: white}
+
+.my-table th {
+    background-color: darkgray;
+    color: white;
+}
+
+.my-table td {
+    color: black;
+}

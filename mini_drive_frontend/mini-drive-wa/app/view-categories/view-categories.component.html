@@ -1,19 +1,26 @@
-<p>
-  view-categories works!
-</p>
+<h2>Busqueda por Categorias</h2>
+
+<h4>Categoria:</h4>
 
 <input [(ngModel)]="category" type="text">
 
-<button type="submit" (click)="getFilesOfCategory(category)">Clic Aquí</button>
+<button type="submit" (click)="getFilesOfCategory(category)">Buscar</button>
 
-<h1>Hi Amigos!</h1>
-<p>You're logged in with Angular 2!!</p>
+
 <h3>My Files :</h3>
+<table class="my-table">
+    <tr>
+        <th>Id</th>
+        <th>Archivo</th>
+        <th>Path</th>
+    </tr>
 
-<tr *ngFor=" let file of files">
-  <td>{{file.id}}</td>
-  <td>{{file.name}}</td>
-  <td>{{file.path}}</td>
-</tr>
+    <tr *ngFor=" let file of files">
+      <td>{{file.id}}</td>
+      <td>{{file.name}}</td>
+      <td>{{file.path}}</td>
+    </tr>
+</table>
+<br>
 
-<p><a [routerLink]="['']">Return</a></p>
+<p><a [routerLink]="['']">Regresar</a></p>

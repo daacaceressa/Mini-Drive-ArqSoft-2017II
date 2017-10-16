@@ -1,26 +1,25 @@
 <div class="detail-categories">
   <form>
-    <button type="button" class="close" (click)="closePopUp()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
     <br>
-    <div class="form-group">
-      <p><strong><span>ID : {{file?.id}}</span></strong><strong><span>ID : {{file?.name}}</span></strong></p>
+    <div class="div-gray">
+      <!--<p><strong><span>ID : {{file?.id}}</span></strong><strong><span>ID : {{file?.name}}</span></strong></p>-->
+        <p><strong><span>{{file?.name}}</span></strong></p>
     </div>
-
+      <br>
       <!-- Agrega las categorias al PopUp!!-->
-      <form #f="ngForm">
-      <input #newCategory
-             (keyup.enter)="addCategory(newCategory.value)">
-          <button type="button" (click)="addCategory(newCategory.value)">Add</button>
-          <button type="button" (click)="removeCategory(newCategory.value)">Remove</button>
-          <button type="button" (click)="deleteAllCategory()">Delete All</button>
-          <h4>Categories: </h4>
+      <form #f="ngForm" class="form-cat">
+          <h4>Categorias:</h4>
+          <input #newCategory class="input-border"
+             (keyup.enter)="addCategory(newCategory.value)"><br>
+          <button class="button-pop " type="button" (click)="addCategory(newCategory.value)">Agregar</button>
+          <button class="button-pop " type="button" (click)="removeCategory(newCategory.value)">Remover</button>
+          <button class="button-pop " type="button" (click)="deleteAllCategory()">Resetear</button>
+          <h4>Categorias del Archivo: </h4>
           <p *ngIf="categories.length==0">No hay Categorias</p>
-          <ul *ngFor="let categoryname of categories">
-              <li>{{categoryname}}</li>
+          <ul class="list-lu" *ngFor="let categoryname of categories">
+              <li class="list-li">{{categoryname}}</li>
           </ul>
-
+          <button type="button" class="button-pop-close" (click)="closePopUp()" aria-label="Close"> Salir</button>
       </form>
 
     <!--<form #f="ngForm" novalidate>

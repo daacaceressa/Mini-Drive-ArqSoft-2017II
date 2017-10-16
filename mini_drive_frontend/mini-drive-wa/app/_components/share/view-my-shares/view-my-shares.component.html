@@ -1,15 +1,21 @@
 
 
 
-<h1>Hi Amigos!</h1>
-<p>You're logged in with Angular 2!!</p>
-<h3>My Shared With Me!! :</h3>
+<h2>Archivos Compartidos Conmigo</h2>
 
 <p *ngIf="message.length>0">{{message}}</p>
 
-<tr *ngFor=" let sh of tmpShares">
-  <td>{{sh?.nameFile}}</td>
-  <td>{{sh?.ownerFile}}</td>
-</tr>
+<table class="my-table">
+    <tr>
+        <th>Archivo</th>
+        <th>Propietario</th>
+    </tr>
+    <tr *ngFor=" let sh of tmpShares">
+      <td>{{sh?.nameFile}}</td>
+      <td>{{sh?.ownerFile}}</td>
+    </tr>
+</table>
 
-<p><a [routerLink]="['']">Return</a></p>
+<br>
+
+<p><a [routerLink]="['']">Regresar</a></p>
