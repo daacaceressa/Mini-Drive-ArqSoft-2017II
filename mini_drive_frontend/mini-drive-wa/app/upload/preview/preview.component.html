@@ -1,10 +1,79 @@
-  <div>
-      <label>PDF src</label>
-      <input type="text" placeholder="PDF src" [(ngModel)]="pdfSrc">
-  </div>
-  <pdf-viewer [src]="pdfSrc" 
-              [render-text]="true"
-              style="display: block;"
-  ></pdf-viewer>
-
-
+<div *ngIf="path">
+    <div *ngIf="error" class="error mb">
+        {{ error.message | json }}
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-12">
+            <label class="" for="original-size">
+                    <input type="checkbox" id="original-size" class="form-control"
+                           [checked]="originalSize"
+                           [(ngModel)]="originalSize"
+                    >
+                    <span class="">Original size</span>
+                </label>
+            <label class="" for="render-text">
+                    <input type="checkbox" id="render-text" class="form-control"
+                           [checked]="renderText"
+                           [(ngModel)]="renderText"
+                    >
+                    <span class="">Render text layer</span>
+                </label>
+            <label class="" for="show-all">
+                    <input type="checkbox" id="show-all" class="form-control"
+                           [checked]="showAll"
+                           [(ngModel)]="showAll"
+                    >
+                    <span class="">Show all pages</span>
+                </label>
+            <div *ngIf="showAll">
+                <label class="" for="stick-to-page">
+                <input type="checkbox" id="stick-to-page" class="form-control"
+                       [checked]="stickToPage"
+                       [(ngModel)]="stickToPage"
+                >
+                <span class="">Stick to page</span>
+              </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="" for="pdf-zoom">Zoom</label>
+        <button (click)="incrementZoom(-0.1)" class="btn btn-primary">
+                    -
+                </button>
+        <button (click)="incrementZoom(0.1)" class="btn btn-primary">
+                    +
+                </button>
+        <input [(ngModel)]="zoom" [value]="zoom" class="form-control" type="number" pattern="-?[0-9]*(\.[0-9]+)?" id="pdf-zoom">
+    </div>
+    <div mdl *ngIf="stickToPage && showAll || !showAll">
+        <div class="form-group col-sm-6">
+            <label class="" for="pdf-page">Page</label>
+            <button (click)="incrementPage(-1)" class="btn btn-primary">
+                    Previous
+                </button>
+            <button (click)="incrementPage(1)" class="btn btn-primary">
+                    Next
+                </button>
+            <input [(ngModel)]="page" [value]="page" class="form-control" type="number" pattern="-?[0-9]*(\.[0-9]+)?" id="pdf-page">
+            <span *ngIf="pdf">of {{ pdf.numPages }}</span>
+        </div>
+    </div>
+    <div class="form-group col-sm-12">
+        <label class="" for="pdf-page">Angle</label>
+        <button (click)="rotate(-90)" class="btn btn-primary">Rotate left</button>  
+        <button (click)="rotate(90)" class="btn btn-primary">Rotate right</button>    
+            <input [value]="rotation" class="form-control" type="number" disabled>   
+    </div>
+    <div *ngIf="!isLoaded && !error && progressData" id="progress">
+        <div class="">
+            <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
+        </div>
+        <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
+    </div>
+    <div class="col-sm-12">
+    <pdf-viewer  [src]="pdfSrc" [(page)]="page" [rotation]="rotation" [original-size]="originalSize" (after-load-complete)="afterLoadComplete($event)"
+        [zoom]="zoom" [show-all]="showAll" [stick-to-page]="stickToPage" [render-text]="renderText" [external-link-target]="'blank'"
+        (error)="onError($event)" (on-progress)="onProgress($event)"></pdf-viewer>
+    </div>
+</div>

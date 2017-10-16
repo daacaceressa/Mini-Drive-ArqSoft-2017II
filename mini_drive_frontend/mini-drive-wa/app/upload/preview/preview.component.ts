@@ -1,8 +1,9 @@
-﻿import { Component, Input } from '@angular/core';
+﻿import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListService } from '../../_services/index';
 import { Inject } from '@angular/core';
 import { FileComponent } from '../files/files.component';
+//import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 
@@ -10,11 +11,29 @@ import { FileComponent } from '../files/files.component';
   moduleId: module.id,
   selector: 'pdf-app',
   templateUrl: './preview.component.html',
+  providers: [
+    FileComponent
+  ],
+  // animations: [
+  //   trigger('dialog', [
+  //     transition('void => *', [
+  //       style({ transform: 'scale3d(.3, .3, .3)' }),
+  //       animate(100)
+  //     ]),
+  //     transition('* => void', [
+  //       animate(100, style({ transform: 'scale3d(.0, .0, .0)' }))
+  //     ])
+  //   ])
+  // ]
 })
-export class PreviewComponent {
+export class PreviewComponent implements OnChanges {
+
+  @Input() closable = true;
+  @Input() visible: boolean;
+  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
-  @Input() path: string;
+  @Input() path: any;
   // let headers = new Headers();
   //   this.createAuthorizationHeader(headers);
   //   let url = 'http://35.188.6.128:4000/files/downloadFile/';
@@ -37,59 +56,68 @@ export class PreviewComponent {
   //    'Access-Control-Allow-Credentials': true,
   //    'AUTHTOKEN': localStorage.getItem('authtoken')
   //  }
- // };
+  // };
 
   pdfSrc: string = '';
   error: any;
   page: number = 1;
   rotation: number = 0;
-  zoom: number = 1.0;
+  zoom: number = 0.5;
   originalSize: boolean = false;
   pdf: any;
   renderText: boolean = true;
   progressData: PDFProgressData;
-  isLoaded: boolean = false;
+  isLoaded: boolean = true;
   stickToPage = false;
-  showAll = true;
-
- ngOnInit() {
-   console.log(this.path);
-    // Load pdf
-    let xhr = new XMLHttpRequest();
-     xhr.open('GET','http://35.188.6.128:4000/files/downloadFile/'+ this.path, true);
-     xhr.setRequestHeader("AUTHTOKEN", localStorage.getItem('authtoken'));
-     xhr.responseType = 'blob';
-     xhr.onload = (e: any) => {
-       console.log(xhr);
-       if (xhr.status === 200) {
-         let blob = new Blob([xhr.response], {type: 'application/pdf'});
-         this.pdfSrc = URL.createObjectURL(blob);
-       }
-     };
-     xhr.send();
- }
+  showAll = false;
 
   constructor() {
   }
 
+  close() {
+    this.visible = false;
+    this.visibleChange.emit(this.visible);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // changes.prop contains the old and the new value...
+
+    if (this.path != undefined) {
+      //alert(this.path);
+      this.onFileSelected();
+    }
+  }
 
   /**
    * Render PDF preview on selecting file
    */
   onFileSelected() {
-    let $img: any = document.querySelector('#file');
+    //let $img: any = document.querySelector('#file');
 
-    if (typeof (FileReader) !== 'undefined') {
-      let reader = new FileReader();
+    // Load pdf
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://35.188.6.128:4000/files/downloadFile/' + this.path.name, true);
+    xhr.setRequestHeader("AUTHTOKEN", localStorage.getItem('authtoken'));
+    xhr.responseType = 'blob';
+    xhr.onload = (e: any) => {
+      console.log(xhr);
+      if (xhr.status === 200) {
+        let blob = new Blob([xhr.response], { type: 'application/pdf' });
+        this.pdfSrc = URL.createObjectURL(blob);
+        console.log(this.pdfSrc);
 
-      reader.onload = (e: any) => {
-        this.pdfSrc = e.target.result;
-      };
+        if (typeof (FileReader) !== 'undefined') {
+          let reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.pdfSrc = e.target.result;
+          };
+          reader.readAsArrayBuffer(blob);
+        }
 
-      reader.readAsArrayBuffer($img.files[0]);
-    }
+      }
+    };
+    xhr.send();
   }
-
 
   incrementPage(amount: number) {
     this.page += amount;

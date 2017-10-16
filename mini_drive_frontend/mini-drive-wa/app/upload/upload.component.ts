@@ -7,7 +7,6 @@ import { DropzoneComponent , DropzoneDirective, DropzoneConfigInterface } from '
   moduleId: module.id,
   selector: 'my-dropzone',
   templateUrl: 'upload.component.html',
-  styleUrls: ['upload.component.css']
 })
 export class UploadComponent {
   public type: string = 'component';

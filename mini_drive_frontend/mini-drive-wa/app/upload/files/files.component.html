@@ -1,18 +1,16 @@
+<div class="col-md-12">
   <table class="table table-hover">
-      <tr *ngFor="let d of data | async">
+    <tr *ngFor="let d of data | async" [class.selected]="path === selectedFile" (click)="onSelect(d)">
       <td>
-        <h3>Id: {{d.id}}</h3>
+        <h3>{{d.id}}</h3>
       </td>
       <td>
-        <a href="{{'files/downloadFile/'+d.path}}">
-        <h3>name: {{d.name}}</h3>
-        </a>
-        
-        <div (click)="downloadFile(d.name)">Preview</div>
-
-        <pdf-app path="{{d.name}}">Loading</pdf-app>
+        <h3>{{d.name}}</h3>      
       </td>
     </tr>
   </table>
-
+</div>
+<div class="col-md-12">
+  <pdf-app [path]="selectedFile">Loading</pdf-app>
+</div>
 

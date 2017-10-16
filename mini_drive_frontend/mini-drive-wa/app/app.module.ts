@@ -28,6 +28,8 @@ import { DownloadService } from './_services/index';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { PreviewComponent } from './upload/preview/preview.component';
 
+
+
 //import { MaterialModule, MdDialogModule } from '@angular/material';
 
 
