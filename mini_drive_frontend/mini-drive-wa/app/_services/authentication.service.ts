@@ -36,7 +36,7 @@ export class AuthenticationService {
         let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencode' });
         headers.append('Authtoken' , auth_token);
         const options = new RequestOptions({ headers: headers });
-        this.http.delete('http://192.168.99.102:4000/user/logOut', options);
+        this.http.delete('http://35.188.6.128:4000/user/logOut', options);
 
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

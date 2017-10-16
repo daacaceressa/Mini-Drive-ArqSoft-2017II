@@ -31,7 +31,7 @@ export class UserService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
-        return this.http.post('http://192.168.99.102:4000/user/createUser', body, options).map((response: Response) => response.json());
+        return this.http.post('http://35.188.6.128:4000/user/createUser', body, options).map((response: Response) => response.json());
     }
 
     update(user: User) {

@@ -15,7 +15,7 @@ export class HashService {
       const options = new RequestOptions({ headers: headers });
 
       console.log("inicio llamado al servicio HASH!!!");
-      return this.http.get('http://192.168.99.102:4000/hash/getHashByPath/' + path, options).map((response: Response) => response.json());
+      return this.http.get('http://35.188.6.128:4000/hash/getHashByPath/' + path, options).map((response: Response) => response.json());
   }
 
     getHashById(id_hash: number){
@@ -27,7 +27,7 @@ export class HashService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("Inicio get http getHashById");
-        return this.http.get('http://192.168.99.102:4000/hash/getHashId/' + id_hash, options).map((response: Response) => response.json());
+        return this.http.get('http://35.188.6.128:4000/hash/getHashId/' + id_hash, options).map((response: Response) => response.json());
     }
 
 }

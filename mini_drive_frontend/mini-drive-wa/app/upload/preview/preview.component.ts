@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ListService } from '../../_services/index';
 import { Inject } from '@angular/core';
 import { FileComponent } from '../files/files.component';
+import { MyFileOfList } from '../../_models/index';
 //import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
@@ -33,7 +34,7 @@ export class PreviewComponent implements OnChanges {
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
-  @Input() path: any;
+  @Input() path: MyFileOfList;
   // let headers = new Headers();
   //   this.createAuthorizationHeader(headers);
   //   let url = 'http://35.188.6.128:4000/files/downloadFile/';

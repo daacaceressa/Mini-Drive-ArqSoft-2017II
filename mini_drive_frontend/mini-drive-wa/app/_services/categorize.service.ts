@@ -28,7 +28,7 @@ export class CategorizeService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio addCategories!!!");
-        return this.http.post('http://192.168.99.102:4000/addCategories/' + fileId, my_body, options).map((response: Response) => response.json());
+        return this.http.post('http://35.188.6.128:4000/addCategories/' + fileId, my_body, options).map((response: Response) => response.json());
     }
 
     removeCategories(fileId: Number, categories: Array<String>){
@@ -53,7 +53,7 @@ export class CategorizeService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio removeCategories!!!");
-        return this.http.post('http://192.168.99.102:4000/removeCategories/' + fileId, my_body, options).map((response: Response) => response.json());
+        return this.http.post('http://35.188.6.128:4000/removeCategories/' + fileId, my_body, options).map((response: Response) => response.json());
     }
 
 
@@ -66,7 +66,7 @@ export class CategorizeService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio getFilesByCategory");
-        return this.http.get('http://192.168.99.102:4000/showFiles/category/' + category, options).map((response: Response) => response.json());
+        return this.http.get('http://35.188.6.128:4000/showFiles/category/' + category, options).map((response: Response) => response.json());
     }
 
     getCategoriesOfFile(fileId: number){
@@ -78,7 +78,7 @@ export class CategorizeService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio getFilesByCategory");
-        return this.http.get('http://192.168.99.102:4000//showCategories/file/' + fileId, options).map((response: Response) => response.json());
+        return this.http.get('http://35.188.6.128:4000//showCategories/file/' + fileId, options).map((response: Response) => response.json());
     }
 
     deleteAllCategories(fileId: Number){
@@ -91,7 +91,7 @@ export class CategorizeService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio delteAllCategories!!!");
-        return this.http.delete('http://192.168.99.102:4000/categories/file/' + fileId, options).map((response: Response) => response.json());
+        return this.http.delete('http://35.188.6.128:4000/categories/file/' + fileId, options).map((response: Response) => response.json());
     }
 
 

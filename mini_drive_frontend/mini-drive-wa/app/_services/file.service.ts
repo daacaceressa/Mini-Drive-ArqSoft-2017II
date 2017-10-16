@@ -20,7 +20,7 @@ export class FileService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio externo");
-        return this.http.get('http://192.168.99.102:4000/files/listOfFiles', options).map((response: Response) => response.json());
+        return this.http.get('http://35.188.6.128:4000/files/listOfFiles', options).map((response: Response) => response.json());
     }
 
     validate() {
@@ -33,7 +33,7 @@ export class FileService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio externo");
-        return this.http.get('http://192.168.99.102:4000/user/validate', options).map((response: Response) => response.json());
+        return this.http.get('http://35.188.6.128:4000/user/validate', options).map((response: Response) => response.json());
     }
 
 }
