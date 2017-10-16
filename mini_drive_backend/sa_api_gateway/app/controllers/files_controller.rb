@@ -21,6 +21,15 @@ class FilesController < ApplicationController
 		send_file (@@file_directory + nameFile)
 	end
 
+	def downloadSharedFile
+		email = params[:used_id].to_s
+		nameFile = params[:filename].to_s + ".pdf"
+		File.open(@@file_directory + nameFile, "wb") do |f|
+			f.write HTTParty.get(BASE_IP + ":3004/downloadFile/" + email + "/" + nameFile).parsed_response
+		end
+		send_file (@@file_directory + nameFile)
+	end
+
 	def listOfFiles
 		#TODO: This method is not working.
 		results = HTTParty.get(BASE_IP + ":3004/listOfFiles/" + @@emailid.to_s).parsed_response

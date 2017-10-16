@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 	get "files/downloadFile/:filename", to: 'files#downloadFile'
 	get "files/listOfFiles", to: 'files#listOfFiles'
 	get "files/delFile/:filename", to: 'files#delFile'
+	post "files/downloadSharedFile", to:'files#downloadSharedFile'
 
 	# Categorize Microservice
 
@@ -29,7 +30,7 @@ Rails.application.routes.draw do
 
 	get "share/getMyShares"
 	post "share/postShares"
-	delete "share/deleteShare/:user_id/:file_id", to: "share#deleteShare"
+	delete "share/deleteShare/:user_id/:file_id", to: "share#deleteShare", :user_id => /.*/
 
 	# Hash Microservice
 
