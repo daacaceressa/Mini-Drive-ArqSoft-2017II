@@ -21,6 +21,7 @@ export class AuthenticationService {
                 if (token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('authtoken', token);
+                    localStorage.setItem('currentUser', username);
                 }
 
                 return token;
@@ -28,7 +29,19 @@ export class AuthenticationService {
     }
 
     logout() {
+
+        // remove token from bd user ms
+        let auth_token = localStorage.getItem('authtoken');
+        let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencode' });
+        headers.append('Authtoken' , auth_token);
+        const options = new RequestOptions({ headers: headers });
+        this.http.delete('http://192.168.99.102:4000/user/logOut', options);
+
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('authtoken');
+
+        console.log('user desloged');
+
     }
 }

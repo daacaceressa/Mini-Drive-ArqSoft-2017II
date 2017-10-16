@@ -15,7 +15,7 @@ import { CategorizeService } from "../_services/categorize.service";
 })
 
 export class HomeComponent implements OnInit {
-    currentUser: User;
+    currentUser: String;
     users: User[] = [];
     public errorMessage: string;
     files: MyFileOfList[] = [];
@@ -28,11 +28,9 @@ export class HomeComponent implements OnInit {
     public showAddShare: boolean = false;
 
 
-
-
     constructor(private userService: UserService, private fileService: FileService,
                 private hashService: HashService, private categorize: CategorizeService) {
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.currentUser = localStorage.getItem('currentUser');
     }
 
     ngOnInit() {

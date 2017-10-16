@@ -1,11 +1,11 @@
-﻿<div class="col-md-6 col-md-offset-3">
-    <!--
-    <h1>Hi {{currentUser.firstName}}!</h1>
-    -->
-    <h1>Hi Amigos!</h1>
-    <p>You're logged in with Angular 2!!</p>
-    <h3>My Files :</h3>
+﻿<!-- header banner - top banner -->
+<app-top-banner></app-top-banner>
 
+<div class="col-md-6">
+
+    <p>Welcome to Mini Drive</p>
+
+    <h3>My Files :</h3>
     <tr *ngFor=" let file of files">
         <td>{{file.id}}</td>
         <td>{{file.name}}</td>
@@ -13,23 +13,13 @@
         <td><button (click)="openAddCategories(file)" class="btn btn-sm btn-outline-primary  ">Categories</button></td>
         <td><button (click)="openAddShare(file)" class="btn btn-sm btn-outline-primary  ">Share</button></td>
     </tr>
-    <!--
-    <ul>
-        <li *ngFor="let user of users">
-            {{user.username}} ({{user.firstName}} {{user.lastName}})
-            - <a (click)="deleteUser(user.id)">Delete</a>
-        </li>
-    </ul>
-    -->
-
-
-    <p><a [routerLink]="['/login']">Logout</a></p>
 
     <p><a [routerLink]="['/view-categories']">Search By Category</a></p>
 
     <p><a [routerLink]="['/view-my-shares']">Shared with me!!</a></p>
 </div>
 
-<!-- pop-up update tournament -->
+<!-- pop-up categoires-->
 <app-add-categories *ngIf="showAddCategories" [file]="selectedFile" (closeModal)="changeStatePopUp(false)"></app-add-categories>
+<!-- pop-up share-->
 <popUp-add-share *ngIf="showAddShare" [file]="selectedFile" (closeModal)="changeStatePopUpShare(false)"></popUp-add-share>

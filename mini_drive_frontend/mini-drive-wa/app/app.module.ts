@@ -25,6 +25,7 @@ import { ViewCategoriesComponent } from './view-categories/view-categories.compo
 import {ShareService} from "./_services/share.service";
 import { AddShareComponent } from './_components/share/add-share/add-share.component';
 import { ViewMySharesComponent } from './_components/share/view-my-shares/view-my-shares.component';
+import { TopBannerComponent } from './top-banner/top-banner.component';
 
 @NgModule({
     imports: [
@@ -42,7 +43,8 @@ import { ViewMySharesComponent } from './_components/share/view-my-shares/view-m
         AddCategoriesComponent,
         ViewCategoriesComponent,
         AddShareComponent,
-        ViewMySharesComponent
+        ViewMySharesComponent,
+        TopBannerComponent
     ],
     providers: [
         AuthGuard,
