@@ -55,7 +55,12 @@ class UserController < ApplicationController
 
 		}
 		results = HTTParty.post(BASE_IP + ":3000/users", options)
-		render json: results.body, status: results.code
+		
+		if results.code == 201
+      			return render json: {"status" => 201, "message" => "User Created"}, status: 201
+    		else
+      			return render json: {"status" => 400, "message" => "invalid email"}, status: 400
+   		end
 	end
 
 	def loginUser
