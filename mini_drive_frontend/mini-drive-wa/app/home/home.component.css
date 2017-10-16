@@ -32,3 +32,10 @@
 .my-table td {
     color: black;
 }
+
+.close{
+
+    position: relative;
+    right: 10px;
+    top: 5px;
+}

@@ -3,51 +3,47 @@
 
 
 
-    <div class="div-check">
+    <div class="row">
 
-        <div class=".col-md-4">
+
+
+
+        <section title=".slideThree" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
             <!-- .slideThree -->
             <div class="slideThree">
-                <input type="checkbox" value="None" id="slideThree" name="check" checked
-
+                <input type="checkbox" value="None" id="slideThree" name="check" checked=""
                        [checked]="originalSize"
                        [(ngModel)]="originalSize"
-
-                />
+                >
                 <label for="slideThree"></label>
             </div>
-            <span class="">Tamaño Original</span>
             <!-- end .slideThree -->
-        </div>
+        </section>
 
-        <div class=".col-md-4">
+        <section title=".slideThree1" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
             <!-- .slideThree -->
             <div class="slideThree">
-                <input type="checkbox" value="None" id="slideThree1" name="check1" checked
-
-                           [checked]="renderText"
-                           [(ngModel)]="renderText"
-                />
+                <input type="checkbox" value="None" id="slideThree1" name="check" checked=""
+                       [checked]="renderText"
+                       [(ngModel)]="renderText"
+                >
                 <label for="slideThree1"></label>
             </div>
-            <span class="">Renderizar</span>
             <!-- end .slideThree -->
-        </div>
+        </section>
 
 
-        <div class=".col-md-4">
+        <section title=".slideThree2" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
             <!-- .slideThree -->
             <div class="slideThree">
-                <input type="checkbox" value="None" id="slideThree2" name="check2" checked
-
+                <input type="checkbox" value="None" id="slideThree2" name="check" checked=""
                        [checked]="showAll"
-                           [(ngModel)]="showAll"
-                />
+                       [(ngModel)]="showAll"
+                >
                 <label for="slideThree2"></label>
             </div>
-            <span class="">Ver Todo</span>
-        <!-- end .slideThree -->
-        </div>
+            <!-- end .slideThree -->
+        </section>
 
     </div>
 
@@ -99,15 +95,3 @@
         (error)="onError($event)" (on-progress)="onProgress($event)"></pdf-viewer>
     </div>
 </div>
-
-<script>
-    $( document ).ready(function(){
-//   Hide the border by commenting out the variable below
-        var $on = 'section';
-        $($on).css({
-            'background':'none',
-            'border':'none',
-            'box-shadow':'none'
-        });
-    });
-</script>
