@@ -17,7 +17,7 @@ public class CategoriesRestClient {
         client.delete(getAbsoluteUrl("/categories/file/" + fileId), params, responseHandler);
     }
 
-    public static void showFilesByCategory(String AUTHTOKEN, String categoryName, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+    public static void showFilesByCategory(String AUTHTOKEN, String categoryName, RequestParams params, JsonHttpResponseHandler responseHandler) {
         client.addHeader("AUTHTOKEN", AUTHTOKEN);
         client.get(getAbsoluteUrl("/showFiles/category/" + categoryName), params, responseHandler);
     }

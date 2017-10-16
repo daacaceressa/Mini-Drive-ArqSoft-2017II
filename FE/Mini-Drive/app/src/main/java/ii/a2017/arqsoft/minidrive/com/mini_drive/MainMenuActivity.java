@@ -2,6 +2,7 @@ package ii.a2017.arqsoft.minidrive.com.mini_drive;
 
 import android.content.Intent;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,15 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     private DialogProperties properties = new DialogProperties();
     private ListView mFilesListView;
     private LinearLayout mShowCategoriesLinearLayout;
+    private FloatingActionButton mRefreshButton;
+
+    private View.OnClickListener mRefreshButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getAllFiles();
+            initCategoriesMenu();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,9 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         mFilesListView = (ListView) findViewById(R.id.filesListView);
         signOutButton = (Button) findViewById(R.id.signOutMain);
         mShowCategoriesLinearLayout = (LinearLayout) findViewById(R.id.showCategoriesLinearLayout);
+        mRefreshButton = (FloatingActionButton) findViewById(R.id.refreshButton);
+
+        mRefreshButton.setOnClickListener(mRefreshButtonListener);
 
         signOutButton.setOnClickListener(this);
         initCategoriesMenu();
@@ -117,12 +130,49 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private void addCategoryButton (String category) {
+    private void addCategoryButton (final String category) {
         Button button = new Button(this);
         button.setText(category);
         // TODO: Add filter by category functionality using a listener here.
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFilesByCategory(category);
+            }
+        });
         mShowCategoriesLinearLayout.addView(button);
     }
+
+    private void getFilesByCategory(String categoryName) {
+        RequestParams params = new RequestParams();
+        final MiniDriveApplication app = (MiniDriveApplication) getApplication();
+        CategoriesRestClient.showFilesByCategory(app.getAUTHTOKEN(), categoryName, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                ArrayList<String> files = new ArrayList<>();
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject file = null;
+                    try {
+                        file = response.getJSONObject(i);
+                        files.add(file.getString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.item_category,files);
+                mFilesListView.setAdapter(adapter);
+
+                mFilesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String selected = (String) mFilesListView.getItemAtPosition(position);
+                        downloadFile( selected );
+                    }
+                });
+            }
+        });
+    }
+
     private void getAllFiles() {
         RequestParams params = new RequestParams();
         final MiniDriveApplication app = (MiniDriveApplication) getApplication();
