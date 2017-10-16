@@ -12,9 +12,12 @@ import { MyFileOfList } from '../../_models/index';
   moduleId: module.id,
   selector: 'pdf-app',
   templateUrl: './preview.component.html',
-  providers: [
+    styleUrls: ['./preview.component.scss'],
+    providers: [
+
     FileComponent
   ],
+
   // animations: [
   //   trigger('dialog', [
   //     transition('void => *', [
