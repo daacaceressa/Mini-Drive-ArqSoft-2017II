@@ -26,6 +26,11 @@ public class FilesRestClient {
         client.get(getAbsoluteUrl("/files/downloadFile/"+file), params, responseHandler);
     }
 
+    public static void downloadSharedFile( String AUTHTOKEN, RequestParams params, FileAsyncHttpResponseHandler responseHandler ) {
+        client.addHeader("AUTHTOKEN", AUTHTOKEN);
+        client.post(getAbsoluteUrl("/files/downloadSharedFile"), params, responseHandler);
+    }
+
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }

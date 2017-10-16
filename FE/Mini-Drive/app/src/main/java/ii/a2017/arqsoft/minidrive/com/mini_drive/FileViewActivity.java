@@ -83,11 +83,11 @@ public class FileViewActivity extends AppCompatActivity {
         HashDocumentRestClient.getFileId(app.getAUTHTOKEN(), filename, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                mShareFileButton.setEnabled(true);
-                mEditCategoryButton.setEnabled(true);
                 System.out.println(response);
                 try {
                     fileHashId = response.getString("id");
+                    mShareFileButton.setEnabled(true);
+                    mEditCategoryButton.setEnabled(true);
                     mShareFileButton.setOnClickListener(mShareFileButtonListener);
                     mEditCategoryButton.setOnClickListener(mEditCategoryButtonListener);
                 } catch (JSONException e) {

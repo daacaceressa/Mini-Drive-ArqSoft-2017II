@@ -19,4 +19,5 @@
     <string name="delete_category">Are you sure to delete this category?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="sharedFiles">Shared files</string>
 </resources>

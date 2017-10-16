@@ -12,6 +12,11 @@ public class SharesRestClient {
         client.post(getAbsoluteUrl("/share/postShares"), params, responseHandler);
     }
 
+    public static void getMySharedFiles (String AUTHTOKEN, RequestParams params, JsonHttpResponseHandler responseHandler) {
+        client.addHeader("AUTHTOKEN", AUTHTOKEN);
+        client.get(getAbsoluteUrl("/share/getMyShares"), params, responseHandler);
+    }
+
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
     }
