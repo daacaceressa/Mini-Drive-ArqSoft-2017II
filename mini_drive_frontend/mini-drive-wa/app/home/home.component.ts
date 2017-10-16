@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
                     //return this.files;
                 },
                 error => this.errorMessage = <any>error
-            )   //console.log("este es el hash: " + hash["id"])
+            );   //console.log("este es el hash: " + hash["id"])
         }
         //console.log(this.files);
     }

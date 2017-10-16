@@ -27,7 +27,7 @@
 <div class="mat-card-content" *ngIf="showPreview">
     <br>
     <button class="close" (click)="closePreview()">close preview</button>
-    <pdf-app [path]="selectedFile">Loading</pdf-app>
+    <pdf-app [path]="selectedFile" [isSharedFile]="true">Loading</pdf-app>
 </div>
 
 <!-- Componente de dropzone - upload -->
