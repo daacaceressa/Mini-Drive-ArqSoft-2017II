@@ -121,6 +121,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initCategoriesMenu() {
+        mShowCategoriesLinearLayout.removeAllViews();
         RequestParams params = new RequestParams();
         final MiniDriveApplication app = (MiniDriveApplication) getApplication();
         CategoriesRestClient.getAllUserCategories(app.getAUTHTOKEN(), params, new JsonHttpResponseHandler() {
