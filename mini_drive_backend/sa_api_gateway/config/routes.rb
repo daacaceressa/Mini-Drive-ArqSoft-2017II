@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 	get "files/downloadFile/:filename", to: 'files#downloadFile'
 	get "files/listOfFiles", to: 'files#listOfFiles'
 	get "files/delFile/:filename", to: 'files#delFile'
-	post "files/downloadSharedFile", to:'files#downloadSharedFile'
+	get "files/downloadSharedFile", to:'files#downloadSharedFile'
 
 	# Categorize Microservice
 
