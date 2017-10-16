@@ -10,23 +10,14 @@ import { DownloadService } from "../../_services/download.service";
 
 
 @Component({
-    moduleId: module.id,
-    selector: 'pdf-app',
-    templateUrl: './preview.component.html',
+  moduleId: module.id,
+  selector: 'pdf-app',
+  templateUrl: './preview.component.html',
+    styleUrls: ['./preview.component.scss'],
     providers: [
-        FileComponent
-    ],
-    // animations: [
-    //   trigger('dialog', [
-    //     transition('void => *', [
-    //       style({ transform: 'scale3d(.3, .3, .3)' }),
-    //       animate(100)
-    //     ]),
-    //     transition('* => void', [
-    //       animate(100, style({ transform: 'scale3d(.0, .0, .0)' }))
-    //     ])
-    //   ])
-    // ]
+
+    FileComponent
+  ]
 })
 export class PreviewComponent implements OnChanges {
 
