@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ShareService} from "../../../_services/share.service";
-import {MyShares} from "../../../_models/my-shares";
+import { ShareService } from "../../../_services/share.service";
+import { MyShares } from "../../../_models/my-shares";
+import { MyFileOfList } from "../../../_models/my-file-of-list";
+import { SharedFile } from "../../../_models/shared-file";
 
 
 @Component({
@@ -12,8 +14,14 @@ export class ViewMySharesComponent implements OnInit {
 
    private myObjectShare: MyShares;
    public errorMessage: string;
-   public tmpShares: Object[]=[];
+   public tmpShares: SharedFile[]=[];
     public message: String = "";
+
+    //components views
+    public showDropZone: boolean = false;
+    public showPreview: boolean = false;
+
+    public selectedFile: MyFileOfList;
 
   constructor(private shareService: ShareService) { }
 
@@ -41,9 +49,10 @@ export class ViewMySharesComponent implements OnInit {
     private getPathsOfShares(){
 
         // metodo encargado de acortar el path del archivo y ajustar la lista files en este componente
+        let index:number = 0;
         for (let sh of this.myObjectShare.files) {
 
-
+            index++;
             //obtener el nombre a partir del path
             console.log(sh);
             let tmpPath = sh;
@@ -51,10 +60,32 @@ export class ViewMySharesComponent implements OnInit {
             let splitted = sh.split("/");
 
             // agregando mapeo de objetos
-            this.tmpShares.push({'nameFile': splitted[1] ,'ownerFile' : splitted[0]});
+            this.tmpShares.push({'id': index, 'name': splitted[1] , 'path': sh, 'owner' : splitted[0]});
 
 
         }
         console.log(this.tmpShares);
+    }
+
+    // component preview
+    onSelect(mySelectedFile: SharedFile) {
+
+        this.selectedFile = {'id' : mySelectedFile.id,'name':mySelectedFile.name, 'path':mySelectedFile.path };
+        //transformacion objeto share a objeto file
+
+        this.changeStatePreview(true);
+    }
+
+    //Mostrar y ocultar dropzone
+    openCloseDropZone(value: boolean) {
+        this.showDropZone = !this.showDropZone;
+    }
+
+    //Mostrar y ocultar preview
+    changeStatePreview(value: boolean) {
+        this.showPreview = value;
+    }
+    closePreview() {
+        this.showPreview = false;
     }
 }

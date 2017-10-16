@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Output } from '@angular/core';
 
 import { User } from '../_models/index';
 import { UserService } from '../_services/index';
@@ -24,8 +24,12 @@ export class HomeComponent implements OnInit {
 
     // pop-up add categories
     public selectedFile: MyFileOfList;
+
+    // for visible components
     public showAddCategories: boolean = false;
     public showAddShare: boolean = false;
+    public showDropZone: boolean = false;
+    public showPreview: boolean = false;
 
 
     constructor(private userService: UserService, private fileService: FileService,
@@ -42,14 +46,18 @@ export class HomeComponent implements OnInit {
     }
 
     deleteUser(id: number) {
-        this.userService.delete(id).subscribe(() => { this.loadAllUsers() });
+        this.userService.delete(id).subscribe(() => {
+            this.loadAllUsers()
+        });
     }
 
     private loadAllUsers() {
-        this.userService.getAll().subscribe(users => { this.users = users; });
+        this.userService.getAll().subscribe(users => {
+            this.users = users;
+        });
     }
 
-    showListofFiles(){
+    showListofFiles() {
 
         this.fileService.getListOfFiles().subscribe(
             data => {
@@ -58,15 +66,15 @@ export class HomeComponent implements OnInit {
                 this.formatPaths();
                 return this.files;
             },
-            error =>  this.errorMessage = <any>error);
+            error => this.errorMessage = <any>error);
     }
 
-    validateToken(){
+    validateToken() {
 
         console.log(this.fileService.validate());
     }
 
-    private formatPaths(){
+    private formatPaths() {
 
         // metodo encargado de acortar el path del archivo y ajustar la lista files en este componente
         for (let file of this.files) {
@@ -79,19 +87,23 @@ export class HomeComponent implements OnInit {
             //file.id = splitted[2]
 
             this.hashService.getHashByPath(splitted[2]).subscribe(
-
                 data => {
                     this.MyHash = data;
                     console.log(this.MyHash["id"]);
-                    file.id=this.MyHash["id"];
+                    file.id = this.MyHash["id"];
                     //return this.files;
                 },
-                error =>  this.errorMessage = <any>error
+                error => this.errorMessage = <any>error
             )   //console.log("este es el hash: " + hash["id"])
         }
         //console.log(this.files);
     }
 
+    //metodo seleccion fila componente preview
+    onSelect(selectedFile: MyFileOfList) {
+        this.selectedFile = selectedFile;
+        this.changeStatePreview(true);
+    }
 
     // metodos pop-up update tournament
 
@@ -114,4 +126,16 @@ export class HomeComponent implements OnInit {
         this.showAddShare = value;
     }
 
+    //Mostrar y ocultar dropzone
+    openCloseDropZone(value: boolean) {
+        this.showDropZone = !this.showDropZone;
+    }
+
+    //Mostrar y ocultar preview
+    changeStatePreview(value: boolean) {
+        this.showPreview = value;
+    }
+    closePreview() {
+        this.showPreview = false;
+    }
 }

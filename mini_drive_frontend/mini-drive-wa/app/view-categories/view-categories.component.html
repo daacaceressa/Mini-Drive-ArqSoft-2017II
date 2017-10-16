@@ -1,3 +1,5 @@
+<app-top-banner></app-top-banner>
+
 <h2>Busqueda por Categorias</h2>
 
 <h4>Categoria:</h4>
@@ -15,7 +17,7 @@
         <th>Path</th>
     </tr>
 
-    <tr *ngFor=" let file of files">
+    <tr *ngFor=" let file of files" (click)="onSelect(file)">
       <td>{{file.id}}</td>
       <td>{{file.name}}</td>
       <td>{{file.path}}</td>
@@ -24,3 +26,22 @@
 <br>
 
 <p><a [routerLink]="['']">Regresar</a></p>
+
+
+<!-- Componente de visualizacion -->
+<div class="mat-card-content" *ngIf="showPreview">
+    <br>
+    <button class="close" (click)="closePreview()">close preview</button>
+    <pdf-app [path]="selectedFile">Loading</pdf-app>
+</div>
+
+<!-- Componente de dropzone - upload -->
+<div class="mat-card-content" *ngIf="showDropZone">
+    <br/>
+    <div class="col-sm-2">
+        <p>Upload your files here ;)</p>
+    </div>
+    <div class="col-sm-6">
+        <my-dropzone></my-dropzone>
+    </div>
+</div>

@@ -18,6 +18,12 @@ export class ViewCategoriesComponent implements OnInit {
     private my_path : String;
     private files: MyFileOfList[] = [];
 
+    public selectedFile: MyFileOfList;
+
+    //view components
+    public showDropZone: boolean = false;
+    public showPreview: boolean = false;
+
   constructor(private categorizeService: CategorizeService,
               private hashService: HashService) { }
 
@@ -69,5 +75,27 @@ export class ViewCategoriesComponent implements OnInit {
         }
       console.log(this.files);
     }
+
+    // component preview
+    onSelect(selectedFile: MyFileOfList) {
+        this.selectedFile = selectedFile;
+        this.changeStatePreview(true);
+    }
+
+    //Mostrar y ocultar dropzone
+    openCloseDropZone(value: boolean) {
+        this.showDropZone = !this.showDropZone;
+    }
+
+    //Mostrar y ocultar preview
+    changeStatePreview(value: boolean) {
+        this.showPreview = value;
+    }
+    closePreview() {
+        this.showPreview = false;
+    }
+
+
+
 
 }

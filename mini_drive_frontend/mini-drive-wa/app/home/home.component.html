@@ -1,34 +1,43 @@
 ﻿<!-- header banner - top banner -->
 <app-top-banner></app-top-banner>
 
-<div class="col-md-6">
 
-    <p>Welcome to Mini Drive</p>
+        <h3>My Files</h3>
+        <table class="my-table">
+            <tr>
+                <th>Id</th>
+                <th>Archivo</th>
+                <th>Ruta</th>
+                <th>Opciones</th>
+                <th></th>
+            </tr>
+            <tr *ngFor=" let file of files " (click)="onSelect(file)">
+                <td>{{file.id}}</td>
+                <td>{{file.name}}</td>
+                <td>{{file.path}}</td>
+                <td><button (click)="openAddCategories(file)" class="btn btn-sm btn-outline-primary  ">Categories</button></td>
+                <td><button (click)="openAddShare(file)" class="btn btn-sm btn-outline-primary  ">Share</button></td>
+            </tr>
+        </table>
+        <br>
 
-    <h3>My Files :</h3>
-    <table class="my-table">
-        <tr>
-            <th>Id</th>
-            <th>Archivo</th>
-            <th>Ruta</th>
-            <th>Opciones</th>
-            <th></th>
-        </tr>
-        <tr *ngFor=" let file of files">
-            <td>{{file.id}}</td>
-            <td>{{file.name}}</td>
-            <td>{{file.path}}</td>
-            <td><button (click)="openAddCategories(file)" class="btn btn-sm btn-outline-primary  ">Categories</button></td>
-            <td><button (click)="openAddShare(file)" class="btn btn-sm btn-outline-primary  ">Share</button></td>
-        </tr>
-    </table>
+<!-- Componente de visualizacion -->
+<div class="mat-card-content" *ngIf="showPreview">
     <br>
-
-    <p><a [routerLink]="['/view-categories']">Search By Category</a></p>
-
-    <p><a [routerLink]="['/view-my-shares']">Shared with me!!</a></p>
+    <button class="close" (click)="closePreview()">close preview</button>
+    <pdf-app [path]="selectedFile">Loading</pdf-app>
 </div>
 
+<!-- Componente de dropzone - upload -->
+<div class="mat-card-content" *ngIf="showDropZone">
+    <br/>
+    <div class="col-sm-2">
+        <p>Upload your files here ;)</p>
+    </div>
+    <div class="col-sm-6">
+        <my-dropzone></my-dropzone>
+    </div>
+</div>
 <!-- pop-up categoires-->
 <app-add-categories *ngIf="showAddCategories" [file]="selectedFile" (closeModal)="changeStatePopUp(false)"></app-add-categories>
 <!-- pop-up share-->

@@ -14,7 +14,8 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'view-categories', component: ViewCategoriesComponent },
     { path: 'view-my-shares', component: ViewMySharesComponent },
-    { path: 'files', component: UploadComponent },
+    //{ path: 'files', component: UploadComponent }, @leo
+    { path: 'upload', component: UploadComponent }, //@juli
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

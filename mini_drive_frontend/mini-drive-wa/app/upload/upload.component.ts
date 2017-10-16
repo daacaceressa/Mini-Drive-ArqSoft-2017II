@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DropzoneComponent , DropzoneDirective, DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { Router } from "@angular/router";
 
 @Component({
   moduleId: module.id,
@@ -23,7 +24,7 @@ export class UploadComponent {
 
   @ViewChild(DropzoneComponent) componentRef: DropzoneComponent;
 
-  constructor() {
+  constructor(private _router: Router) {
     this.type =  'component';
   }
 
@@ -37,6 +38,7 @@ export class UploadComponent {
 
   onUploadSuccess(args: any) {
     console.log('onUploadSuccess:', args);
+      this._router.navigate(['']);
   }
 }
 
