@@ -3,6 +3,7 @@
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
+import { UploadComponent } from './upload/upload.component';
 import { AuthGuard } from './_guards/index';
 import { ViewCategoriesComponent } from './view-categories/view-categories.component';
 import {ViewMySharesComponent} from "./_components/share/view-my-shares/view-my-shares.component";
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'view-categories', component: ViewCategoriesComponent },
     { path: 'view-my-shares', component: ViewMySharesComponent },
+    { path: 'files', component: UploadComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

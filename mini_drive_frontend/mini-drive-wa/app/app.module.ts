@@ -1,4 +1,4 @@
-﻿import { NgModule }      from '@angular/core';
+import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -27,12 +27,27 @@ import { AddShareComponent } from './_components/share/add-share/add-share.compo
 import { ViewMySharesComponent } from './_components/share/view-my-shares/view-my-shares.component';
 import { TopBannerComponent } from './top-banner/top-banner.component';
 
+import { UploadComponent } from './upload/upload.component';
+import { DropzoneComponent } from 'ngx-dropzone-wrapper';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { FileComponent } from './upload/files/files.component';
+import { ListService } from './_services/index';
+import { DownloadService } from './_services/index';
+
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { PreviewComponent } from './upload/preview/preview.component';
+
+
+
+
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         routing
+        DropzoneModule.forRoot(DROPZONE_CONFIG),
     ],
     declarations: [
         AppComponent,
@@ -44,7 +59,12 @@ import { TopBannerComponent } from './top-banner/top-banner.component';
         ViewCategoriesComponent,
         AddShareComponent,
         ViewMySharesComponent,
-        TopBannerComponent
+        TopBannerComponent,
+        UploadComponent,
+        // DropzoneComponent,
+        FileComponent,
+        PreviewComponent,
+        PdfViewerComponent
     ],
     providers: [
         AuthGuard,
@@ -55,8 +75,9 @@ import { TopBannerComponent } from './top-banner/top-banner.component';
         HashService,
         CategorizeService,
         ShareService,
-
-
+        UserService,
+        ListService,
+        DownloadService,
         // providers used to create fake backend
         fakeBackendProvider,
         MockBackend,
@@ -64,5 +85,14 @@ import { TopBannerComponent } from './top-banner/top-banner.component';
     ],
     bootstrap: [AppComponent]
 })
+
+const DROPZONE_CONFIG: DropzoneConfigInterface = {
+    // Change this to your upload POST address:
+    url: 'http://35.188.6.128:4000/files/uploadFile',
+    //url: 'http://35.188.6.128:3004/uploadFile/1',
+    headers: { 'AUTHTOKEN': localStorage.getItem('authtoken') },
+    acceptedFiles: 'application/pdf',
+    createImageThumbnails: true
+};
 
 export class AppModule { }

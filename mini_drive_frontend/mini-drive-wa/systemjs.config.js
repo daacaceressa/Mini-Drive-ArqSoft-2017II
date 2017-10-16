@@ -23,9 +23,17 @@
             '@angular/http/testing': 'npm:@angular/http/bundles/http-testing.umd.js',
             '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
+            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+
 
             // other libraries
-            'rxjs': 'npm:rxjs'
+            'rxjs': 'npm:rxjs',
+            'ngx-dropzone-wrapper': 'npm:ngx-dropzone-wrapper/bundles/ngx-dropzone-wrapper.umd.js',
+            'ng2-pdf-viewer': 'node_modules/ng2-pdf-viewer',
+            'pdfjs-dist': 'node_modules/pdfjs-dist',
+            'file-saver': 'npm:@types/file-saver/index.d.ts',
+
+
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -34,8 +42,15 @@
                 defaultExtension: 'js'
             },
             rxjs: {
+                main: './Rx.js',
                 defaultExtension: 'js'
-            }
+            },
+            'ng2-pdf-viewer': { main: 'dist/index.js', defaultExtension: 'js' },
+            'pdfjs-dist': { defaultExtension: 'js' },
+            'angular2-in-memory-web-api': {
+                main: './index.js',
+                defaultExtension: 'js'
+            },
         }
     });
 })(this);
