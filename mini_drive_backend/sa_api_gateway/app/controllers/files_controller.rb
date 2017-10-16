@@ -22,8 +22,8 @@ class FilesController < ApplicationController
 	end
 
 	def downloadSharedFile
-		email = params[:used_id].to_s
-		nameFile = params[:filename].to_s + ".pdf"
+		email = params[:user_id].to_s
+		nameFile = params[:filename].to_s
 		File.open(@@file_directory + nameFile, "wb") do |f|
 			f.write HTTParty.get(BASE_IP + ":3004/downloadFile/" + email + "/" + nameFile).parsed_response
 		end
