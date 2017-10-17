@@ -22,7 +22,7 @@ import { HashService } from "./_services/hash.service";
 import { CategorizeService } from "./_services/categorize.service";
 import { AddCategoriesComponent } from './add-categories/add-categories.component';
 import { ViewCategoriesComponent } from './view-categories/view-categories.component';
-import {ShareService} from "./_services/share.service";
+import { ShareService } from "./_services/share.service";
 import { AddShareComponent } from './_components/share/add-share/add-share.component';
 import { ViewMySharesComponent } from './_components/share/view-my-shares/view-my-shares.component';
 import { TopBannerComponent } from './top-banner/top-banner.component';
@@ -37,6 +37,7 @@ import { DownloadService } from './_services/index';
 
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { PreviewComponent } from './upload/preview/preview.component';
+import { GlobalDataService } from "./_services/global-data.service";
 
 const DROPZONE_CONFIG: DropzoneConfigInterface = {
     // Change this to your upload POST address:
@@ -84,6 +85,8 @@ const DROPZONE_CONFIG: DropzoneConfigInterface = {
         UserService,
         ListService,
         DownloadService,
+        // global variables
+        GlobalDataService,
         // providers used to create fake backend
         fakeBackendProvider,
         MockBackend,
