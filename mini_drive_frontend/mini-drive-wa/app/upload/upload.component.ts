@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
   moduleId: module.id,
   selector: 'my-dropzone',
   templateUrl: 'upload.component.html',
-    styleUrls: ['upload.component.css'],
+  styleUrls: ['upload.component.css'],
 })
 export class UploadComponent {
   public type: string = 'component';

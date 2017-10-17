@@ -15,19 +15,6 @@
   text-align: center;
 }
 
-.div-check{
-  border: 1px solid red;
-  width: 200px;
-  padding: 0px 15px 0px 15px;
-  margin: 0 auto;
-
-  overflow: hidden;
-}
-.div-check div{
-  padding: 0;
-  margin: 0 ;
-}
-
 .cont-tree{
   border: 2px solid black;
   width: 200px;
@@ -52,7 +39,7 @@
   width: 80px;
   height: 26px;
   background: #333;
-  margin: 5px;
+  margin: 0;
   position: relative;
   //vertical-align: baseline;
   border-radius: 50px;
@@ -101,7 +88,7 @@
   left: 43px;
 }
 
- .ondisplay {
+.ondisplay {
   text-align: center;
   padding: 20px 0;
 }
@@ -115,6 +102,7 @@
   margin-top: 0px;
   margin-left: 35px;
   margin-right: 35px;
+
   margin-bottom: 10px;
   left: 50px;
   border: 1px solid gray;

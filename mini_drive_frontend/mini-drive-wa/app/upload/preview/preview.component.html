@@ -8,7 +8,7 @@
 
 
 
-        <section title="Tamaño Original" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
+        <section title=".slideThree" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
             <!-- .slideThree -->
             <div class="slideThree">
                 <input type="checkbox" value="None" id="slideThree" name="check" checked=""
@@ -20,7 +20,7 @@
             <!-- end .slideThree -->
         </section>
 
-        <section title="Renderizar" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
+        <section title=".slideThree1" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
             <!-- .slideThree -->
             <div class="slideThree">
                 <input type="checkbox" value="None" id="slideThree1" name="check" checked=""
@@ -33,7 +33,7 @@
         </section>
 
 
-        <section title="Ver Todo" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
+        <section title=".slideThree2" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
             <!-- .slideThree -->
             <div class="slideThree">
                 <input type="checkbox" value="None" id="slideThree2" name="check" checked=""
@@ -83,7 +83,6 @@
         </div>
 
     </div>
-    <br>
     <div *ngIf="!isLoaded && !error && progressData" id="progress">
         <div class="">
             <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
