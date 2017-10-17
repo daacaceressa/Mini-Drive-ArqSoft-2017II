@@ -20,13 +20,15 @@ export class UploadComponent {
     maxFiles: 1,
     autoReset: null,
     errorReset: null,
-    cancelReset: null
+    cancelReset: null,
+      headers: {'AUTHTOKEN': localStorage.getItem('authtoken')}
   };
 
   @ViewChild(DropzoneComponent) componentRef: DropzoneComponent;
 
   constructor(private _router: Router) {
     this.type =  'component';
+   // this.componentRef.config.headers = {'AUTHTOKEN': localStorage.getItem('authtoken')};
   }
 
   reset() {
