@@ -1,19 +1,19 @@
 <app-top-banner></app-top-banner>
 
-<h2>Busqueda por Categorias</h2>
+<h2>Search by Categories</h2>
 
-<h4>Categoria:</h4>
+<h4>Categorie:</h4>
 
 <input [(ngModel)]="category" type="text">
 
-<button type="submit" (click)="getFilesOfCategory(category)">Buscar</button>
+<button type="submit" (click)="getFilesOfCategory(category)">Search</button>
 
 
 <h3>My Files :</h3>
 <table class="my-table">
     <tr>
         <th>Id</th>
-        <th>Archivo</th>
+        <th>File Name</th>
         <th>Path</th>
     </tr>
 
@@ -25,7 +25,7 @@
 </table>
 <br>
 
-<p><a [routerLink]="['']">Regresar</a></p>
+<p><a [routerLink]="['']">Return</a></p>
 
 
 <!-- Componente de visualizacion -->

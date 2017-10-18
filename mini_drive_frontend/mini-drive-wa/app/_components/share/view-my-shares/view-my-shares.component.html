@@ -1,15 +1,15 @@
 <app-top-banner></app-top-banner>
 
 
-<h2>Archivos Compartidos Conmigo</h2>
+<h2>Files Shared With Me!!</h2>
 
 <p *ngIf="message.length>0">{{message}}</p>
 
 <table class="my-table">
     <tr>
-        <th>id</th>
-        <th>Archivo</th>
-        <th>Propietario</th>
+        <th>Id</th>
+        <th>File Name</th>
+        <th>Owner</th>
     </tr>
     <tr *ngFor=" let sh of tmpShares" (click)="onSelect(sh)">
         <td>{{sh.id}}</td>
@@ -20,7 +20,7 @@
 
 <br>
 
-<p><a [routerLink]="['']">Regresar</a></p>
+<p><a [routerLink]="['']">Return</a></p>
 
 
 <!-- Componente de visualizacion -->
