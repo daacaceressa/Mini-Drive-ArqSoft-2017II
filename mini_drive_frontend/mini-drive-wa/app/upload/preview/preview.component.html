@@ -1,0 +1,97 @@
+<div *ngIf="path">
+
+
+
+
+    <div class="row">
+
+
+
+
+        <section title="Original Size" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
+            <!-- .slideThree -->
+            <div class="slideThree">
+                <input type="checkbox" value="None" id="slideThree" name="check" checked=""
+                       [checked]="originalSize"
+                       [(ngModel)]="originalSize"
+                >
+                <label for="slideThree"></label>
+            </div>
+            <!-- end .slideThree -->
+        </section>
+
+        <section title="Render Text" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
+            <!-- .slideThree -->
+            <div class="slideThree">
+                <input type="checkbox" value="None" id="slideThree1" name="check" checked=""
+                       [checked]="renderText"
+                       [(ngModel)]="renderText"
+                >
+                <label for="slideThree1"></label>
+            </div>
+            <!-- end .slideThree -->
+        </section>
+
+
+        <section title="Show All" style="background-image: none; border: none; box-shadow: none; background-position: initial initial; background-repeat: initial initial;">
+            <!-- .slideThree -->
+            <div class="slideThree">
+                <input type="checkbox" value="None" id="slideThree2" name="check" checked=""
+                       [checked]="showAll"
+                       [(ngModel)]="showAll"
+                >
+                <label for="slideThree2"></label>
+            </div>
+            <!-- end .slideThree -->
+        </section>
+
+    </div>
+
+    <div class="row">
+
+        <div class="form-group col-md-4">
+            <label class="" for="pdf-zoom">Zoom</label>
+            <button (click)="incrementZoom(-0.1)" class="button-pop">
+                        -
+                    </button>
+            <button (click)="incrementZoom(0.1)" class="button-pop">
+                        +
+                    </button>
+            <input [(ngModel)]="zoom" [value]="zoom" width="40px" class="form-control" type="number" pattern="-?[0-9]*(\.[0-9]+)?" id="pdf-zoom">
+        </div>
+
+
+        <div mdl *ngIf="stickToPage && showAll || !showAll">
+            <div class="form-group col-md-4">
+                <label class="" for="pdf-page">Page</label>
+                <button (click)="incrementPage(-1)" class="button-pop">
+                        Previous
+                    </button>
+                <button (click)="incrementPage(1)" class="button-pop">
+                        Next
+                    </button>
+                <input [(ngModel)]="page" [value]="page" class="form-control" type="number" pattern="-?[0-9]*(\.[0-9]+)?" id="pdf-page">
+                <span *ngIf="pdf">of {{ pdf.numPages }}</span>
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label class="" for="pdf-page">Angle</label>
+            <button (click)="rotate(-90)" class="button-pop">Rotate left</button>
+            <button (click)="rotate(90)" class="button-pop">Rotate right</button>
+                <input [value]="rotation" class="form-control" type="number" disabled>
+        </div>
+
+    </div>
+    <div *ngIf="!isLoaded && !error && progressData" id="progress">
+        <div class="">
+            <div class="bar" [style.width]="progressData.loaded / progressData.total * 100 + '%'"></div>
+        </div>
+        <span>{{ getInt(progressData.loaded / progressData.total * 100) }}%</span>
+    </div>
+    <div class="col-md-12">
+    <pdf-viewer  [src]="pdfSrc" [(page)]="page" [rotation]="rotation" [original-size]="originalSize" (after-load-complete)="afterLoadComplete($event)"
+        [zoom]="zoom" [show-all]="showAll" [stick-to-page]="stickToPage" [render-text]="renderText" [external-link-target]="'blank'"
+        (error)="onError($event)" (on-progress)="onProgress($event)"></pdf-viewer>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="detail-categories">
+  <form>
+    <br>
+    <div class="div-gray">
+      <!--<p><strong><span>ID : {{file?.id}}</span></strong><strong><span>ID : {{file?.name}}</span></strong></p>-->
+        <p><strong><span>{{file?.name}}</span></strong></p>
+    </div>
+      <br>
+      <!-- Agrega las categorias al PopUp!!-->
+      <form #f="ngForm" class="form-cat">
+          <h4>Categorie:</h4>
+          <input #newCategory class="input-border"
+             (keyup.enter)="addCategory(newCategory.value)"><br>
+          <button class="button-pop " type="button" (click)="addCategory(newCategory.value)">Add</button>
+          <button class="button-pop " type="button" (click)="removeCategory(newCategory.value)">Remove</button>
+          <button class="button-pop " type="button" (click)="deleteAllCategory()">Delete All</button>
+          <h4>File Categories: </h4>
+          <p *ngIf="categories.length==0">No Categories</p>
+          <ul class="list-lu" *ngFor="let categoryname of categories">
+              <li class="list-li">{{categoryname}}</li>
+          </ul>
+          <button type="button" class="button-pop-close" (click)="closePopUp()" aria-label="Close">Close</button>
+      </form>
+
+    <!--<form #f="ngForm" novalidate>
+      <div class="checkbox checkbox-primary" *ngFor="let categoryname of my_categories;let i=index;">
+        <label for="categoryname">
+          <input type="checkbox" name="categoryname[{{i}}]"  [value]="categoryname"
+                 (change)="categories.push($event.target.getAttribute('value').toString())"/>
+          {{categoryname}}
+        </label>
+      </div>
+      <button type="submit" (click)="save(f.valid)" class="btn btn-default">Submit</button>
+      <button type="button" (click)="closePopUp()" class="btn btn-default">Cancel</button>
+    </form>-->
+
+  </form>
+</div>

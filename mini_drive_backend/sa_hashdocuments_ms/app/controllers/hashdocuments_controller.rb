@@ -22,6 +22,16 @@ class HashdocumentsController < ApplicationController
     end
   end
 
+  # GET /hashdocuments/getByPath
+  def show_by_path
+    @hashdocument = Hashdocument.find_by_path(params[:path])
+    if @hashdocument.nil?
+      return render json: {"status" => 400, "message" => "invalid path", "bad request" => 'not found results'}, status: 400
+    else
+      render json: @hashdocument
+    end
+  end
+
   # POST /hashdocuments
   def create
     @hashdocument = Hashdocument.new(hashdocument_params)

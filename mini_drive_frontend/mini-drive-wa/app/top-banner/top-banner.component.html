@@ -1,0 +1,24 @@
+<header>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" [routerLink]="['']">Home</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a [routerLink]="['/view-categories']">Search by Category</a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li class="active"><a [routerLink]="['/view-my-shares']">Shared with me</a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li class="active"><a [routerLink]="['/upload']">Upload</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a> {{currentUser}}</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>

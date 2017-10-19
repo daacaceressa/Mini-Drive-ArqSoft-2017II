@@ -1,0 +1,17 @@
+<div class="col-md-12">
+  <table class="table table-hover">
+    <tr *ngFor="let d of data | async" [class.selected]="path === selectedFile" (click)="onSelect(d)">
+      <td>
+        <h3>{{d.id}}</h3>
+      </td>
+      <td>
+        <h3>{{d.name}}</h3>      
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="col-md-12">
+  <pdf-app [path]="selectedFile">Loading</pdf-app>
+</div>
+
