@@ -39,7 +39,7 @@ export class AddShareComponent implements OnInit {
             this.shareService.shareFile(newUser, this.file.id.toString()).subscribe(
                 data => {
                     console.log(data);
-                    this.message= "El archivo se compartio con " + newUser + " exitosamente!!";
+                    this.message= "The document has been successfully shared with the user " + newUser;
 
                 },
                 error =>  {this.errorMessage = <any>error;
@@ -55,7 +55,7 @@ export class AddShareComponent implements OnInit {
             this.shareService.delShareFile(newUser, this.file.id.toString()).subscribe(
                 data => {
                     console.log(data);
-                    this.message= "El archivo dejo de estar compartido con " + newUser + " exitosamente!!";
+                    this.message= "The file is no longer shared with " + newUser;
 
                 },
                 error =>  {this.errorMessage = <any>error;
