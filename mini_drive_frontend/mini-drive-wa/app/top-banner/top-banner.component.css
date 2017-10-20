@@ -1,0 +1,24 @@
+.image{
+    /*background-image: url(https://qubeshub.org/app/site/groups/1210/uploads/uk-0406-349751-front.jpg);*/
+    background-image: url(http://img.fenixzone.net/i/lp19hSO.png);
+    background-repeat: no-repeat;
+    background-size: 45px 45px;
+    width: 45px;
+    height: 50px;
+    position: static;
+    margin: 0 auto;
+}
+
+.container-fluid{
+    border-top: solid 2px black;
+
+}
+
+.dSize{
+    padding-top: 10px;
+    width: 120px;
+
+}
+.dSize p {
+    font-size: 125%;
+}
