@@ -2,7 +2,7 @@
     <string name="app_name">Mini-Drive</string>
     <string name="API_URL">http://35.188.6.128:4000</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
-    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_sign_in">BlackBox</string>
     <string name="title_activity_file_view">FileViewActivity</string>
     <string name="email">Email</string>
     <string name="signUp">Sign Up</string>
