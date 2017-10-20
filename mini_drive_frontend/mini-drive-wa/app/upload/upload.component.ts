@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DropzoneComponent , DropzoneDirective, DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { Router } from "@angular/router";
+import {AlertService} from "../_services/alert.service";
 
 @Component({
   moduleId: module.id,
@@ -26,7 +27,7 @@ export class UploadComponent {
 
   @ViewChild(DropzoneComponent) componentRef: DropzoneComponent;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private _alertService: AlertService) {
     this.type =  'component';
    // this.componentRef.config.headers = {'AUTHTOKEN': localStorage.getItem('authtoken')};
   }
@@ -42,6 +43,7 @@ export class UploadComponent {
   onUploadSuccess(args: any) {
     console.log('onUploadSuccess:', args);
       this._router.navigate(['']);
+      this._alertService.success("Your file has been successfully uploaded!!")
   }
 }
 
