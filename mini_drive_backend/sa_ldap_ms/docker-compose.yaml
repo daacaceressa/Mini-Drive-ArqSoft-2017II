@@ -1,0 +1,4 @@
+ldap-ms:
+  build: .
+  ports:
+    - "4001:4001"
