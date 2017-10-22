@@ -42,25 +42,33 @@ class UserController < ApplicationController
 		@email = params[:email]
 		@password = params[:password]
 		@password_confirmation = params[:password_confirmation]
-		#Validation para emails repetidos?????
+
 		options = {
 			:body => {
 				:email => @email,
 				:password => @password,
-				:password_confirmation => @password_confirmation
+				:password_confirmation => @password_confirmation,
+				:nick => @email,
+				:name => @email
 			}.to_json,
 			:headers => {
 				'Content-Type' => 'application/json'
 			}
-
 		}
-		results = HTTParty.post(BASE_IP + ":3000/users", options)
-		
-		if results.code == 201
-      			return render json: {"status" => 201, "message" => "User Created"}, status: 201
-    		else
-      			return render json: {"status" => 400, "message" => "invalid email"}, status: 400
-   		end
+
+		resultsLDAP = HTTParty.post(BASE_IP + ":4001/user/resources/ldapcruds", options)
+		if resultsLDAP.code == 201	
+			results = HTTParty.post(BASE_IP + ":3000/users", options)
+			if results.code == 201
+	  			return render json: {"status" => 201, "message" => "User Created"}, status: 201
+			else
+				HTTParty.delete(BASE_IP + ":4001/user/resources/ldapcruds/"+@email.to_s)
+	  			return render json: {"status" => 400, "message" => "There was an error in the server"}, status: 400
+	   		end
+
+		else
+			return render json: {"status" => 400, "message" => "invalid email"}, status: 400
+		end		
 	end
 
 	def loginUser
@@ -75,10 +83,16 @@ class UserController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}
-		results = HTTParty.post(BASE_IP + ":3000/users/sign_in", options)
-		if results.code == 201
-			response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']
+
+		resultsLDAP = HTTParty.post(BASE_IP + ":4001/user/resources/ldap", options)
+		if resultsLDAP[:login] == "True"
+			results = HTTParty.post(BASE_IP + ":3000/users/sign_in", options)
+			if results.code == 201
+				response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']
+			end
+			render status: results.code
+		else
+			render status: 401	
 		end
-		render status: results.code
 	end
 end
