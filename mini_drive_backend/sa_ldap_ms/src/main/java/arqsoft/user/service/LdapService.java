@@ -42,7 +42,7 @@ public class LdapService {
             System.out.println("==== Authenticated in server ====");
             return true;
         } catch (LDAPException | UnsupportedEncodingException ex) {
-            System.out.println("==== ERROR to connecto to the LDAP Server ====");
+            System.out.println("==== ERROR to connect to the LDAP Server ====");
             return false;
         }
 
@@ -65,7 +65,7 @@ public class LdapService {
 
     public Boolean validatePassword(String user, String password){
 
-        String dn = "cn=" + user + ",ou=Shop,dc=arqsoft,dc=unal,dc=edu,dc=co";
+        String dn = "cn=" + user + ",ou=BlackBox,dc=arqsoft,dc=unal,dc=edu,dc=co";
 
         try {
             lc.bind(dn, password);
@@ -80,7 +80,7 @@ public class LdapService {
 
     public Boolean create(String user, String password,String name, String nick){
 
-        String dn = "cn=" + user + ",ou=Shop,dc=arqsoft,dc=unal,dc=edu,dc=co";
+        String dn = "cn=" + user + ",ou=BlackBox,dc=arqsoft,dc=unal,dc=edu,dc=co";
 
         FacesContext context = FacesContext.getCurrentInstance();
           try{
@@ -117,10 +117,10 @@ public class LdapService {
        String dn;
        if (typeUseridtypeuser.equals("1")){
            setAtr.add(new LDAPAttribute("objectclass", typeUseridtypeuser));
-           dn = "cn=" + user + ",ou=Shop,dc=arqsoft,dc=unal,dc=edu,dc=co";
+           dn = "cn=" + user + ",ou=BlackBox,dc=arqsoft,dc=unal,dc=edu,dc=co";
        } else {
            setAtr.add(new LDAPAttribute("objectclass", typeUseridtypeuser));
-           dn = "cn=" + user + ",ou=Shop,dc=arqsoft,dc=unal,dc=edu,dc=co";
+           dn = "cn=" + user + ",ou=BlackBox,dc=arqsoft,dc=unal,dc=edu,dc=co";
        }
        LDAPEntry newEntry = new LDAPEntry(dn, setAtr);
        return newEntry;
@@ -129,7 +129,7 @@ public class LdapService {
    public Boolean deleteUsers(String user){
            String dn = null;
 
-           dn = "cn=" + user + ",ou=Shop,dc=arqsoft,dc=unal,dc=edu,dc=co";
+           dn = "cn=" + user + ",ou=BlackBox,dc=arqsoft,dc=unal,dc=edu,dc=co";
            System.out.println( user );
            if (connect()){
                System.out.println( user );

@@ -1,5 +1,5 @@
-arqsoft/user/service/LdapService.class
-arqsoft/user/model/User.class
-arqsoft/user/resource/LdapResource.class
-arqsoft/user/resource/LdapCrudsResource.class
-postclip/user/JAXRSConfiguration.class
+arqsoft\user\service\LdapService.class
+postclip\user\JAXRSConfiguration.class
+arqsoft\user\model\User.class
+arqsoft\user\resource\LdapResource.class
+arqsoft\user\resource\LdapCrudsResource.class
