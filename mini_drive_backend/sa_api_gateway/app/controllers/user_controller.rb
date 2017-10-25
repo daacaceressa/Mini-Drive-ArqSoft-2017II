@@ -1,3 +1,5 @@
+require 'json'
+
 class UserController < ApplicationController
 
 	def validate
@@ -85,7 +87,12 @@ class UserController < ApplicationController
 		}
 
 		resultsLDAP = HTTParty.post(BASE_IP + ":4001/user/resources/ldap", options)
-		if resultsLDAP[:login] == "True"
+		#puts resultsLDAP;
+		#puts resultsLDAP.parsed_response;
+		# puts resultsLDAP[:login];
+		auth =  JSON.parse(resultsLDAP)["login"];
+		#puts "-----------------------------------------------";
+		if auth == "True"
 			results = HTTParty.post(BASE_IP + ":3000/users/sign_in", options)
 			if results.code == 201
 				response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']
