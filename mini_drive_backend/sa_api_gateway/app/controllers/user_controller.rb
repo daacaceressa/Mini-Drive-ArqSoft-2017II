@@ -21,6 +21,19 @@ class UserController < ApplicationController
 		end
 	end
 
+	def exist
+		options = {
+			:body => {
+				:email => params[:email]
+			}.to_json,
+			:headers => {
+				'Content-Type' => 'application/json'
+			}
+		}	
+		results = HTTParty.post(BASE_IP + ":3000/users/exist", options)
+		render status: results.code
+	end
+
 	def logOut
 		@token = request.headers['AUTHTOKEN']
 		options = {

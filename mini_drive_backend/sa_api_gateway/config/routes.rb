@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 	
 	get "user/validate"
 	post "user/createUser"
+	post "user/exist"
 	post "user/loginUser"
 	delete "user/logOut"
 	
