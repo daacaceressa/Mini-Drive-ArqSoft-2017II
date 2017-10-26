@@ -17,6 +17,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  # POST /users/exist
+  def exist
+    user = User.where(:email => params[:email]).first
+    if user
+      render status: 200
+    else 
+      render status: 404
+    end
+  end  
+
   # GET /users/edit
   # def edit
   #   super
