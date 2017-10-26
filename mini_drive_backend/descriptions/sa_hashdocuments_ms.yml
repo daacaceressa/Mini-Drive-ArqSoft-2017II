@@ -8,7 +8,10 @@ info:
       email: jucjimenezmo@unal.edu.co
   license:
     name: Software Architecture 2017-II
-
+host: 35.188.6.128:3003
+basePath: /
+schemes:
+  - http
 consumes:
   - application/json
 produces:
@@ -272,16 +275,4 @@ definitions:
       description:
         type: object
 
-# Added by jucjimenezmo for test
-# host: 192.168.99.101:3003
-# basePath: /
-# schemes:
-#   - http
-
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /unal1/hashdocuments-microservice/1.0.0
-schemes:
- - https
- - http
  

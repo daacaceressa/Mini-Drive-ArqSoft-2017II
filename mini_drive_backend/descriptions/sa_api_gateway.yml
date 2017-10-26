@@ -8,7 +8,7 @@ info:
     email: semoralesga@unal.edu.co
   license:
     name: Software Architecture 2017-II
-host: '192.168.99.102:4000'
+host: '35.188.6.128:4000'
 basePath: /
 schemes:
   - http
@@ -57,6 +57,26 @@ paths:
             $ref: '#/definitions/XAUTHTOKEN'
         '401':
           description: Unauthorized
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /user/exist:
+    post:
+      summary: Checks if the user exists in the application
+      operationId: UserExist
+      parameters:
+        - name: User
+          in: body
+          required: true
+          description: UserEmail Object
+          schema:
+            $ref: '#/definitions/UserEmail'
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: User not found
         '500':
           description: Internal Server Error
           schema:

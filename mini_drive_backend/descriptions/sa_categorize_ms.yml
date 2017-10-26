@@ -10,7 +10,7 @@ info:
       email: aljnavarromo@unal.edu.co
   license:
     name: Software Architecture 2017-II
-host: 192.168.99.102:3001
+host: 35.188.6.128:3001
 basePath: /
 schemes:
   - http

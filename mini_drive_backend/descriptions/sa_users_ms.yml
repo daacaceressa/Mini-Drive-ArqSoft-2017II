@@ -10,7 +10,7 @@ info:
       email: daacaceressa@unal.edu.co
   license:
     name: Software Architecture 2017-II
-host: 192.168.99.102:3000
+host: 35.188.6.128:3000
 basePath: /
 schemes:
   - http
@@ -63,7 +63,28 @@ paths:
         '500':
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/ErrorModel'    
+            $ref: '#/definitions/ErrorModel'   
+            
+  /users/exist:
+    post:
+      summary: Checks if the user exists in the application
+      operationId: UserExist
+      parameters:
+        - name: user
+          in: body
+          required: true
+          description: UserEmail Object
+          schema:
+            $ref: '#/definitions/UserEmail'
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'  
             
   /users/validate_token:
     get:
