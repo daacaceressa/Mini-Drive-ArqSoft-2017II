@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 	post "user/exist"
 	post "user/loginUser"
 	delete "user/logOut"
+	wash_out :ws_check_user
 	
 	# Upload Microservice
 

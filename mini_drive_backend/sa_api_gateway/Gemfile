@@ -42,3 +42,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'httparty'
 gem 'rack-cors'
 gem 'rest-client', '~> 1.8'
+gem 'wash_out'

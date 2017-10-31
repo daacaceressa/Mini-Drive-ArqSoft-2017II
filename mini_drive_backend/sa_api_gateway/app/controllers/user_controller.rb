@@ -31,7 +31,12 @@ class UserController < ApplicationController
 			}
 		}	
 		results = HTTParty.post(BASE_IP + ":3000/users/exist", options)
-		render status: results.code
+
+		if results.code == 200
+			return render json: {"status" => 200, "message" => "User Exist"}, status: 200
+		else
+			return render json: {"status" => 400, "message" => "User Not Found"}, status: 400
+		end
 	end
 
 	def logOut

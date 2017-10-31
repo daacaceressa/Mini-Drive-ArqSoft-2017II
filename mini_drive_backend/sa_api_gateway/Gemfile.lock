@@ -69,6 +69,7 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
+    nori (2.6.0)
     puma (3.10.0)
     rack (2.0.3)
     rack-cors (1.0.1)
@@ -125,6 +126,8 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.4)
+    wash_out (0.12.0)
+      nori (>= 2.0.0)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -144,6 +147,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   sqlite3
   tzinfo-data
+  wash_out
 
 BUNDLED WITH
-   1.14.6
+   1.15.4
