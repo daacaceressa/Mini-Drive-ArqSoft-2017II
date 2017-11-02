@@ -1,0 +1,130 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: LDAP microservice
+  description: Ruby on Rails + LDAP
+  contact:
+      name: Daniel Caceres
+      email: daacaceressa@unal.edu.co
+  license:
+    name: Software Architecture 2017-II
+host: 35.188.6.128:4001
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /user/resources/ldapcruds:
+    post:
+      summary: Creates a user in the LDAP 
+      operationId: createUser
+      parameters:
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  /user/resources/ldapcruds/{email}:  
+    delete:
+      summary: Deletes a user in the LDAP 
+      operationId: deleteUser
+      parameters:
+        - name: email
+          in: path
+          description: The id of the file
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+            
+  /user/resources/ldap:
+    post:
+      summary: Checks if a user has the correct credentials
+      operationId: login
+      parameters:
+        - name: user
+          in: body
+          required: true
+          description: User Object
+          schema:
+            $ref: '#/definitions/UserLogin'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    
+
+  
+
+definitions:
+# Users
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      email:
+        type: string
+      password:
+        type: string
+      nick:
+        type: string
+      name:
+        type: string
+        
+  UserLogin:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+        
+
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
