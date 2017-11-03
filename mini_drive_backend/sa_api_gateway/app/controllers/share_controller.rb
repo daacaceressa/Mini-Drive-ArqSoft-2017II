@@ -21,7 +21,7 @@ class ShareController < ApplicationController
 			}
 		}	
 		results = HTTParty.post(BASE_IP + ":3002/shares", options)
-		render status: results.code
+		render json: {"status" => results.code}, status: results.code
 	end
 
 	def getMyShares

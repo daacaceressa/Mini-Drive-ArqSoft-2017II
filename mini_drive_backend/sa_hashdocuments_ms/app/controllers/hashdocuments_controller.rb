@@ -26,7 +26,7 @@ class HashdocumentsController < ApplicationController
   def show_by_path
     @hashdocument = Hashdocument.find_by_path(params[:path])
     if @hashdocument.nil?
-      return render json: {"status" => 400, "message" => "invalid path", "bad request" => 'not found results'}, status: 400
+      render json: {"status" => 400, "message" => "invalid path", "bad request" => 'not found results'}, status: 400
     else
       render json: @hashdocument
     end
@@ -57,7 +57,7 @@ class HashdocumentsController < ApplicationController
 
   def getOwner
     if @hashdocument.nil?
-      render status: 404
+      render json: {"status" => 404}, status: 404
     else
       render json: {owner: @hashdocument[:path].split('/')[0]}, status: 200
     end

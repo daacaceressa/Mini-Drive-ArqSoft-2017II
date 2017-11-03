@@ -17,7 +17,7 @@ class UserController < ApplicationController
 			render results['email'], status: results.code
 		else
 			response.headers['AUTHTOKEN']= ""
-			render status: 401
+			render json: {"status" => 401}, status: 401
 		end
 	end
 
@@ -33,9 +33,9 @@ class UserController < ApplicationController
 		results = HTTParty.post(BASE_IP + ":3000/users/exist", options)
 
 		if results.code == 200
-			return render json: {"status" => 200, "message" => "User Exist"}, status: 200
+			render json: {"status" => 200, "message" => "User Exist"}, status: 200
 		else
-			return render json: {"status" => 400, "message" => "User Not Found"}, status: 400
+			render json: {"status" => 400, "message" => "User Not Found"}, status: 400
 		end
 	end
 
@@ -52,9 +52,9 @@ class UserController < ApplicationController
 		results = HTTParty.delete(BASE_IP + ":3000/users/sign_out", options)
 		if results.code == 200
 			response.headers['AUTHTOKEN']= ""	
-			render status: 200		
+			render json: {"status" => 200}, status: 200		
 		else
-			render status: 400
+			render json: {"status" => 400}, status: 400
 		end			
 	end
 
@@ -80,14 +80,14 @@ class UserController < ApplicationController
 		if resultsLDAP.code == 201	
 			results = HTTParty.post(BASE_IP + ":3000/users", options)
 			if results.code == 201
-	  			return render json: {"status" => 201, "message" => "User Created"}, status: 201
+	  			render json: {"status" => 201, "message" => "User Created"}, status: 201
 			else
 				HTTParty.delete(BASE_IP + ":4001/user/resources/ldapcruds/"+@email.to_s)
-	  			return render json: {"status" => 400, "message" => "There was an error in the server"}, status: 400
+	  			render json: {"status" => 400, "message" => "There was an error in the server"}, status: 400
 	   		end
 
 		else
-			return render json: {"status" => 400, "message" => "invalid email"}, status: 400
+			render json: {"status" => 400, "message" => "invalid email"}, status: 400
 		end		
 	end
 
@@ -115,9 +115,9 @@ class UserController < ApplicationController
 			if results.code == 201
 				response.headers['AUTHTOKEN'] = results['X_AUTH_TOKEN']
 			end
-			render status: results.code
+			render json: {"status" => results.code}, status: results.code
 		else
-			render status: 401	
+			render json: {"status" => 401}, status: 401	
 		end
 	end
 end

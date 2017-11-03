@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
     currentFile = params[:file_id]
     results = HTTParty.get(BASE_IP + ":3003/hashdocuments/getOwner/" + currentFile.to_s)
     if results.code != 200 || @@emailid != results["owner"]
-      render status: 401
+      render json: {"status" => 401}, status: 401
     end
   end
 
@@ -29,7 +29,7 @@ class ApplicationController < ActionController::API
     if results.code == 202
       @@emailid = results['email']
     else
-      render status: 401
+      render json: {"status" => 401}, status: 401
     end
   end
 

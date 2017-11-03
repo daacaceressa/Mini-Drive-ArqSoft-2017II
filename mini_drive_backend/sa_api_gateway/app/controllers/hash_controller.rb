@@ -65,7 +65,7 @@ class HashController < ApplicationController
 		#render json: idHash.to_json
 		results = HTTParty.delete(BASE_IP + ":3003/hashdocuments/" + idHash.to_s).parsed_response
 		#return results
-		render status: 200
+		render json: {"status" => 200}, status: 200
 	end
 	
 end
