@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { GlobalDataService } from './global-data.service';
 
 @Injectable()
 export class HashService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private gd: GlobalDataService) { }
 
 
   getHashByPath(path: String){
@@ -15,7 +16,7 @@ export class HashService {
       const options = new RequestOptions({ headers: headers });
 
       console.log("inicio llamado al servicio HASH!!!");
-      return this.http.get('http://35.188.6.128:4000/hash/getHashByPath/' + path, options).map((response: Response) => response.json());
+      return this.http.get(this.gd.base_ip + '/hash/getHashByPath/' + path, options).map((response: Response) => response.json());
   }
 
     getHashById(id_hash: number){
@@ -27,7 +28,7 @@ export class HashService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("Inicio get http getHashById");
-        return this.http.get('http://35.188.6.128:4000/hash/getHashId/' + id_hash, options).map((response: Response) => response.json());
+        return this.http.get(this.gd.base_ip + '/hash/getHashId/' + id_hash, options).map((response: Response) => response.json());
     }
 
 }

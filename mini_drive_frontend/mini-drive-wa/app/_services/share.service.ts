@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { GlobalDataService } from './global-data.service';
 
 @Injectable()
 export class ShareService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private gd: GlobalDataService) { }
 
 
 
@@ -30,7 +31,7 @@ export class ShareService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio shareFile!!!");
-        return this.http.post('http://35.188.6.128:4000/share/postShares', my_body, options);
+        return this.http.post(this.gd.base_ip + '/share/postShares', my_body, options);
     }
 
     delShareFile(userId: String, fileId: String){
@@ -44,7 +45,7 @@ export class ShareService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio shareFile!!!");
-        return this.http.delete('http://35.188.6.128:4000/share/deleteShare/' + userId + "/" + fileId, options);
+        return this.http.delete(this.gd.base_ip + '/share/deleteShare/' + userId + "/" + fileId, options);
     }
 
     getMyShares(){
@@ -54,7 +55,7 @@ export class ShareService {
         const options = new RequestOptions({ headers: headers });
 
 
-        return this.http.get('http://35.188.6.128:4000/share/getMyShares', options).map((response: Response) => response.json());
+        return this.http.get(this.gd.base_ip + '/share/getMyShares', options).map((response: Response) => response.json());
     }
 
 
