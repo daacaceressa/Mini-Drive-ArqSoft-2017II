@@ -95,4 +95,17 @@ export class CategorizeService {
     }
 
 
+    getMyCategories(){
+        console.log("inicio getMyCategories ")
+
+        let auth_token = localStorage.getItem('authtoken');
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        headers.append('Authtoken' , auth_token);
+        const options = new RequestOptions({ headers: headers });
+
+        console.log("inicio llamado al servicio getFilesByCategory");
+        return this.http.get('http://35.188.6.128:4000/categories/getOwnCategories', options).map((response: Response) => response.json());
+    }
+
+
 }
