@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { GlobalDataService } from './global-data.service';
 
 @Injectable()
 export class FileService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private gd: GlobalDataService) { }
 
     private extractData(res: Response) {
         const body = res.json();
@@ -20,7 +21,7 @@ export class FileService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio externo");
-        return this.http.get('http://35.188.6.128:4000/files/listOfFiles', options).map((response: Response) => response.json());
+        return this.http.get(this.gd.base_ip + '/files/listOfFiles', options).map((response: Response) => response.json());
     }
 
     validate() {
@@ -33,7 +34,7 @@ export class FileService {
         const options = new RequestOptions({ headers: headers });
 
         console.log("inicio llamado al servicio externo");
-        return this.http.get('http://35.188.6.128:4000/user/validate', options).map((response: Response) => response.json());
+        return this.http.get(this.gd.base_ip + '/user/validate', options).map((response: Response) => response.json());
     }
 
 }

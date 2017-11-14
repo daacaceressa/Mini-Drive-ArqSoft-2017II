@@ -1,9 +1,21 @@
 <header>
+
+
+
   <nav class="navbar navbar-default">
     <div class="container-fluid">
+
       <div class="navbar-header">
-        <a class="navbar-brand" [routerLink]="['']">Home</a>
+        <div class="image"></div>
       </div>
+      <div class="navbar-header">
+        <div class="dSize">
+          <p><strong>&nbsp;&nbsp;Black Box</strong></p>
+        </div>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a class="navbar-brand" [routerLink]="['']">Home</a></li>
+      </ul>
       <ul class="nav navbar-nav">
         <li class="active"><a [routerLink]="['/view-categories']">Search by Category</a></li>
       </ul>

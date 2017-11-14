@@ -101,14 +101,18 @@ export class HomeComponent implements OnInit {
 
     //metodo seleccion fila componente preview
     onSelect(selectedFile: MyFileOfList) {
-        this.selectedFile = selectedFile;
-        this.changeStatePreview(true);
+
+        if((!this.showAddShare) && (!this.showAddCategories)){
+            this.selectedFile = selectedFile;
+            this.changeStatePreview(true);
+        }
     }
 
     // metodos pop-up update tournament
 
     openAddCategories(file: MyFileOfList) {
         this.selectedFile = file;
+        this.changeStatePreview(false);
         this.changeStatePopUp(true);
     }
 
@@ -119,6 +123,7 @@ export class HomeComponent implements OnInit {
     //Metodos para abrir y cerrar el popUP
     openAddShare(file: MyFileOfList) {
         this.selectedFile = file;
+        this.changeStatePreview(false);
         this.changeStatePopUpShare(true);
     }
 

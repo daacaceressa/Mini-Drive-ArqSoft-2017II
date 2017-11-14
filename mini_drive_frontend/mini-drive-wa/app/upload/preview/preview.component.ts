@@ -6,6 +6,7 @@ import { FileComponent } from '../files/files.component';
 import { MyFileOfList } from '../../_models/index';
 import { DownloadService } from "../../_services/download.service";
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { GlobalDataService } from '../../_services/global-data.service';
 
 @Component({
   moduleId: module.id,
@@ -41,7 +42,7 @@ export class PreviewComponent implements OnChanges {
     stickToPage = false;
     showAll = false;
 
-    constructor(private downloadService: DownloadService) {
+    constructor(private downloadService: DownloadService, private gd: GlobalDataService) {
     }
 
     close() {
@@ -73,7 +74,7 @@ export class PreviewComponent implements OnChanges {
 
         // Load pdf
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://35.188.6.128:4000/files/downloadSharedFile/', true);
+        xhr.open('POST', this.gd.base_ip + '/files/downloadSharedFile/', true);
         xhr.setRequestHeader("AUTHTOKEN", localStorage.getItem('authtoken'));
         xhr.setRequestHeader('Content-Type', 'multipart/form-data');
         //var params="filename='response.pdf'&user_id=jucjimenezmo@unal.edu.co";
@@ -113,7 +114,7 @@ export class PreviewComponent implements OnChanges {
 
         // Load pdf
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://35.188.6.128:4000/files/downloadFile/' + this.path.name, true);
+        xhr.open('GET', this.gd.base_ip + '/files/downloadFile/' + this.path.name, true);
         xhr.setRequestHeader("AUTHTOKEN", localStorage.getItem('authtoken'));
         xhr.responseType = 'blob';
         xhr.onload = (e: any) => {
@@ -144,7 +145,7 @@ export class PreviewComponent implements OnChanges {
         var formData: FormData = new FormData();
         // Load pdf
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://35.188.6.128:4000/files/downloadSharedFile', true);
+        xhr.open('POST', this.gd.base_ip + '/files/downloadSharedFile', true);
         xhr.setRequestHeader("AUTHTOKEN", localStorage.getItem('authtoken'));
         //xhr.setRequestHeader('Content-Type', 'application/json');
 
