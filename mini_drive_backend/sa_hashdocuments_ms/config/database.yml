@@ -16,7 +16,7 @@ default: &default
   username: arqsoft
   password: 123
   host: md_hashdocuments_db
-  socket: /tmp/mysql.sock
+  socket: "/cloudsql/root-cargo-182204:us-central1:sa-hashdocuments-db-1"
 # socket: /var/run/mysqld/mysqld.sock
 
 development:

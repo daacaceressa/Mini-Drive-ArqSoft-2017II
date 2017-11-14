@@ -1,11 +1,13 @@
 version: '2'
+volumes:
+  upload: {}
 services:
   ms-falperezgo:
     build: .
     ports:
       - "3004:3004"
     volumes:
-      - .:/ms-falperezgo
+      - upload:/ms-falperezgo
     env_file: .env
     working_dir: /app
     command: bash -c 'php artisan serve --host 0.0.0.0 --port=3004'

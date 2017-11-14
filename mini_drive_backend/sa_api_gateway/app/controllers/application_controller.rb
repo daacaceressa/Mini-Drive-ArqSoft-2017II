@@ -4,7 +4,8 @@ class ApplicationController < ActionController::API
 
   helper_method :isOwner, :authenticate
 
-  BASE_IP = "http://192.168.99.102";
+ # BASE_IP = "http://35.188.6.128";
+  BASE_IP = "http://35.202.138.154";
   @@emailid = ""
 
   def isOwner

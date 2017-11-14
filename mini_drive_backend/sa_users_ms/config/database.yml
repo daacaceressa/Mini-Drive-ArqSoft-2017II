@@ -16,7 +16,7 @@ default: &default
   username: arqsoft
   password: 123
   host: sa_users_db
-  socket: /tmp/mysql.sock
+  socket: "/cloudsql/root-cargo-182204:us-central1:sa-users-db-1"
 
 development:
   <<: *default
