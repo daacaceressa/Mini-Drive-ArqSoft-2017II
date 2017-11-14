@@ -4,7 +4,7 @@ class ShareController < ApplicationController
 	before_action :isOwner, only: [:postShares, :deleteShare]
 
 	def getShares
-		results = HTTParty.get(BASE_IP + ":3002/shares")
+		results = HTTParty.get(BASE_IP_NON_REPLICA + ":3002/shares")
 		render json: results.body, status: results.code
 	end
 
@@ -20,12 +20,12 @@ class ShareController < ApplicationController
 				'Content-Type' => 'application/json'
 			}
 		}	
-		results = HTTParty.post(BASE_IP + ":3002/shares", options)
+		results = HTTParty.post(BASE_IP_NON_REPLICA + ":3002/shares", options)
 		render json: {"status" => results.code}, status: results.code
 	end
 
 	def getMyShares
-		results = HTTParty.get(BASE_IP + ":3002/shares/" + @@emailid)
+		results = HTTParty.get(BASE_IP_NON_REPLICA + ":3002/shares/" + @@emailid)
 		if results.code == 200 and results.include? "files_id"
 			paths = []
 			results["files_id"].each do |fileId|
@@ -43,7 +43,7 @@ class ShareController < ApplicationController
 	def deleteShare
 		sharedTo = params[:user_id]
 		sharedFile = params[:file_id]
-		results = HTTParty.delete(BASE_IP + ":3002/shares/" + sharedTo + "/" + sharedFile)
+		results = HTTParty.delete(BASE_IP_NON_REPLICA + ":3002/shares/" + sharedTo + "/" + sharedFile)
 		render json: results.body, status: results.code
 	end
 	

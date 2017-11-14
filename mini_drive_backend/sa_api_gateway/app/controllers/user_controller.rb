@@ -76,13 +76,13 @@ class UserController < ApplicationController
 			}
 		}
 
-		resultsLDAP = HTTParty.post(BASE_IP + ":4001/user/resources/ldapcruds", options)
+		resultsLDAP = HTTParty.post(BASE_IP_NON_REPLICA + ":4001/user/resources/ldapcruds", options)
 		if resultsLDAP.code == 201	
 			results = HTTParty.post(BASE_IP + ":3000/users", options)
 			if results.code == 201
 	  			render json: {"status" => 201, "message" => "User Created"}, status: 201
 			else
-				HTTParty.delete(BASE_IP + ":4001/user/resources/ldapcruds/"+@email.to_s)
+				HTTParty.delete(BASE_IP_NON_REPLICA + ":4001/user/resources/ldapcruds/"+@email.to_s)
 	  			render json: {"status" => 400, "message" => "There was an error in the server"}, status: 400
 	   		end
 
@@ -104,7 +104,7 @@ class UserController < ApplicationController
 			}
 		}
 
-		resultsLDAP = HTTParty.post(BASE_IP + ":4001/user/resources/ldap", options)
+		resultsLDAP = HTTParty.post(BASE_IP_NON_REPLICA + ":4001/user/resources/ldap", options)
 		#puts resultsLDAP;
 		#puts resultsLDAP.parsed_response;
 		# puts resultsLDAP[:login];
