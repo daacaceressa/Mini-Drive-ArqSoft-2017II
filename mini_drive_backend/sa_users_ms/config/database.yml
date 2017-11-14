@@ -15,7 +15,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: arqsoft
   password: 123
-  host: sa_users_db
+  database: sa_users_db
   socket: "/cloudsql/root-cargo-182204:us-central1:sa-users-db-1"
 
 development:
@@ -50,6 +50,3 @@ test:
 #
 production:
   <<: *default
-  database: sa_users_ms_production
-  username: sa_users_ms
-  password: <%= ENV['SA_USERS_MS_DATABASE_PASSWORD'] %>
