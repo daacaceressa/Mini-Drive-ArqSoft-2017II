@@ -16,11 +16,10 @@ default: &default
   username: arqsoft
   password: 123
   database: sa_users_db
-  socket: "/cloudsql/root-cargo-182204:us-central1:sa-users-db-1"
+  host: 35.184.220.161
 
 development:
   <<: *default
-  database: users
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
