@@ -43,7 +43,7 @@ export class ViewMySharesComponent implements OnInit {
             },
             error =>  {this.errorMessage = <any>error;
                 console.log(this.errorMessage);
-                this.message="No te han compartido ningun archivo :'v";
+                this.message="No files have been shared :'v";
             });
     }
 

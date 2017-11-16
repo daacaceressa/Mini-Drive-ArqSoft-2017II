@@ -1,0 +1,7 @@
+version: '2'
+services:
+  sa-mini-drive-wa:
+    build: .
+    command: "npm start --host=0.0.0.0 --disable-host-check"
+    ports:
+      - "4200:4200"

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { GlobalDataService } from './global-data.service';
 
 @Injectable()
 export class DownloadService {
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private gd: GlobalDataService) {
     }
 
 
@@ -18,7 +19,7 @@ export class DownloadService {
 
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        let url = 'http://35.188.6.128:4000/files/downloadFile/';
+        let url = this.gd.base_ip + '/files/downloadFile/';
 
         return this.http.get(url + path, {
             headers: headers
@@ -38,7 +39,7 @@ export class DownloadService {
         const options = new RequestOptions({headers: headers});
 
 
-        let url = 'http://35.188.6.128:4000/files/downloadSharedFile';
+        let url = this.gd.base_ip + '/files/downloadSharedFile';
 
         let body: any =
             {

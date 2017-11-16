@@ -4,10 +4,15 @@
 
 <h4>Categorie:</h4>
 
-<input [(ngModel)]="category" type="text">
-
-<button type="submit" (click)="getFilesOfCategory(category)">Search</button>
-
+<div class="box-container">
+<select class="form-control"         [(ngModel)]="category">
+    <option *ngFor="let cat of listMyCategories?.categories" [ngValue]="cat">
+        {{cat.toString()}}
+    </option>
+</select>
+    <button type="submit" class="btn-primary" (click)="getFilesOfCategory(category)">Search</button>
+<!-- <input [(ngModel)]="category" type="text"> -->
+</div>
 
 <h3>My Files :</h3>
 <table class="my-table">

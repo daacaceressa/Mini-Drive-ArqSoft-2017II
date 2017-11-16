@@ -24,10 +24,14 @@ export class ViewCategoriesComponent implements OnInit {
     public showDropZone: boolean = false;
     public showPreview: boolean = false;
 
+    public listMyCategories: MyCategory;
+
   constructor(private categorizeService: CategorizeService,
               private hashService: HashService) { }
 
   ngOnInit() {
+
+      this.loadMyCategories();
   }
 
   getFilesOfCategory(category: String){
@@ -42,6 +46,19 @@ export class ViewCategoriesComponent implements OnInit {
           error =>  {this.errorMessage = <any>error;
               console.log(this.errorMessage);
           });
+  }
+
+  private loadMyCategories(){
+
+      this.categorizeService.getMyCategories().subscribe(
+          data => {
+              this.listMyCategories = data;
+              console.log(this.listMyCategories);
+          },
+          error =>  {this.errorMessage = <any>error;
+              console.log(this.errorMessage);
+          });
+
   }
 
   private getPathsOfFiles(){

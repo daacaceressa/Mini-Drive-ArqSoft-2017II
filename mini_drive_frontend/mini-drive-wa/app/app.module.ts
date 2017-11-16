@@ -41,7 +41,7 @@ import { GlobalDataService } from "./_services/global-data.service";
 
 const DROPZONE_CONFIG: DropzoneConfigInterface = {
     // Change this to your upload POST address:
-    url: 'http://35.188.6.128:4000/files/uploadFile',
+    //url: 'http://35.188.6.128:4000/files/uploadFile',
     //url: 'http://35.188.6.128:3004/uploadFile/1',
     //headers: { 'AUTHTOKEN': localStorage.getItem('authtoken') },
     acceptedFiles: 'application/pdf',
@@ -94,7 +94,6 @@ const DROPZONE_CONFIG: DropzoneConfigInterface = {
     ],
     bootstrap: [AppComponent]
 })
-
 
 
 export class AppModule { }
