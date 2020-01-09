@@ -1,0 +1,16 @@
+.my-table {
+    border-collapse: collapse;
+    width: 60%;
+}
+
+.my-table th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+.my-table tr:nth-child(even){background-color: whitesmoke}
+
+.my-table th {
+    background-color: lightgray;
+    color: white;
+}

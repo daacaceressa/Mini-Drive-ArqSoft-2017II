@@ -97,16 +97,11 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/files/uploadFile/{user_id}':
+  /files/uploadFile:
     post:
       summary: Sends parameters to upload .
       operationId: uploadFile
       parameters:
-        - name: user_id
-          in: path
-          description: The id of user folder to upload.
-          required: true
-          type: string
         - name: file
           in: body
           required: true
@@ -132,16 +127,17 @@ paths:
             archivo
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/files/listOfFiles/{user_id}':
+  /files/listOfFiles:
     get:
-      summary: Send the user_id.
-      operationId: getFilesByUserIdFolder
+      summary: List of files for the current user
+      operationId: listOfFiles
       parameters:
-        - name: user_id
-          in: path
-          description: The id of user folder to be returned
+        - name: filename
+          in: body
           required: true
-          type: string
+          description: File object.
+          schema:
+            $ref: '#/definitions/FilesList'
       responses:
         '200':
           description: Ok
@@ -159,7 +155,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/files/downloadFile/{path}':
+  /files/downloadFile/{path}:
     get:
       summary: Returns a file with the path specified
       operationId: downloadFile
@@ -186,7 +182,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/files/delFile/{path}':
+  /files/delFile/{path}:
     get:
       summary: Sends parameter for removing a file with the path specified
       operationId: deleteFile
@@ -205,19 +201,6 @@ paths:
           description: >-
             Al parecer hubo un problema en la conexión, no se pudo borrar el
             archivo
-          schema:
-            $ref: '#/definitions/ErrorModel'
-  /share/getShares:
-    get:
-      summary: Returns all relations.
-      operationId: Index
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/ShareList'
-        '500':
-          description: Internal server error
           schema:
             $ref: '#/definitions/ErrorModel'
   /share/postShares:
@@ -240,21 +223,15 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/share/sharesById/{user_id}':
+  /share/getMyShares:
     get:
-      summary: Send user_id for return all file shares.
-      operationId: Show
-      parameters:
-        - name: user_id
-          in: path
-          description: who is the user
-          required: true
-          type: integer
+      summary: Return all files shared with the current user
+      operationId: getMyShares
       responses:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Share'
+            $ref: '#/definitions/FilesList'
         '400':
           description: Invalid format
         '404':
@@ -263,7 +240,7 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/share/deleteShare/{user_id}/{file_id}':
+  /share/deleteShare/{user_id}/{file_id}:
     delete:
       summary: Delete an association between user and file
       operationId: Delete
@@ -330,7 +307,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/hash/getHashId/{id}':
+  /hash/getHashId/{id}:
     get:
       summary: Send id File for returns a hashdocument (path).
       operationId: getHashId
@@ -357,7 +334,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/hash/putHash/{id}':
+  /hash/putHash/{id}:
     put:
       summary: Sends parameter for Updates a hashdocument.
       operationId: updateHashdocument
@@ -388,7 +365,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/hash/deleteHash/{id}':
+  /hash/deleteHash/{id}:
     delete:
       summary: Deletes a hasdocument with the given id
       operationId: deleteProduct
@@ -413,7 +390,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/hash/getHashByPath/{path}':
+  /hash/getHashByPath/{path}:
     get:
       summary: Returns a hashdocument with the given path
       operationId: getHashdocumentByPath
@@ -436,7 +413,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/showCategories/file/{id}':
+  /showCategories/file/{id}:
     get:
       summary: Returns all categories for the file with the given id.
       operationId: ShowCategories
@@ -459,7 +436,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/categories/file/{id}':
+  /categories/file/{id}:
     delete:
       summary: Delete the file from the database with the given id.
       operationId: deleteAllCategories
@@ -482,7 +459,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  '/showFiles/category/{category_name}':
+  /showFiles/category/{category_name}:
     get:
       summary: Returns all the files that has the given category
       operationId: GetFilesWithCategory
@@ -501,17 +478,16 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-  /addCategories:
+  /addCategories/{id}:
     post:
       summary: Add the given categories to the file categories
       operationId: AddCategories
       parameters:
         - name: id
-          in: body
+          in: path
           required: true
           description: File Object
-          schema:
-            $ref: '#/definitions/File'
+          type: string
       responses:
         '200':
           description: Ok
@@ -525,17 +501,16 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-  /removeCategories:
+  /removeCategories/{id}:
     post:
       summary: Remove the given categories from the file categories
       operationId: RemoveCategories
       parameters:
         - name: id
-          in: body
+          in: path
           required: true
           description: File Object
-          schema:
-            $ref: '#/definitions/File'
+          type: string
       responses:
         '200':
           description: Ok

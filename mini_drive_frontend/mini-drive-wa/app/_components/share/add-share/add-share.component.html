@@ -1,0 +1,21 @@
+<div class="detail-shares">
+  <form>
+    <br>
+    <div class="div-gray">
+      <!--<p><strong><span>ID : {{file?.id}}</span></strong><strong><span>ID : {{file?.name}}</span></strong></p>-->
+        <p><strong><span>{{file?.name}}</span></strong></p>
+    </div>
+    <br>
+
+    <!-- Agrega los archivos compartidos al PopUp!!-->
+    <div class="form-cat">
+        <h4>Email:</h4>
+        <input #newUser type="email" class="input-border"
+               (keyup.enter)="addShare(newUser.value)">
+        <button class="button-pop" type="button" (click)="addShare(newUser.value)">Add</button>
+        <button class="button-pop" type="button" (click)="delShare(newUser.value)">Remove</button>
+        <p *ngIf="message.length>0">{{message}}</p>
+        <button type="button" class="button-pop-close" (click)="closePopUp()" aria-label="Close">Close</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,42 @@
+<app-top-banner></app-top-banner>
+
+
+<h2>Files Shared With Me!!</h2>
+
+<table class="my-table">
+    <tr>
+        <th>Id</th>
+        <th>File Name</th>
+        <th>Owner</th>
+    </tr>
+    <tr *ngFor=" let sh of tmpShares" (click)="onSelect(sh)">
+        <td>{{sh.id}}</td>
+      <td>{{sh.name}}</td>
+      <td>{{sh.owner}}</td>
+    </tr>
+</table>
+<br>
+<p *ngIf="message.length>0">{{message}}</p>
+
+<br>
+
+<p><a [routerLink]="['']">Return</a></p>
+
+
+<!-- Componente de visualizacion -->
+<div class="mat-card-content" *ngIf="showPreview">
+    <br>
+    <button class="close" (click)="closePreview()">close preview</button>
+    <pdf-app [path]="selectedFile" [isSharedFile]="true" [owner]="currentOwner">Loading</pdf-app>
+</div>
+
+<!-- Componente de dropzone - upload -->
+<div class="mat-card-content" *ngIf="showDropZone">
+    <br/>
+    <div class="col-sm-2">
+        <p>Upload your files here ;)</p>
+    </div>
+    <div class="col-sm-6">
+        <my-dropzone></my-dropzone>
+    </div>
+</div>

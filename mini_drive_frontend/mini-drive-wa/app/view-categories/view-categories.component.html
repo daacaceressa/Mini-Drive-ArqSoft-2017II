@@ -1,0 +1,52 @@
+<app-top-banner></app-top-banner>
+
+<h2>Search by Categories</h2>
+
+<h4>Categorie:</h4>
+
+<div class="box-container">
+<select class="form-control"         [(ngModel)]="category">
+    <option *ngFor="let cat of listMyCategories?.categories" [ngValue]="cat">
+        {{cat.toString()}}
+    </option>
+</select>
+    <button type="submit" class="btn-primary" (click)="getFilesOfCategory(category)">Search</button>
+<!-- <input [(ngModel)]="category" type="text"> -->
+</div>
+
+<h3>My Files :</h3>
+<table class="my-table">
+    <tr>
+        <th>Id</th>
+        <th>File Name</th>
+        <th>Path</th>
+    </tr>
+
+    <tr *ngFor=" let file of files" (click)="onSelect(file)">
+      <td>{{file.id}}</td>
+      <td>{{file.name}}</td>
+      <td>{{file.path}}</td>
+    </tr>
+</table>
+<br>
+
+<p><a [routerLink]="['']">Return</a></p>
+
+
+<!-- Componente de visualizacion -->
+<div class="mat-card-content" *ngIf="showPreview">
+    <br>
+    <button class="close" (click)="closePreview()">close preview</button>
+    <pdf-app [path]="selectedFile">Loading</pdf-app>
+</div>
+
+<!-- Componente de dropzone - upload -->
+<div class="mat-card-content" *ngIf="showDropZone">
+    <br/>
+    <div class="col-sm-2">
+        <p>Upload your files here ;)</p>
+    </div>
+    <div class="col-sm-6">
+        <my-dropzone></my-dropzone>
+    </div>
+</div>

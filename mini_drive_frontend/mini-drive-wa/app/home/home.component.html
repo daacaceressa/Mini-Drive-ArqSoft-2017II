@@ -1,12 +1,44 @@
-﻿<div class="col-md-6 col-md-offset-3">
-    <h1>Hi {{currentUser.firstName}}!</h1>
-    <p>You're logged in with Angular 2!!</p>
-    <h3>All registered users:</h3>
-    <ul>
-        <li *ngFor="let user of users">
-            {{user.username}} ({{user.firstName}} {{user.lastName}})
-            - <a (click)="deleteUser(user.id)">Delete</a>
-        </li>
-    </ul>
-    <p><a [routerLink]="['/login']">Logout</a></p>
+﻿<!-- header banner - top banner -->
+<app-top-banner></app-top-banner>
+
+
+        <h3>My Files</h3>
+        <table class="my-table">
+            <tr>
+                <th>Id</th>
+                <th>File Name</th>
+                <th>Path</th>
+                <th>Options</th>
+                <th></th>
+            </tr>
+            <tr *ngFor=" let file of files " (click)="onSelect(file)">
+                <td>{{file.id}}</td>
+                <td>{{file.name}}</td>
+                <td>{{file.path}}</td>
+                <td><button (click)="openAddCategories(file)" class="btn btn-sm btn-outline-primary  ">Categories</button></td>
+                <td><button (click)="openAddShare(file)" class="btn btn-sm btn-outline-primary  ">Share</button></td>
+            </tr>
+        </table>
+        <br>
+
+<!-- Componente de visualizacion -->
+<div class="mat-card-content" *ngIf="showPreview">
+    <br>
+    <button class="close" (click)="closePreview()">close preview</button>
+    <pdf-app [path]="selectedFile">Loading</pdf-app>
 </div>
+
+<!-- Componente de dropzone - upload -->
+<div class="mat-card-content" *ngIf="showDropZone">
+    <br/>
+    <div class="col-sm-2">
+        <p>Upload your files here ;)</p>
+    </div>
+    <div class="col-sm-6">
+        <my-dropzone></my-dropzone>
+    </div>
+</div>
+<!-- pop-up categoires-->
+<app-add-categories *ngIf="showAddCategories" [file]="selectedFile" (closeModal)="changeStatePopUp(false)"></app-add-categories>
+<!-- pop-up share-->
+<popUp-add-share *ngIf="showAddShare" [file]="selectedFile" (closeModal)="changeStatePopUpShare(false)"></popUp-add-share>

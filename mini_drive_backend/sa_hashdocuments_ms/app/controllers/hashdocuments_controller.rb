@@ -1,16 +1,25 @@
 class HashdocumentsController < ApplicationController
-  before_action :set_hashdocument, only: [:show, :update, :destroy]
+  before_action :set_hashdocument, only: [:show, :update, :destroy, :getOwner]
 
   # GET /hashdocuments
   def index
     @hashdocuments = Hashdocument.all
-
     render json: @hashdocuments
   end
 
   # GET /hashdocuments/1
   def show
     render json: @hashdocument
+  end
+
+  # GET /hashdocuments/getByPath
+  def getByPath
+    @hashdocument = Hashdocument.find_by_path(params[:path])
+    if @hashdocument.nil?
+      render status: 400
+    else
+      render json: @hashdocument
+    end
   end
 
   # GET /hashdocuments/getByPath
@@ -26,7 +35,6 @@ class HashdocumentsController < ApplicationController
   # POST /hashdocuments
   def create
     @hashdocument = Hashdocument.new(hashdocument_params)
-
     if @hashdocument.valid?
       if @hashdocument.save
         render json: @hashdocument, status: :created, location: @hashdocument
@@ -34,10 +42,16 @@ class HashdocumentsController < ApplicationController
         render json: @hashdocument.errors, status: :unprocessable_entity
       end
     else
-      return render json: {"status" => 400, "message" => "invalid path", "bad request" => @hashdocument.errors[:path]}, status: 400
+      render json: {"status" => 400, "message" => "invalid path", "bad request" => @hashdocument.errors[:path]}, status: 400
     end
+  end
 
-
+  def getOwner
+    if @hashdocument.nil?
+      render status: 404
+    else
+      render json: {owner: @hashdocument[:path].split('/')[0]}, status: 200
+    end
   end
 
   # PATCH/PUT /hashdocuments/1
